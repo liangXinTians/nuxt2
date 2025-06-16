@@ -1,0 +1,65 @@
+
+@import url("../public-class.css");
+/*石溪洞察和石溪动态中文章的公共样式*/
+@media screen and (max-width:991px){
+  .big-title{
+    font-size: 1.8rem !important;
+  }
+}
+@media screen and (max-width:767px){
+  .big-title{
+    font-size: 1.5rem !important;
+  }
+}
+
+.container>footer{
+  margin:0 auto;
+  display: flex;
+  justify-content: space-between;
+  max-width: var(--contentWidth);
+}
+.container>footer>.left{
+  margin-left:1rem;
+}
+.container>footer>.left>a{
+    color:rgb(136, 136, 136);
+    display: flex;
+    line-height: 1.875rem;
+    font-size: 1.125rem;
+}
+
+.container>footer>.left>a:hover{
+  color:rgba(136, 136, 136,0.8);
+}
+
+.container>footer>.left>a>span{
+  display: inline-block;
+}
+
+.container>footer>.left>a>span:first-child{
+  flex-shrink: 0;
+}
+
+.container>footer>.left>a>span:last-child{
+  overflow : hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.container>footer>.right{
+  flex-shrink: 0;
+  margin:auto 1rem;
+  width: 8rem;
+  height: 3.125rem;
+  border:0.0625rem solid rgba(229, 229, 229, 0.73);
+  border-radius: 0.625rem;
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 3.125rem;
+  text-align: center;
+  color:rgb(136, 136, 136);
+  cursor: pointer;
+  margin-left: 1rem;
+}
+

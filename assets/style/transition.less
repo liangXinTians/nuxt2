@@ -1,0 +1,31 @@
+/* 路由统一动效 */
+// nuxt页面默认切换过渡效果名称为page
+/* 进入页面 */
+.page-enter-active, .page-leave-active { transition: all .5s; }
+/* 退出页面 */
+.page-enter, .page-leave-active { opacity: 0; }
+
+// 给指定页面添加自定义字段，只要在页面的expor default 添加 transition:'bounce'就可以了
+.bounce-enter-active {
+  transform-origin: top;
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  transform-origin: top;
+}
+@keyframes bounce-in {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(360deg);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: rotateX(360deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
