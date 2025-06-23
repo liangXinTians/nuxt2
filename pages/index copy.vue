@@ -486,7 +486,7 @@
 <script>
 import { Swiper, SwiperSlide } from "vue-awesome-swiper"
 import "swiper/css/swiper.css"
-import bannerSwiper from "../components/bannerSwiper.vue"
+import bannerSwiper from "../components/bannerSwiper22.vue"
 import { message } from "ant-design-vue"
 export default {
   components: {

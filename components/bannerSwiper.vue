@@ -1,391 +1,141 @@
 <template>
-  <div class="banner-swiper">
-    <swiper ref="bannerSwiper" :slides-per-view="1" :options="swiperOptions">
-      <swiper-slide
-        v-for="(item, index) in bannerHome"
-        :key="index"
-        class="swiper-item"
-        v-if="bannerHome.length > 0"
-      >
-        <div
-          class="video"
-          @mouseleave="buttonControls(index)"
-          @mouseenter="buttonControl(index)"
-          v-if="
-            item.file_path.slice(item.file_path.lastIndexOf('.')) === '.mp4'
-          "
-        >
-          <!-- 视频播放 -->
-          <transition name="slide">
-            <div class="title" v-if="item.showTitle">
-              <div class="title-text">信养老</div>
-              <div class="title-text">新可能</div>
-            </div>
-          </transition>
-          <video
-            :ref="`video${index}`"
-            :src="$config.apiFileUrl + item?.file_path"
-            loop
-            :class="`my-video${index}`"
-            controlslist="nodownload"
-            :controls="item.showControls"
-            @click="toggleVideo(index)"
-            :poster="item.poster_img"
-            style="cursor: pointer"
-            playsinline="true"
-            webkit-playsinline="true"
-          >
-            Your browser does not support the video tag.
-          </video>
-          <div
-            v-if="!item.showControls"
-            class="play-button"
-            :ref="`playButton${index}`"
-            @click="toggleVideo(index)"
-          >
-            <a-icon type="play-circle" />
-          </div>
-        </div>
-        <div
-          v-else
-          class="img"
-          :style="item['file_path'] ? 'cursor: pointer' : 'cursor: default'"
-          @click="goDetailPage(item.link_url)"
-        >
-          <!--  @click="goDetailPage(item.link_url)" -->
-          <img
-            loading="lazy"
-            :src="$config.apiFileUrl + item?.file_path"
-            :data-url="item.link_url"
-            alt=""
-          />
-        </div>
+  <div class="swiper-container">
+    <swiper
+      ref="mySwiper"
+      :options="swiperOptions"
+    >
+      <swiper-slide v-for="(item, index) in localImages" :key="index">
+        <img :src="item.url" :alt="item.title" class="swiper-image">
+        <!-- <div class="swiper-title">{{ item.title }}</div> -->
       </swiper-slide>
+      
+      <!-- 分页器 -->
+      <div class="swiper-pagination" slot="pagination"></div>
+      
+      <!-- 导航按钮 -->
+      <div class="swiper-button-prev" slot="button-prev"></div>
+      <div class="swiper-button-next" slot="button-next"></div>
     </swiper>
-    <!-- 按钮部分 -->
-    <div @click="goHomeLeft" v-if="bannerHome.length > 1" class="home_left">
-      <a-icon type="left" class="news_icon" />
-    </div>
-    <div @click="goHomeRight" v-if="bannerHome.length > 1" class="home_right">
-      <a-icon type="right" class="news_icon" />
-    </div>
   </div>
 </template>
 
 <script>
-import { Swiper, SwiperSlide, Navigation } from "vue-awesome-swiper";
-// import { Navigation } from "swiper/modules";
-import "swiper/css/swiper.css";
-// import "swiper/css/navigation.css";
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import 'swiper/css/swiper.css'
+
 export default {
-  name: "bannerSwiper",
-  props: {},
+  name: 'BannerSwiper',
   components: {
     Swiper,
-    SwiperSlide,
-    Navigation,
+    SwiperSlide
   },
   data() {
     return {
-      bannerHome: [],
+            localImages: [
+          {
+    url: require('@/assets/images/yifuyun/5.png'),
+    title: ''
+  },
+  {
+    url: require('@/assets/images/yifuyun/6.png'),
+    title: ''
+  },
+  {
+    url: require('@/assets/images/yifuyun/7.png'),
+    title: ''
+  }
+      ],
       swiperOptions: {
-        initialSlide: 0,
-        // width: "100%", // 设置容器宽度
-        // height: "100%",
-        navigation: {
-          nextEl: ".swiper-button-next", // 下一张按钮的类名
-          prevEl: ".swiper-button-prev", // 上一张按钮的类名
-        },
+        loop: true,
         autoplay: {
-          delay: 3000, // 自动轮播间隔时间，单位为毫秒
-          disableOnInteraction: false, // 当用户拖动幻灯片时是否禁用自动轮播
+          delay: 3000,
+          disableOnInteraction: false
         },
-        // loop: true,
-      },
-      showTitle: true,
-      // video控件
-      showControls: false,
-    };
-  },
-  methods: {
-    goHomeLeft() {
-      // 获取全部视频元素
-      console.log("goHomeLeft", this.$refs, this.$refs.bannerSwiper.$swiper);
-      let index = this.$refs.bannerSwiper.$swiper.realIndex;
-      console.log("this1", this.$refs.bannerSwiper.$swiper.realIndex);
-      if (this.bannerHome[index].showControls == true) {
-        this.toggleVideo(this.$refs.bannerSwiper.$swiper.realIndex);
-      }
-      this.$refs.bannerSwiper.$swiper.slidePrev(); // 手动触发上一页事件
-    },
-    goHomeRight() {
-      let index = this.$refs.bannerSwiper.$swiper.realIndex;
-      if (this.bannerHome[index].showControls == true) {
-        this.toggleVideo(this.$refs.bannerSwiper.$swiper.realIndex, true);
-      }
-      this.$refs.bannerSwiper.$swiper.slideNext(); // 手动触发下一页事件
-    },
-    //鼠标进入视频
-    buttonControl(index) {
-      if (!this.bannerHome[index].showControls) {
-        // const video = document.getElementById("my-video")
-        const playButton = this.$refs[`playButton${index}`];
-        if (playButton.length > 0) {
-          playButton.forEach((item) => {
-            item.style.display = "block";
-          });
-        }
-        // if (video.paused) {
-        // playButton.style.display = "block";
-        // } else {
-        // playButton.style.display = "none"
-      } else {
-        return;
-      }
-    },
-    // 鼠标移出视频
-    buttonControls(index) {
-      if (!this.bannerHome[index].showControls) {
-        const playButton = this.$refs[`playButton${index}`];
-        if (playButton.length > 0) {
-          playButton.forEach((item) => {
-            item.style.display = "none";
-          });
-        }
-        // playButton.style.display = "none";
-      }
-    },
-    // 点击视频的时候
-    toggleVideo(index) {
-      if (this.bannerHome[index].showControls) {
-        this.$set(this.bannerHome, index, {
-          ...this.bannerHome[index],
-          showControls: false,
-        });
-        this.$set(this.bannerHome, index, {
-          ...this.bannerHome[index],
-          showTitle: true,
-        });
-        // this.bannerHome[index].showControls = false;
-        // const video = document.getElementById("my-video");
-        const video = this.$refs[`video${index}`][0];
-        video && video.pause();
-        // console.log("flag", flag);
-        // if (flag) {
-        //   video.load();
-        //   console.log("视频重载了！");
-        // }
-        // video.load();
-        // 开启轮播
-        this.$refs.bannerSwiper.$swiper.autoplay.start();
-        // console.log("视频暂停了", this.bannerHome[index].showControls);
-        return;
-      } else {
-        // 进来了
-        // console.log("点击视频了");
-        // 暂停轮播
-        this.$refs.bannerSwiper.$swiper.autoplay.stop();
-        // const video = document.getElementById("my-video");
-        const video = this.$refs[`video${index}`][0];
-        console.log("video", video);
-        // const playButton = document.getElementById("play-button");
-        const playButton = this.$refs[`playButton${index}`][0];
-        this.$set(this.bannerHome, index, {
-          ...this.bannerHome[index],
-          showTitle: false,
-        });
-        this.$set(this.bannerHome, index, {
-          ...this.bannerHome[index],
-          showControls: true,
-        });
-        // this.bannerHome[index].showTitle = false;
-        // this.bannerHome[index].showControls = true;
-        playButton.style.display = "none";
-        console.log("video.paused", this.bannerHome);
-        // 关闭轮播
-        this.$refs.bannerSwiper.$swiper.autoplay.stop();
-        // 解决第一次点击视频出现的问题
-        setTimeout(() => {
-          video.play();
-        }, 100);
-      }
-    },
-    // 进入图片详情页
-    goDetailPage(url) {
-      this.$router.push(url);
-    },
-  },
-  computed: {
-    swiper() {
-      return this.$refs.bannerSwiper.$swiper;
-    },
-  },
-  created() {},
-  async mounted() {
-    const response1 = await this.$axios.get(
-      this.$config.apiBaseUrl + "/homeBannerList"
-    );
-    // this.bannerHome = response1.data.data[0].file_path
-    this.bannerHome = response1.data.data;
-    this.bannerHome.forEach((item) => {
-      if (item.title === "中信养老") {
-        item.poster_img = require("../assets/images/zhongxinyanglao/video-img.png");
-      }
-      // 给每个视频添加属性
-      if (item.file_path.slice(item.file_path.lastIndexOf(".")) === ".mp4") {
-        item.showTitle = true;
-        item.showControls = false;
-      }
-    });
-    console.log("1231231", this.bannerHome);
-    // 跳转到第一个
-    // this.$refs.bannerSwiper.$swiper.slideTo(1, 10, false);
-  },
-};
-</script>
-
-<style scoped lang="less">
-.banner-swiper {
-  position: relative;
-  width: 100%;
-  // height: calc(100% - 90px);
-  height: 100%;
-  .video {
-    position: relative;
-  }
-  video,
-  img {
-    vertical-align: middle;
-  }
-
-  .swiper-item {
-    // height: calc(100% - 90px);
-    height: 100%;
-    width: 100%;
-    .video {
-      margin-top: 0px;
-      overflow: hidden;
-      position: relative;
-      height: 100%;
-      video {
-        position: relative;
-        z-index: 1;
-        height: 100%;
-      }
-
-      video::-webkit-media-controls-timeline {
-        margin-bottom: 70px;
-        /* 设置进度条与控制条之间的垂直距离 */
-      }
-      .title {
-        position: absolute;
-        top: 45%;
-        left: 50%;
-        color: #fff;
-        font-family: "Source Han Serif SC VF";
-        transform: translate(-50%, -50%);
-        font-size: 2.5rem;
-        z-index: 2;
-        display: flex;
-        text-wrap: nowrap;
-        .title-text {
-          margin: 0 calc(2.5rem / 2);
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
         }
       }
-
-      video {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
-
-      .play-button {
-        position: absolute;
-        top: 52%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        padding: 10px;
-        font-size: 3rem;
-        cursor: pointer;
-        z-index: 2;
-      }
     }
-    .img {
-      margin-top: 0px;
-      overflow: hidden;
-      height: 100%;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-  }
-  .home_left {
-    height: 3rem;
-    width: 3rem;
-    /*border: 1px solid #c0c0c0;*/
-    position: absolute;
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(72, 72, 72, 0.5);
-    transition: 0.3s;
-    z-index: 5;
-    cursor: pointer;
-    .news_icon {
-      font-size: 2rem;
-      color: #fff;
-    }
-  }
-  .home_right {
-    height: 3rem;
-    width: 3rem;
-    /*border: 1px solid #c0c0c0;*/
-    position: absolute;
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(72, 72, 72, 0.5);
-    transition: 0.3s;
-    z-index: 5;
-    cursor: pointer;
-    .news_icon {
-      font-size: 2rem;
-      color: #fff;
-    }
-  }
-  .home_left:active {
-    background-color: rgba(72, 72, 72, 1);
-  }
-  .home_right:active {
-    background-color: rgba(72, 72, 72, 1);
   }
 }
-@media screen and(max-width: 768px) {
-  .banner-swiper {
-    .swiper-item {
-      .video {
-        .title {
-          top: 42%;
-          font-size: 2rem;
-          .title-text {
-            margin: 0 calc(2rem / 2);
-          }
-        }
-        .play-button {
-          font-size: 2.5rem;
-        }
-      }
+</script>
+
+<style lang="less" scoped>
+// 定义变量
+@swiper-height: 550px;
+@title-font-size: 24px;
+@button-size: 40px;
+@bullet-size: 12px;
+@primary-color: #ff1c8e;
+@bullet-active-color: #ff1c8e; 
+
+.swiper-container {
+  width: 100%;
+  height: @swiper-height;
+  position: relative;
+
+  .swiper-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .swiper-title {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    font-size: @title-font-size;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  // 导航按钮
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: @button-size;
+    height: @button-size;
+    height: 70px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+
+    &::after {
+      font-size: @title-font-size - 4;
+    }
+  }
+
+  .swiper-button-prev {
+    left: 10px;
+  }
+
+  .swiper-button-next {
+    right: 10px;
+  }
+
+  // 分页器样式
+  /deep/ .swiper-pagination-bullet {
+    width: @bullet-size;
+    height: @bullet-size;
+    background: white;
+    opacity: 0.4;
+
+    &-active {
+      // background: @primary-color;
+       background: @bullet-active-color; 
+       opacity: 0.4;
     }
   }
 }
