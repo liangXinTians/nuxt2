@@ -1,17 +1,14 @@
 <template>
   <div class="swiper-container">
-    <swiper
-      ref="mySwiper"
-      :options="swiperOptions"
-    >
+    <swiper ref="mySwiper" :options="swiperOptions">
       <swiper-slide v-for="(item, index) in localImages" :key="index">
         <img :src="item.url" :alt="item.title" class="swiper-image">
         <!-- <div class="swiper-title">{{ item.title }}</div> -->
       </swiper-slide>
-      
+
       <!-- 分页器 -->
       <div class="swiper-pagination" slot="pagination"></div>
-      
+
       <!-- 导航按钮 -->
       <div class="swiper-button-prev" slot="button-prev"></div>
       <div class="swiper-button-next" slot="button-next"></div>
@@ -29,21 +26,21 @@ export default {
     Swiper,
     SwiperSlide
   },
-  data() {
+  data () {
     return {
-            localImages: [
-          {
-    url: require('@/assets/images/yifuyun/5.png'),
-    title: ''
-  },
-  {
-    url: require('@/assets/images/yifuyun/6.png'),
-    title: ''
-  },
-  {
-    url: require('@/assets/images/yifuyun/7.png'),
-    title: ''
-  }
+      localImages: [
+        {
+          url: require('@/assets/images/yifuyun/5.png'),
+          title: ''
+        },
+        {
+          url: require('@/assets/images/yifuyun/6.png'),
+          title: ''
+        },
+        {
+          url: require('@/assets/images/yifuyun/7.png'),
+          title: ''
+        }
       ],
       swiperOptions: {
         loop: true,
@@ -72,11 +69,12 @@ export default {
 @button-size: 40px;
 @bullet-size: 12px;
 @primary-color: #ff1c8e;
-@bullet-active-color: #ff1c8e; 
+@bullet-active-color: #ff1c8e;
 
 .swiper-container {
   width: 100%;
-  height: @swiper-height;
+  // height: @swiper-height;
+  height: 100vh;
   position: relative;
 
   .swiper-image {
@@ -134,8 +132,8 @@ export default {
 
     &-active {
       // background: @primary-color;
-       background: @bullet-active-color; 
-       opacity: 0.4;
+      background: @bullet-active-color;
+      opacity: 0.4;
     }
   }
 }

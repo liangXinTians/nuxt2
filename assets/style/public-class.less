@@ -1,20 +1,4 @@
-@import 'unit/color.less';
-
-
-// @font-face {
-//   // 思源黑体regular
-//   font-family: "SourceHanSansCN-Regular";
-//   // src: url('../fonts/SourceHanSansCN-Regular.otf'),
-//   src: url("../fonts/SourceHanSansCN-Regular.ttf") format("truetype")
-// }
-
-// @font-face {
-//   // 思源宋体
-//   font-family: "Source Han Serif SC VF";
-//   src:url("../fonts/Source Han Serif CN Light.ttf") format("truetype")
-// }
-
-
+@import "unit/color.less";
 
 // 1200~
 html {
@@ -26,25 +10,25 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
-:root{
-  --contentWidth:75rem;
-  --ratio:1.3;
+:root {
+  --contentWidth: 75rem;
+  --ratio: 1.3;
 }
 // 设置四类代码
 // 范围：0-768 768-992 992-1200 1200~
 @media screen and(max-width:1199px) and(min-width:992px) {
-  html{
+  html {
     font-size: 14px;
   }
 }
 
 @media screen and(max-width:991px) and(min-width:768px) {
-  html{
+  html {
     font-size: 13px;
   }
 }
-@media screen and(max-width:768px){
-  html{
+@media screen and(max-width:768px) {
+  html {
     font-size: 12px;
   }
   // 给移动端的所有视频播放设置进度条位置
@@ -53,9 +37,6 @@ html {
   }
 }
 
-
-
-
 *,
 *::before,
 *::after {
@@ -63,9 +44,13 @@ html {
   margin: 0;
 }
 // 删除a标签的所有属性
-a,a:link,a:visited,a:hover,a:active{
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
   text-decoration: none;
-  color:inherit;
+  color: inherit;
 }
 ul,
 li {
@@ -73,11 +58,6 @@ li {
   margin: 0;
   padding: 0;
 }
-i{
-  font-style:normal;
+i {
+  font-style: normal;
 }
-
-
-
-
-

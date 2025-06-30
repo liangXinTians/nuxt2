@@ -28,14 +28,6 @@
                 </div>
               </nuxt-link>
             </a-menu-item>
-            <!-- 信福&信悦 -->
-            <!-- <a-menu-item key="youyouxinfu" class="header-item">
-                <nuxt-link :to="{ path: '/youyouxinfu' }">
-                  <div class="menu-item-text">
-                    <span>信福&信悦</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item> -->
             <a-sub-menu key="xinfuxinyue" class="header-item">
               <span slot="title" class="submenu-title-wrapper">
                 <div class="header-item">
@@ -157,28 +149,19 @@
     </header>
     <header class="mobile-header" ref="mobileNav" v-else>
       <div class="header-logo">
-        <!-- <img @dragstart.prevent src="../assets/images/logo5.png" /> -->
         <nuxt-link :to="{ path: '/' }">
-          <img loading="lazy" @dragstart.prevent src="../assets/images/logo_mobile.png" />
+          <img loading="lazy" @dragstart.prevent src="../assets/images/logo.png" />
         </nuxt-link>
       </div>
-      <!-- 移动端 -->
       <div class="mobile-header-menus">
         <div class="m-header-right" @click="handleMobileMenu">
-          <!-- <a-icon
-            type="menu-unfold"
-            class="menu-icon"
-            @click="handleMobileMenu"
-          /> -->
           菜单栏
         </div>
-        <!-- 侧边菜单栏 -->
         <div class="m-header-menu-root" id="mobile-slide-right" v-if="mobile">
           <div class="close-btn-box">
             <a-icon class="close" type="close" @click="handleMobileMenu" />
           </div>
           <a-menu v-model="current" mode="inline">
-            <!-- 首页--中信养老 -->
             <a-menu-item key="zhongxinyanglao" class="header-item">
               <nuxt-link :to="{ path: '/zhongxinyanglao' }">
                 <div class="menu-item-text">
@@ -186,7 +169,6 @@
                 </div>
               </nuxt-link>
             </a-menu-item>
-            <!-- 信澜天地 -->
             <a-menu-item key="xinlantiandi" class="header-item">
               <nuxt-link :to="{ path: '/xinlantiandi' }">
                 <div class="menu-item-text">
@@ -264,17 +246,6 @@
                 </nuxt-link>
               </a-menu-item>
             </a-sub-menu>
-            <!-- 信福&信悦 -->
-            <!-- 旅居短住 -->
-            <!-- <a-menu-item key="lvjuduanzhu" class="header-item">
-                <nuxt-link to="/">
-                  <div class="menu-item-text">
-                    <span>旅居短住</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item> -->
-
-            <!-- 委托管理 -->
             <a-menu-item key="yifuyun" class="header-item">
               <nuxt-link :to="{ path: '/yifuyun' }">
                 <div class="menu-item-text">
@@ -282,7 +253,6 @@
                 </div>
               </nuxt-link>
             </a-menu-item>
-            <!-- 养老生活 -->
             <a-menu-item key="yanglaoshenghuo" class="header-item">
               <nuxt-link :to="{ path: '/yanglaoshenghuo' }">
                 <div class="menu-item-text">
@@ -290,27 +260,15 @@
                 </div>
               </nuxt-link>
             </a-menu-item>
-            <!-- 党的建设 -->
-            <!-- <a-menu-item key="dangdejianshe" class="header-item">
-                <nuxt-link :to="{ path: '/' }">
-                  <div class="menu-item-text">
-                    <span>党的建设</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item> -->
           </a-menu>
         </div>
       </div>
     </header>
   </div>
-  <!-- </client-only> -->
 </template>
 
 <script>
-// import Vue from 'vue'
-// import {Menu} from 'ant-design-vue'
 
-// Vue.use(Menu)
 export default {
   name: "layout-header",
   data () {
@@ -435,7 +393,7 @@ export default {
   },
   mounted () {
     // 监听页面滚动事件
-    // window.addEventListener("scroll", this.scrolling)
+
     this.updateNavChecked()
 
   },
@@ -511,41 +469,7 @@ export default {
       }
       console.log("xxx", this.$route, this.current)
     },
-    // 滚动条滚动的方法
-    /* scrolling () {
-      if (this.mobile == true) {
-        // 滚动条距文档顶部的距离
-        let scrollTop =
-          window.pageYOffset ||
-          document.documentElement.scrollTop ||
-          document.body.scrollTop
-        // 滚动条滚动的距离
-        let scrollStep = scrollTop - this.oldScrollTop
-        // console.log("header 滚动距离 ", scrollTop);
-        // 更新——滚动前，滚动条距文档顶部的距离
-        this.oldScrollTop = scrollTop
 
-        // console.log('this.scroll', scrollTop, scrollStep)
-        if (scrollTop > 76) {
-          // console.log('scrollTop',this.$refs.mobileNav);
-          if (scrollStep < 0) {
-            // 向上滚动
-            this.$refs.mobileNav.classList.remove("header-scroll-up")
-            this.$refs.mobileNav.classList.add("header-scroll-down")
-            // console.log("header 滚动条向上滚动了！");
-          } else if (scrollStep > 0) {
-            // 向下滚动
-            this.$refs.mobileNav.classList.remove("header-scroll-down")
-            this.$refs.mobileNav.classList.add("header-scroll-up")
-            // console.log("header  滚动条向下滚动了！");
-          }
-        } else {
-          // 当scrollTop 滚动小于76 就显示
-          this.$refs.mobileNav.classList.remove("header-scroll-up")
-          this.$refs.mobileNav.classList.add("header-scroll-down")
-        }
-      }
-    }, */
   },
   beforeDestroy () {
     // 记得销毁
@@ -559,7 +483,7 @@ export default {
 
 .ant-menu {
   background-color: transparent !important;
-  color: rgba(0, 0, 0, 1);
+  color: #fff;
 }
 
 .ant-menu-horizontal {
@@ -570,28 +494,33 @@ export default {
 .header-item.disabled,
 .ant-menu-horizontal>.ant-menu-item-selected a,
 .ant-menu-horizontal>.ant-menu-item a {
-  color: #0d0d0d;
-  // color: #fff;
+  // color: #0d0d0d;
+  color: #fff;
+  // color: #b9000e;
 }
 
 .menu-item-text-disabled {
-  color: #0d0d0d !important;
+  // color: #fff;
+  color: #b9000e;
 }
 
 .ant-menu-horizontal>.ant-menu-item-selected a {
-  color: #fff;
+  // color: #fff;
+  color: #b9000e;
 }
 
 // 选中后添加背景颜色
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected,
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected {
-  color: rgb(254, 252, 252) !important;
-  background: #b9000e !important;
+  // color: rgb(254, 252, 252) !important;
+  color: #b9000e;
+  // background: #b9000e !important;
 }
 
 .ant-menu-inline:not(.ant-menu-dark)>.ant-menu-item-selected {
-  color: rgb(254, 252, 252) !important;
-  background: #b9000e !important;
+  // color: rgb(254, 252, 252) !important;
+  // background: #b9000e !important;
+  color: #b9000e;
 }
 
 // submenu中的
@@ -616,7 +545,7 @@ export default {
 // 鼠标经过时下边框消除
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active:after,
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover:after {
-  border: 0px solid pink;
+  border: 0px;
 }
 
 .ant-menu-horizontal>.ant-menu-item:after {
@@ -676,11 +605,12 @@ export default {
 }
 
 .ant-menu-item.ant-menu-item-selected>a:hover {
-  color: #ccc;
+  // color: #ccc;
 }
 
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: rgba(185, 0, 14, 0.9);
+  background: rgba(0, 0, 0, .0);
+  color: #b9000e;
 }
 
 .ant-menu-horizontal>.ant-menu-item {
@@ -691,32 +621,6 @@ export default {
   font-family: "Source Han Serif SC VF" !important;
 }
 
-// //加短边框----------
-// .ant-menu-horizontal > .ant-menu-item-selected > a,
-// .ant-menu-horizontal > .ant-menu-item-active > a{
-//   border: 0px solid transparent !important;
-//   box-sizing: border-box !important;
-//   height: 35px !important;
-// }
-
-// // 有下拉框的加短边框----------
-// .header1
-//   .header
-//   .pub-content
-//   .header-menus
-//   .ant-menu-horizontal
-//   .ant-menu-submenu-title:hover .menu-item-text,
-// .ant-menu-horizontal > .ant-menu-submenu-selected .menu-item-text,
-// .ant-menu-horizontal > .ant-menu-submenu-active .menu-item-text{
-//   border-bottom: 0px solid transparent !important;
-//   box-sizing: border-box !important;
-//   height: 33px !important;
-// }
-
-/*去掉下拉菜单背景色*/
-// .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-//   background-color: #fff;
-// }
 .ant-menu-horizontal>.ant-menu-item:hover,
 .ant-menu-horizontal>.ant-menu-submenu:hover,
 .ant-menu-horizontal>.ant-menu-item-active,
@@ -733,31 +637,45 @@ export default {
 .a-sub-menu-item {
   // color: #0d0d0d;
   /* 设置初始字体颜色 */
+  // color: #fff;
   font-size: 15px;
 }
 
 /* 鼠标经过时的颜色 */
 .ant-menu-submenu.ant-menu-submenu-selected>.ant-menu-submenu-title:hover,
 .a-sub-menu-item:hover {
-  color: #ccc;
+  // color: #ccc;
+  color: #b9000e;
   /* 设置鼠标经过时的颜色 */
+}
+
+.ant-menu-submenu-popup {
+  background: rgba(0, 0, 0, .2);
+}
+.nuxt-link-exact-active{
+  color: #b9000e !important;
+}
+.ant-menu-item{
+  color: #fff !important;
 }
 
 // 头部导航部分
 .header1 {
   width: 100%;
-  position: relative;
+  position: fixed;
+  top: 0;
+  background: rgba(0, 0, 0, .2);
   z-index: 100;
+  color: #fff;
   font-family: "Source Han Serif SC VF";
 
   // pc端nav
   .header {
-    // background: #f00d0d;
     z-index: 999;
     width: 100%;
     height: 90px;
     line-height: 90px;
-    border-bottom: 1px solid #f3f3c8;
+
     box-sizing: border-box;
     z-index: 100;
 
@@ -765,7 +683,7 @@ export default {
       height: 100%;
       margin: 0 auto;
       // 设置宽度
-      max-width: var(--contentWidth);
+      // max-width: var(--contentWidth);
       clear: both;
       display: flex;
       justify-content: space-between;
@@ -799,6 +717,7 @@ export default {
 
           // 内部每一列的属性
           .menu-item-text {
+            
             text-align: center;
             padding: 0 0 13px 0;
             display: flex;
@@ -985,21 +904,7 @@ export default {
   padding: 10px 0 !important;
 }
 
-// /*设置子菜单展开样式*/
-// .ant-menu-submenu > .ant-menu {
-//   border-radius: 0;
-//   background-color: #fff;
-//   box-sizing: border-box;
-//   margin: 0;
-//   font-size: 14px;
-//   font-variant: tabular-nums;
-//   font-feature-settings: "tnum", "tnum";
-//   /*color: rgba(0, 0, 0, 0.65);*/
-//   line-height: 0;
-//   list-style: none;
-//   outline: none;
-//   // box-shadow: 0 5px 8px rgb(0 0 0 / 15%);
-// }
+
 // 消除长边框------?????
 .ant-menu-item-selected,
 .ant-menu-inline>.ant-menu-item,
