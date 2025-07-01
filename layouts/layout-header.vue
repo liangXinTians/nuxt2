@@ -11,6 +11,11 @@
         </div>
         <!-- pc端 -->
         <div class="header-menus">
+          <div class="top-box">
+            <div class="top-box1 top-boxs">信澜天地</div>
+            <div class="top-box2 top-boxs">信福&信悦</div>
+            <div class="top-box3 top-boxs">信悦88</div>
+          </div>
           <a-menu v-model="current" mode="horizontal">
             <!-- 首页--中信养老 -->
             <a-menu-item key="zhongxinyanglao" class="header-item">
@@ -652,10 +657,12 @@ export default {
 .ant-menu-submenu-popup {
   background: rgba(0, 0, 0, .2);
 }
-.nuxt-link-exact-active{
+
+.nuxt-link-exact-active {
   color: #b9000e !important;
 }
-.ant-menu-item{
+
+.ant-menu-item {
   color: #fff !important;
 }
 
@@ -692,6 +699,7 @@ export default {
       .header-logo {
         width: 300px;
         height: 90px;
+        margin-left: 50px;
 
         // background-color: blue;
         img {
@@ -707,9 +715,22 @@ export default {
         // width: 520px;
         width: 615px;
         height: 90px;
+        // margin-right: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+
+        .top-box {
+          display: flex;
+          flex-direction: row-reverse;
+          align-items: center;
+          height: 40px;
+          margin-right: 25px;
+
+          .top-boxs {
+            margin-left: 20px;
+          }
+        }
 
         // 导航栏选项水平属性
         .ant-menu-horizontal {
@@ -717,7 +738,7 @@ export default {
 
           // 内部每一列的属性
           .menu-item-text {
-            
+
             text-align: center;
             padding: 0 0 13px 0;
             display: flex;

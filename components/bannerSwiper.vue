@@ -29,18 +29,18 @@ export default {
   data () {
     return {
       localImages: [
-        {
-          url: require('@/assets/images/yifuyun/5.png'),
-          title: ''
-        },
-        {
-          url: require('@/assets/images/yifuyun/6.png'),
-          title: ''
-        },
-        {
-          url: require('@/assets/images/yifuyun/7.png'),
-          title: ''
-        }
+        // {
+        //   url: require('@/assets/images/yifuyun/5.png'),
+        //   title: ''
+        // },
+        // {
+        //   url: require('@/assets/images/yifuyun/6.png'),
+        //   title: ''
+        // },
+        // {
+        //   url: require('@/assets/images/yifuyun/7.png'),
+        //   title: ''
+        // }
       ],
       swiperOptions: {
         loop: true,

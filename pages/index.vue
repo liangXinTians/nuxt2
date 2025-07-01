@@ -5,7 +5,7 @@
       <!-- <bannerSwiper></bannerSwiper> -->
       <banner-swiper :banners="bannerList"></banner-swiper>
       <three-images></three-images>
-      <div class="biaoti">
+      <!-- <div class="biaoti">
         <div class="title">
           S-HANDE For You
         </div>
@@ -14,9 +14,9 @@
         <div class="more">
           More
         </div>
-      </div>
-      <four-images-with-text></four-images-with-text>
-      <div class="biaoti black">
+      </div> -->
+      <!-- <four-images-with-text></four-images-with-text> -->
+      <!-- <div class="biaoti black">
         <div class="titles">
           S-HANDE Video
         </div>
@@ -26,8 +26,8 @@
           More
         </div>
         <videos></videos>
-      </div>
-      
+      </div> -->
+
     </div>
 
   </div>
@@ -48,16 +48,16 @@ import { websiteApi } from '../services/api'
 export default {
   components: {
     ThreeImages,
-BannerSwiper,
-FourImagesWithText,
-videos
+    BannerSwiper,
+    FourImagesWithText,
+    videos
   },
   // directives: {
   //   swiper: directive
   // },
   data () {
     return {
-bannerList: []
+      bannerList: []
     }
   },
   computed: {
@@ -120,32 +120,35 @@ bannerList: []
 }
 </script>
 <style lang="less" scoped>
-.home-box{
-  .biaoti{
+.home-box {
+  .biaoti {
     line-height: 120%;
     text-align: center;
     padding: 4rem 0;
-    .title{
-    font-family: 'TENSANS';
-    // font-size: 24px;
-    font-size: 5rem;
-    line-height: 120%;
-    color: #fff;
-    font-weight: normal;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    width: 100%;
-    
-    color: #666;
-    position: relative;
-    font-weight: 900;
+
+    .title {
+      font-family: 'TENSANS';
+      // font-size: 24px;
+      font-size: 5rem;
+      line-height: 120%;
+      color: #fff;
+      font-weight: normal;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      width: 100%;
+
+      color: #666;
+      position: relative;
+      font-weight: 900;
     }
   }
-  .black{
-    background: url(	https://www.sexhande.com/template/en/images/hintergrund_pjurlove.jpg) center no-repeat;
+
+  .black {
+    background: url(https://www.sexhande.com/template/en/images/hintergrund_pjurlove.jpg) center no-repeat;
   }
-  .fenge{
+
+  .fenge {
     display: block;
     margin: 0 auto;
     margin-top: 15px;
@@ -153,9 +156,10 @@ bannerList: []
     height: 31px;
     background: url(https://www.sexhande.com/template/en/pic/title.png) center no-repeat;
   }
-  .more{
+
+  .more {
     cursor: pointer;
-width: 60px;
+    width: 60px;
     margin: 0 auto;
     display: block;
     text-align: center;
@@ -169,12 +173,14 @@ width: 60px;
     padding: 0;
     margin-top: 20px;
     transition: 0.3s;
-        &:hover{
-          color: #ff1c8e;
+
+    &:hover {
+      color: #ff1c8e;
 
     }
   }
-  .titles{
+
+  .titles {
     font-family: 'TENSANS';
     // font-size: 24px;
     font-size: 5rem;
@@ -185,13 +191,14 @@ width: 60px;
     padding: 0;
     text-align: center;
     width: 100%;
-    
+
     color: #fff;
     position: relative;
     font-weight: 900;
-    
+
   }
-  .fenge{
+
+  .fenge {
     display: block;
     margin: 0 auto;
     margin-top: 15px;
@@ -199,9 +206,10 @@ width: 60px;
     height: 31px;
     background: url(https://www.sexhande.com/template/en/pic/title.png) center no-repeat;
   }
-  .mores{
+
+  .mores {
     cursor: pointer;
-width: 60px;
+    width: 60px;
     margin: 0 auto;
     display: block;
     text-align: center;
@@ -215,12 +223,13 @@ width: 60px;
     padding: 0;
     margin-top: 20px;
     transition: 0.3s;
-    &:hover{
-          color: #ff1c8e;
+
+    &:hover {
+      color: #ff1c8e;
 
     }
 
   }
-  
+
 }
 </style>
