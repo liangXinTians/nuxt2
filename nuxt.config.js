@@ -5,14 +5,14 @@ const path = require('path')
  */
 export default {
   head: {
-    title: '中信养老',
+    title: '标题',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no' },
       { name: 'renderer', content: 'webkit' },
       { name: 'referrer', content: 'never' },
-      { hid: 'keywords', name: 'keywords', content: '中信集团养老业务平台，中信养老，中信养老官网，上海中信兴业养老服务发展有限公司，养老院，养老社区，护理院' },
-      { hid: 'description', name: 'description', content: '中信养老是中信集团发展养老业务的平台。以“都市型、一站式、医康养”为特色，提供全年龄全场景养老解决方案。目前已经形成“信澜天地、信福&信悦、信养之家”等信字系列产品线，可提供针对退休健康人群的活力公寓、适合高龄自理和高龄照护型长者的养老机构、生活不能自理及认知症长者对应的护理院等多元产品。' }
+      { hid: 'keywords', name: 'keywords', content: '' },
+      { hid: 'description', name: 'description', content: '' }
     ],
     script: [
     ],
@@ -51,11 +51,6 @@ export default {
       ssr: true
     },
     {
-      // 引入百度统计
-      src: '@/plugins/baidu',
-      mode: 'server', // server 服务端渲染  client 客户端渲染
-    },
-    {
       src: '@/plugins/api',
       ssr: true
     },
@@ -75,20 +70,6 @@ export default {
         '^/file': ''
       }
     }
-
-    // 中信
-    // '/api': {
-    //   target: 'https://www.senior-living.citic/zhongxin/index.php/',
-    //   pathRewrite: {
-    //     '^/api': ''
-    //   }
-    // },
-    // '/file': {
-    //   target: 'https://www.senior-living.citic/zhongxin/',
-    //   pathRewrite: {
-    //     '^/file': ''
-    //   }
-    // }
   },
   publicRuntimeConfig: {
     // 本地
@@ -96,16 +77,6 @@ export default {
     apiFileUrl: "/file",
     videoUrl: "",
 
-    // 公司dev服务器
-    // apiBaseUrl: "http://devsrv.linknology.cn:18888/zhongxin/index.php",
-    // apiFileUrl: "http://devsrv.linknology.cn:18888/zhongxin",
-    // videoUrl: "/zhongxin",  // 对单独的视频数据进行匹配
-
-
-    // 中信
-    // apiBaseUrl: "/zhongxin/index.php", //中信服务器
-    // apiFileUrl: "/zhongxin",
-    // videoUrl: ""
   },
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -121,7 +92,53 @@ export default {
   },
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+    [
+      'nuxt-i18n',
+      {
+        locales: [
+          { code: 'zh-CN', name: '中文',iso: 'zh-CN', file: 'zh-CN.js' },
+          { code: 'en-US', name: 'English',iso: 'en-US', file: 'en-US.js' },
+          { code: 'fr-FR', name: 'Français',iso: 'fr-FR', file: 'fr-FR.js' },
+          { code: 'es-ES', name: 'Español',iso: 'es-ES', file: 'es-ES.js' },
+          { code: 'it-IT', name: 'Italiano',iso: 'it-IT', file: 'it-IT.js' }
+
+        ],
+        // lazy: true,
+        // langDir: 'lang/',
+        // defaultLocale: 'zh-CN',
+        // strategy: 'prefix_except_default', // 修改策略
+        // detectBrowserLanguage: {
+        //   useCookie: false,    // 完全禁用浏览器语言检测
+        //   redirectOn: 'no'     // 不进行自动重定向
+        // },
+        // vueI18nLoader: true,
+        // vueI18n: {
+        //   fallbackLocale: 'zh-CN',
+        //   silentTranslationWarn: true // 禁止翻译警告
+        // },
+        // parsePages: false, // 禁用自动路由生成
+        // baseUrl: 'http://192.168.100.165:3000/' 
+        lazy: true,
+    langDir: 'lang/',
+    defaultLocale: 'zh-CN',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,        // 启用cookie
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',     // 只在根路径重定向
+      alwaysRedirect: false,  // 不总是重定向
+      fallbackLocale: 'zh-CN'
+    },
+    vueI18nLoader: true,
+    vueI18n: {
+      fallbackLocale: 'zh-CN',
+      silentTranslationWarn: true
+    },
+    parsePages: false,
+    baseUrl: 'http://192.168.100.165:3000/'
+      }
+    ]
   ],
   axios: {
     //是否可以跨域

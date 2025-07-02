@@ -2,7 +2,8 @@
   <!-- <client-only> -->
   <div>
     <footer class="layout-footer">
-      1111
+      <div class="footer-left"></div>
+      <div class="footer-right"></div>
     </footer>
   </div>
   <!-- </client-only> -->
@@ -32,11 +33,10 @@ export default {
 // 底部footer
 .layout-footer {
   font-family: "Source Han Serif SC VF";
-  background: rgb(237, 237, 237);
+  background: #4D4D4D;
   // height: 680px;
   width: 100%;
   box-sizing: border-box;
-  border-top: 5px solid #ba000e;
   padding-top: 33px;
   z-index: 999;
 }

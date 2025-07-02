@@ -12,8 +12,37 @@
         <!-- pc端 -->
         <div class="header-menus">
           <div class="top-box">
+            <!-- <a-select 
+    :key="refreshKey"
+    :value="$i18n.locale"
+    @change="lang => $i18n.setLocale(lang)"
+    style="width: 120px">
+    <a-select-option 
+      v-for="lang in $i18n.locales" 
+      :key="lang.code" 
+      :value="lang.code"
+      @click.native="openNewTab(lang.code)">
+      {{ lang.name }}
+    </a-select-option>
+  </a-select> -->
+  <a-select 
+  :key="refreshKey"
+  :value="$i18n.locale"
+  @change="handleLanguageChange"
+  style="width: 120px">
+  <a-select-option 
+    v-for="lang in $i18n.locales" 
+    :key="lang.code" 
+    :value="lang.code">
+    {{ lang.name }}
+  </a-select-option>
+</a-select>
             <div class="top-box1 top-boxs">信澜天地</div>
             <div class="top-box2 top-boxs">信福&信悦</div>
+
+             <p>{{ $t('home.title') }}</p>
+             <button @click="switchLocale('zh-CN')">中文</button>
+    <button @click="switchLocale('en-US')">English</button>
             <div class="top-box3 top-boxs">信悦88</div>
           </div>
           <a-menu v-model="current" mode="horizontal">
@@ -278,6 +307,7 @@ export default {
   name: "layout-header",
   data () {
     return {
+       refreshKey: 0,
       // 这个是存储选中的那个menu值
       current: [],
       // mobile: false,
@@ -307,6 +337,9 @@ export default {
     // this.updateNavChecked()
   },
   watch: {
+    '$i18n.locale'() {
+      this.refreshKey++  // 语言变化时强制刷新组件
+    },
     // 监视路由 只有路由改变时才会，页面刷新路由没有改变
     $route (res) {
       console.log("shouye", res)
@@ -397,12 +430,125 @@ export default {
     },
   },
   mounted () {
-    // 监听页面滚动事件
-
+    // if (!this.$store) {
+    //   console.error('Vuex store is not available')
+    //   return
+    // }
     this.updateNavChecked()
+    // const savedLang = localStorage.getItem('user_lang')
+    // if (savedLang) {
+    //   this.$i18n.setLocale(savedLang)
+    // }
+    if (this.$route.query._lang) {
+      const targetLang = this.$route.query._lang;
+      if (this.$i18n.locales.find(locale => locale.code === targetLang)) {
+        this.$i18n.setLocale(targetLang);
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('user_lang', targetLang);
+        }
+        this.refreshKey++;
+        
+        // 清理URL参数（可选）
+        const cleanQuery = { ...this.$route.query };
+        delete cleanQuery._lang;
+        delete cleanQuery._t;
+        
+        if (Object.keys(cleanQuery).length === 0) {
+          this.$router.replace({ query: undefined });
+        } else {
+          this.$router.replace({ query: cleanQuery });
+        }
+      }
+    }
 
   },
   methods: {
+    // 切换语言
+    // switchLanguage (lang) {
+    //   this.$i18n.setLocale(lang)
+    //   localStorage.setItem('user_lang', lang)
+    // },
+    // openNewTab(lang) {
+    //   // 获取当前路径并移除可能存在的语言前缀
+    //   const rawPath = this.$route.path.replace(/^\/[a-z]{2}-[A-Z]{2}(\/|$)/, '/')
+      
+    //   // 构建新语言路径
+    //   const newPath = lang !== 'zh-CN' 
+    //     ? `/${lang}${rawPath}` 
+    //     : rawPath
+      
+    //   // 生成完整URL
+    //   const fullUrl = `${window.location.origin}${newPath}`
+      
+    //   // 新标签页打开
+    //   window.open(fullUrl, '_blank')
+      
+    //   // 保持当前页面语言状态
+    //   localStorage.setItem('user_lang', this.$i18n.locale)
+    // },
+    handleLanguageChange(selectedLang) {
+      // 如果选择的语言和当前语言相同，不做任何操作
+      if (selectedLang === this.$i18n.locale) {
+        return;
+      }
+      
+      // 调用新标签页打开方法
+      this.openNewTab(selectedLang);
+    },
+    // 修复后的新标签页打开方法
+    openNewTab(lang) {
+      try {
+        // 获取当前完整路径（包括查询参数和hash）
+        const currentPath = this.$route.fullPath;
+        const currentQuery = this.$route.query;
+        const currentHash = this.$route.hash;
+        
+        // 移除现有的语言前缀（如果存在）
+        let cleanPath = currentPath;
+        const langPrefixRegex = /^\/(zh-CN|en-US|fr-FR|es-ES|it-IT)(\/|$)/;
+        
+        if (langPrefixRegex.test(currentPath)) {
+          cleanPath = currentPath.replace(langPrefixRegex, '/');
+        }
+        
+        // 构建新的路径
+        let newPath;
+        if (lang === 'zh-CN') {
+          // 默认语言不需要前缀
+          newPath = cleanPath;
+        } else {
+          // 其他语言需要添加前缀
+          newPath = `/${lang}${cleanPath === '/' ? '' : cleanPath}`;
+        }
+        
+        // 添加时间戳参数强制刷新
+        const separator = newPath.includes('?') ? '&' : '?';
+        const timestamp = Date.now();
+        const finalUrl = `${window.location.origin}${newPath}${separator}_lang=${lang}&_t=${timestamp}`;
+        
+        console.log('Opening new tab with URL:', finalUrl);
+        
+        // 在新标签页中打开
+        const newWindow = window.open(finalUrl, '_blank', 'noopener,noreferrer');
+        
+        if (!newWindow) {
+          console.error('Failed to open new tab - popup blocked?');
+          // 如果新标签页被阻止，可以提示用户
+          this.$message.warning('请允许弹出窗口以打开新标签页');
+        }
+        
+      } catch (error) {
+        console.error('Error opening new tab:', error);
+      }
+    },
+    // 当前页面语言切换（保留原功能）
+    switchLocale(lang) {
+      this.$i18n.setLocale(lang);
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('user_lang', lang);
+      }
+      this.refreshKey++; // 强制刷新select组件
+    },
     //点击按钮打开侧边栏
     handleMobileMenu () {
       this.showMobileMenu = !this.showMobileMenu
