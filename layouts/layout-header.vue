@@ -12,171 +12,132 @@
         <!-- pc端 -->
         <div class="header-menus">
           <div class="top-box">
-            <!-- <a-select 
-    :key="refreshKey"
-    :value="$i18n.locale"
-    @change="lang => $i18n.setLocale(lang)"
-    style="width: 120px">
-    <a-select-option 
-      v-for="lang in $i18n.locales" 
-      :key="lang.code" 
-      :value="lang.code"
-      @click.native="openNewTab(lang.code)">
-      {{ lang.name }}
-    </a-select-option>
-  </a-select> -->
-  <a-select 
-  :key="refreshKey"
-  :value="$i18n.locale"
-  @change="handleLanguageChange"
-  style="width: 120px">
-  <a-select-option 
-    v-for="lang in $i18n.locales" 
-    :key="lang.code" 
-    :value="lang.code">
-    {{ lang.name }}
-  </a-select-option>
-</a-select>
+            <a-select :key="refreshKey" :value="$i18n.locale" @change="handleLanguageChange" style="width: 120px">
+              <a-select-option v-for="lang in $i18n.locales" :key="lang.code" :value="lang.code">
+                {{ lang.name }}
+              </a-select-option>
+            </a-select>
             <div class="top-box1 top-boxs">信澜天地</div>
             <div class="top-box2 top-boxs">信福&信悦</div>
 
-             <p>{{ $t('home.title') }}</p>
-             <button @click="switchLocale('zh-CN')">中文</button>
-    <button @click="switchLocale('en-US')">English</button>
+            <p>{{ $t('home.title') }}</p>
+            <!-- <button @click="switchLocale('zh-CN')">中文</button>
+            <button @click="switchLocale('en-US')">English</button> -->
             <div class="top-box3 top-boxs">信悦88</div>
           </div>
           <a-menu v-model="current" mode="horizontal">
-            <!-- 首页--中信养老 -->
-            <a-menu-item key="zhongxinyanglao" class="header-item">
-              <nuxt-link :to="{ path: '/zhongxinyanglao' }">
+            <!-- 首页 -->
+            <a-menu-item key="home" class="header-item">
+              <nuxt-link :to="{ path: '/' }">
                 <div class="menu-item-text">
-                  <span>中信养老</span>
+                  <span>HOME</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
-            <!-- 信澜天地 -->
-            <a-menu-item key="xinlantiandi" class="header-item">
-              <nuxt-link :to="{ path: '/xinlantiandi' }">
-                <div class="menu-item-text">
-                  <span>信澜天地</span>
-                </div>
-              </nuxt-link>
-            </a-menu-item>
-            <a-sub-menu key="xinfuxinyue" class="header-item">
+            <!-- 四个分类 -->
+            <a-sub-menu key="product" class="header-item">
               <span slot="title" class="submenu-title-wrapper">
-                <div class="header-item">
-                  <span>信福&信悦</span>
+                  <div class="header-item" @click="handleClick('/product')">
+                    <span>FOR HIM/FOR HER</span>
+                  </div>
+              </span>
+              <a-menu-item key="product1">
+                <nuxt-link :to="{ path: '/product/1' }">
+                  <div class="menu-item-texts">
+                    <span>Female sex toys</span>
+                  </div>
+                </nuxt-link>
+              </a-menu-item>
+              <a-menu-item key="product2">
+                <nuxt-link :to="{ path: '/product/2' }">
+                  <div class="menu-item-texts">
+                    <span>Male sex toys</span>
+                  </div>
+                </nuxt-link>
+              </a-menu-item>
+              <a-menu-item key="product3">
+                <nuxt-link :to="{ path: '/product/3' }">
+                  <div class="menu-item-texts">
+                    <span>Couple sex toys</span>
+                  </div>
+                </nuxt-link>
+              </a-menu-item>
+              <a-menu-item key="product4">
+                <nuxt-link :to="{ path: '/product/4' }">
+                  <div class="menu-item-texts">
+                    <span>Bondage And Constraints</span>
+                  </div>
+                </nuxt-link>
+              </a-menu-item>
+            </a-sub-menu>
+            <!-- video -->
+            <a-menu-item key="video" class="header-item">
+              <nuxt-link :to="{ path: '/video' }">
+                <div class="menu-item-text">
+                  <span>VIDEO</span>
+                </div>
+              </nuxt-link>
+            </a-menu-item>
+            <!-- product-test -->
+            <a-sub-menu key="productTest" class="header-item">
+              <span slot="title" class="submenu-title-wrapper">
+                <div class="header-item" @click="handleClick('/productTest')">
+                  <span>SERVICE</span>
                 </div>
               </span>
-              <a-menu-item key="xinyue88">
-                <nuxt-link :to="{ path: '/xinfuxinyue/xinyue88' }">
+              <a-menu-item key="productTest1">
+                <nuxt-link :to="{ path: '/productTest/1' }">
                   <div class="menu-item-texts">
-                    <span>信悦88</span>
+                    <span>Download Center</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
-              <a-menu-item key="youyouxinfu">
-                <nuxt-link :to="{ path: '/xinfuxinyue/youyouxinfu' }">
+              <a-menu-item key="productTest2">
+                <nuxt-link :to="{ path: '/productTest/2' }">
                   <div class="menu-item-texts">
-                    <span>由由信福</span>
+                    <span>Free Sex Toy Testing</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
-              <a-menu-item key="lianyangxinfu">
-                <nuxt-link :to="{ path: '/xinfuxinyue/lianyangxinfu' }">
+              <a-menu-item key="productTest3">
+                <nuxt-link :to="{ path: '/productTest/3' }">
                   <div class="menu-item-texts">
-                    <span>联洋信福（昆仑邸）</span>
+                    <span>To Experience The Product</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
-            </a-sub-menu>
-            <!-- 信养之家 -->
-            <a-sub-menu key="xinyangzhijia" class="header-item">
-              <template #title>
-                <div class="header-item">
-                  <span>信养之家</span>
-                </div>
-              </template>
-              <a-menu-item key="dachang">
-                <nuxt-link :to="{ path: '/xinyangzhijia/dachang' }">
+              <a-menu-item key="productTest4">
+                <nuxt-link :to="{ path: '/xinfuxinyue/4' }">
                   <div class="menu-item-texts">
-                    <span>宝山大场养老院</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item>
-              <a-menu-item key="jinxiu">
-                <nuxt-link :to="{ path: '/xinyangzhijia/jinxiu' }">
-                  <div class="menu-item-texts">
-                    <span>浦东锦绣养老院</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item>
-              <a-menu-item key="xinjiangwan">
-                <nuxt-link :to="{ path: '/xinyangzhijia/xinjiangwan' }">
-                  <div class="menu-item-texts">
-                    <span>杨浦新江湾养老院</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item>
-              <a-menu-item key="aiqinren">
-                <nuxt-link :to="{ path: '/xinyangzhijia/aiqinren' }">
-                  <div class="menu-item-texts">
-                    <span>爱亲仁护理院</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item>
-              <a-menu-item key="zhenyue">
-                <nuxt-link :to="{ path: '/xinyangzhijia/zhenyue' }">
-                  <div class="menu-item-texts">
-                    <span>臻悦护理院</span>
+                    <span>The Comments Section</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
             </a-sub-menu>
-
-            <!-- 委托管理 -->
-            <!-- <a-menu-item key="weituoguanli" class="header-item">
-              <nuxt-link :to="{ path: '/yanglaoshenghuo' }">
+            <!-- 公司简介 -->
+            <a-menu-item key="companyProfile" class="header-item">
+              <nuxt-link :to="{ path: '/companyProfile' }">
                 <div class="menu-item-text">
-                  <span>委托管理</span>
-                </div>
-              </nuxt-link>
-            </a-menu-item> -->
-
-            <!-- 旅居短住 -->
-            <!-- <a-menu-item key="lvjuduanzhu" class="header-item" :disabled="true">
-                <nuxt-link to="/">
-                  <div class="menu-item-text menu-item-text-disabled">
-                    <span>旅居短住</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item> -->
-
-            <!-- 委托管理 -->
-            <a-menu-item key="yifuyun" class="header-item">
-              <nuxt-link :to="{ path: '/yifuyun' }">
-                <div class="menu-item-text">
-                  <span>委托管理</span>
+                  <span>ABOUT US</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
-
-            <!-- 养老生活 -->
-            <a-menu-item key="yanglaoshenghuo" class="header-item">
-              <nuxt-link :to="{ path: '/yanglaoshenghuo' }">
+            <!-- news -->
+            <a-menu-item key="article" class="header-item">
+              <nuxt-link :to="{ path: '/article' }">
                 <div class="menu-item-text">
-                  <span>养老生活</span>
+                  <span>NEWS</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
-            <!-- 党的建设 -->
-            <!-- <a-menu-item key="dangdejianshe" class="header-item" :disabled="true">
-                <nuxt-link :to="{ path: '/' }">
-                  <div class="menu-item-text menu-item-text-disabled">
-                    <span>党的建设</span>
-                  </div>
-                </nuxt-link>
-              </a-menu-item> -->
+            <!-- 联系我们 -->
+            <a-menu-item key="contanctUs" class="header-item">
+              <nuxt-link :to="{ path: '/contanctUs' }">
+                <div class="menu-item-text">
+                  <span>CONTACT US</span>
+                </div>
+              </nuxt-link>
+            </a-menu-item>
           </a-menu>
         </div>
       </div>
@@ -307,7 +268,7 @@ export default {
   name: "layout-header",
   data () {
     return {
-       refreshKey: 0,
+      refreshKey: 0,
       // 这个是存储选中的那个menu值
       current: [],
       // mobile: false,
@@ -337,7 +298,7 @@ export default {
     // this.updateNavChecked()
   },
   watch: {
-    '$i18n.locale'() {
+    '$i18n.locale' () {
       this.refreshKey++  // 语言变化时强制刷新组件
     },
     // 监视路由 只有路由改变时才会，页面刷新路由没有改变
@@ -354,26 +315,6 @@ export default {
         this.$route.name == "reviewYear"
       ) {
         this.current = ["index"]
-      } else if (this.$route.name == "zhongxinyanglao") {
-        this.current = ["zhongxinyanglao"]
-      } else if (
-        this.$route.name == "yanglaoshenghuo" ||
-        this.$route.name == "yanglaoshenghuo-activities-all"
-      ) {
-        this.current = ["yanglaoshenghuo"]
-      } else if (this.$route.name == "xinlantiandi") {
-        this.current = ["xinlantiandi"]
-      } else if (res.path.includes("/xinfuxinyue")) {
-        this.current = ["xinfuxinyue"]
-      } else if (res.path.includes("/xinyangzhijia")) {
-        this.current = ["xinyangzhijia"]
-      } else if (res.path.includes("/yifuyun")) {
-        this.current = ["yifuyun"]
-      } else if (
-        this.$route.name == "dangdejianshe" ||
-        this.$route.name == "dangdejianshe-partyBuildings-all"
-      ) {
-        this.current = ["dangdejianshe"]
       } else if (this.$route.name == "lianyangxinfu") {
         this.current = ["lianyangxinfu"]
       } else {
@@ -430,124 +371,94 @@ export default {
     },
   },
   mounted () {
-    // if (!this.$store) {
-    //   console.error('Vuex store is not available')
-    //   return
-    // }
     this.updateNavChecked()
-    // const savedLang = localStorage.getItem('user_lang')
-    // if (savedLang) {
-    //   this.$i18n.setLocale(savedLang)
-    // }
     if (this.$route.query._lang) {
-      const targetLang = this.$route.query._lang;
+      const targetLang = this.$route.query._lang
       if (this.$i18n.locales.find(locale => locale.code === targetLang)) {
-        this.$i18n.setLocale(targetLang);
+        this.$i18n.setLocale(targetLang)
         if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('user_lang', targetLang);
+          localStorage.setItem('user_lang', targetLang)
         }
-        this.refreshKey++;
-        
+        this.refreshKey++
+
         // 清理URL参数（可选）
-        const cleanQuery = { ...this.$route.query };
-        delete cleanQuery._lang;
-        delete cleanQuery._t;
-        
+        const cleanQuery = { ...this.$route.query }
+        delete cleanQuery._lang
+        delete cleanQuery._t
+
         if (Object.keys(cleanQuery).length === 0) {
-          this.$router.replace({ query: undefined });
+          this.$router.replace({ query: undefined })
         } else {
-          this.$router.replace({ query: cleanQuery });
+          this.$router.replace({ query: cleanQuery })
         }
       }
     }
 
   },
   methods: {
-    // 切换语言
-    // switchLanguage (lang) {
-    //   this.$i18n.setLocale(lang)
-    //   localStorage.setItem('user_lang', lang)
-    // },
-    // openNewTab(lang) {
-    //   // 获取当前路径并移除可能存在的语言前缀
-    //   const rawPath = this.$route.path.replace(/^\/[a-z]{2}-[A-Z]{2}(\/|$)/, '/')
-      
-    //   // 构建新语言路径
-    //   const newPath = lang !== 'zh-CN' 
-    //     ? `/${lang}${rawPath}` 
-    //     : rawPath
-      
-    //   // 生成完整URL
-    //   const fullUrl = `${window.location.origin}${newPath}`
-      
-    //   // 新标签页打开
-    //   window.open(fullUrl, '_blank')
-      
-    //   // 保持当前页面语言状态
-    //   localStorage.setItem('user_lang', this.$i18n.locale)
-    // },
-    handleLanguageChange(selectedLang) {
+    handleClick(e){
+      this.$router.push(e);
+    },
+    handleLanguageChange (selectedLang) {
       // 如果选择的语言和当前语言相同，不做任何操作
       if (selectedLang === this.$i18n.locale) {
-        return;
+        return
       }
-      
-      // 调用新标签页打开方法
-      this.openNewTab(selectedLang);
+      this.openNewTab(selectedLang)
     },
-    // 修复后的新标签页打开方法
-    openNewTab(lang) {
+    // 新标签页打开方法
+    openNewTab (lang) {
       try {
         // 获取当前完整路径（包括查询参数和hash）
-        const currentPath = this.$route.fullPath;
-        const currentQuery = this.$route.query;
-        const currentHash = this.$route.hash;
-        
+        const currentPath = this.$route.fullPath
+        const currentQuery = this.$route.query
+        const currentHash = this.$route.hash
+
         // 移除现有的语言前缀（如果存在）
-        let cleanPath = currentPath;
-        const langPrefixRegex = /^\/(zh-CN|en-US|fr-FR|es-ES|it-IT)(\/|$)/;
-        
+        let cleanPath = currentPath
+        const langPrefixRegex = /^\/(zh-CN|en-US|fr-FR|es-ES|it-IT)(\/|$)/
+
         if (langPrefixRegex.test(currentPath)) {
-          cleanPath = currentPath.replace(langPrefixRegex, '/');
+          cleanPath = currentPath.replace(langPrefixRegex, '/')
         }
-        
+
         // 构建新的路径
-        let newPath;
+        let newPath
         if (lang === 'zh-CN') {
           // 默认语言不需要前缀
-          newPath = cleanPath;
+          newPath = cleanPath
         } else {
           // 其他语言需要添加前缀
-          newPath = `/${lang}${cleanPath === '/' ? '' : cleanPath}`;
+          newPath = `/${lang}${cleanPath === '/' ? '' : cleanPath}`
         }
-        
+
         // 添加时间戳参数强制刷新
-        const separator = newPath.includes('?') ? '&' : '?';
-        const timestamp = Date.now();
-        const finalUrl = `${window.location.origin}${newPath}${separator}_lang=${lang}&_t=${timestamp}`;
-        
-        console.log('Opening new tab with URL:', finalUrl);
-        
+        const separator = newPath.includes('?') ? '&' : '?'
+        const timestamp = Date.now()
+        const finalUrl = `${window.location.origin}${newPath}${separator}_lang=${lang}&_t=${timestamp}`
+
+        console.log('Opening new tab with URL:', finalUrl)
+
         // 在新标签页中打开
-        const newWindow = window.open(finalUrl, '_blank', 'noopener,noreferrer');
-        
+        const newWindow = window.open(finalUrl, '_blank', 'noopener,noreferrer')
+
         if (!newWindow) {
-          console.error('Failed to open new tab - popup blocked?');
+          console.error('Failed to open new tab - popup blocked?')
           // 如果新标签页被阻止，可以提示用户
-          this.$message.warning('请允许弹出窗口以打开新标签页');
+          this.$message.warning('请允许弹出窗口以打开新标签页')
         }
-        
+
       } catch (error) {
-        console.error('Error opening new tab:', error);
+        console.error('Error opening new tab:', error)
       }
     },
     // 当前页面语言切换（保留原功能）
-    switchLocale(lang) {
-      this.$i18n.setLocale(lang);
+    switchLocale (lang) {
+      this.$i18n.setLocale(lang)
       if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('user_lang', lang);
+        localStorage.setItem('user_lang', lang)
       }
-      this.refreshKey++; // 强制刷新select组件
+      this.refreshKey++ // 强制刷新select组件
     },
     //点击按钮打开侧边栏
     handleMobileMenu () {
@@ -569,24 +480,6 @@ export default {
         this.$route.name == "reviewYear"
       ) {
         this.current = ["index"]
-      } else if (this.$route.name == "zhongxinyanglao") {
-        this.current = ["zhongxinyanglao"]
-      } else if (
-        this.$route.name == "yanglaoshenghuo" ||
-        this.$route.name == "yanglaoshenghuo-activities-all"
-      ) {
-        this.current = ["yanglaoshenghuo"]
-      } else if (this.$route.name == "xinlantiandi") {
-        this.current = ["xinlantiandi"]
-      } else if (this.$route.name == "youyouxinfu") {
-        this.current = ["youyouxinfu"]
-      } else if (this.$route.name == ("/yifuyun")) {
-        this.current = ["yifuyun"]
-      } else if (
-        this.$route.name == "dangdejianshe" ||
-        this.$route.name == "dangdejianshe-partyBuildings-all"
-      ) {
-        this.current = ["dangdejianshe"]
       } else if (this.$route.name == "lianyangxinfu") {
         this.current = ["lianyangxinfu"]
       } else {
@@ -857,11 +750,9 @@ export default {
 
       // pc端的头部
       .header-menus {
-        // width: 720px;
-        // width: 520px;
-        width: 615px;
+        // width: 900px;
+        width: 900px !important;
         height: 90px;
-        // margin-right: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;

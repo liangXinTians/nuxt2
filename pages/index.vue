@@ -28,6 +28,23 @@
         <videos></videos>
       </div> -->
 
+      <!-- <div class="biaoti">
+        <div class="titles" style="color: #666666;">
+          Product Test
+        </div>
+        <div class="fenge">
+        </div>
+        <div class="title-list">
+          <div class="title-item" @mouseover="handleTabChange(0)">Free Sex Toy</div>
+          <div class="title-item" @mouseover="handleTabChange(1)">To Experience</div>
+          <div class="title-item" @mouseover="handleTabChange(2)">The Comments</div>
+        </div>
+        <div class="more">
+          More
+        </div>
+        <product-test ref="productTest"></product-test>
+      </div> -->
+
     </div>
 
   </div>
@@ -43,6 +60,8 @@ import BannerSwiper from "../components/bannerSwiper.vue"
 import ThreeImages from '@/components/threeImages.vue'
 import FourImagesWithText from '@/components/fourImagesWithText.vue'
 import videos from '@/components/videos.vue'
+import productTest from '@/components/productTest.vue'
+
 
 import { websiteApi } from '../services/api'
 export default {
@@ -50,7 +69,8 @@ export default {
     ThreeImages,
     BannerSwiper,
     FourImagesWithText,
-    videos
+    videos,
+    productTest
   },
   // directives: {
   //   swiper: directive
@@ -99,7 +119,13 @@ export default {
 
   },
   methods: {
+    // product test
 
+    handleTabChange (index) {
+      document.querySelectorAll('.title-item').forEach(el => el.style.color = '#666')
+      event.target.style.color = '#FF1C8E'
+      this.$refs.productTest.currentTab = index
+    }
   },
   beforeDestroy () {
   },
@@ -141,6 +167,27 @@ export default {
       color: #666;
       position: relative;
       font-weight: 900;
+    }
+
+    .title-list {
+      display: flex;
+      justify-content: center;
+      padding-top: 40px;
+      gap: 40px;
+
+      .title-item {
+        color: #666; // 默认颜色
+        cursor: pointer;
+        transition: color 0.3s;
+
+        &:first-child {
+          color: #FF1C8E; // 默认第一个项高亮
+        }
+
+        &:hover {
+          color: #FF1C8E; // 悬停颜色
+        }
+      }
     }
   }
 

@@ -20,8 +20,6 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
   },
-  // 公司静态  中信要改成动态
-  // target: 'static',
 
   // 动态打包
   target: 'server',
@@ -87,7 +85,6 @@ export default {
   },
   router: {
     // base: process.env.NODE_ENV === 'production'? '/': '/',
-    // 放到石溪dev的时候要放开
     // base: '/zhongxin'
   },
   modules: [
@@ -97,11 +94,11 @@ export default {
       'nuxt-i18n',
       {
         locales: [
-          { code: 'zh-CN', name: '中文',iso: 'zh-CN', file: 'zh-CN.js' },
-          { code: 'en-US', name: 'English',iso: 'en-US', file: 'en-US.js' },
-          { code: 'fr-FR', name: 'Français',iso: 'fr-FR', file: 'fr-FR.js' },
-          { code: 'es-ES', name: 'Español',iso: 'es-ES', file: 'es-ES.js' },
-          { code: 'it-IT', name: 'Italiano',iso: 'it-IT', file: 'it-IT.js' }
+          { code: 'zh-CN', name: '中文', iso: 'zh-CN', file: 'zh-CN.js' },
+          { code: 'en-US', name: 'English', iso: 'en-US', file: 'en-US.js' },
+          { code: 'fr-FR', name: 'Français', iso: 'fr-FR', file: 'fr-FR.js' },
+          { code: 'es-ES', name: 'Español', iso: 'es-ES', file: 'es-ES.js' },
+          { code: 'it-IT', name: 'Italiano', iso: 'it-IT', file: 'it-IT.js' }
 
         ],
         // lazy: true,
@@ -120,23 +117,23 @@ export default {
         // parsePages: false, // 禁用自动路由生成
         // baseUrl: 'http://192.168.100.165:3000/' 
         lazy: true,
-    langDir: 'lang/',
-    defaultLocale: 'zh-CN',
-    strategy: 'prefix_except_default',
-    detectBrowserLanguage: {
-      useCookie: true,        // 启用cookie
-      cookieKey: 'i18n_redirected',
-      redirectOn: 'root',     // 只在根路径重定向
-      alwaysRedirect: false,  // 不总是重定向
-      fallbackLocale: 'zh-CN'
-    },
-    vueI18nLoader: true,
-    vueI18n: {
-      fallbackLocale: 'zh-CN',
-      silentTranslationWarn: true
-    },
-    parsePages: false,
-    baseUrl: 'http://192.168.100.165:3000/'
+        langDir: 'lang/',
+        defaultLocale: 'zh-CN',
+        strategy: 'prefix_except_default',
+        detectBrowserLanguage: {
+          useCookie: true,        // 启用cookie
+          cookieKey: 'i18n_redirected',
+          redirectOn: 'root',     // 只在根路径重定向
+          alwaysRedirect: false,  // 不总是重定向
+          fallbackLocale: 'zh-CN'
+        },
+        vueI18nLoader: true,
+        vueI18n: {
+          fallbackLocale: 'zh-CN',
+          silentTranslationWarn: true
+        },
+        parsePages: false,
+        baseUrl: 'http://192.168.100.165:3000/'
       }
     ]
   ],
