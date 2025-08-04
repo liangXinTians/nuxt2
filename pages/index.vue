@@ -5,30 +5,33 @@
       <!-- <bannerSwiper></bannerSwiper> -->
       <banner-swiper :banners="bannerList"></banner-swiper>
       <three-images></three-images>
-      <!-- <div class="biaoti">
+      <div class="biaoti">
         <div class="title">
           S-HANDE For You
         </div>
         <div class="fenge">
         </div>
-        <div class="more">
+        <div class="more"  @click="handleClick('/product')">
           More
         </div>
-      </div> -->
-      <!-- <four-images-with-text></four-images-with-text> -->
-      <!-- <div class="biaoti black">
+      </div>
+      <four-images-with-text></four-images-with-text>
+
+      <!-- video -->
+      <div class="biaoti black">
         <div class="titles">
           S-HANDE Video
         </div>
         <div class="fenge">
         </div>
-        <div class="mores">
+        <div class="mores"  @click="handleClick('/video')">
           More
         </div>
         <videos></videos>
-      </div> -->
+      </div>
 
-      <!-- <div class="biaoti">
+      <!-- product-test -->
+      <div class="biaoti">
         <div class="titles" style="color: #666666;">
           Product Test
         </div>
@@ -39,12 +42,42 @@
           <div class="title-item" @mouseover="handleTabChange(1)">To Experience</div>
           <div class="title-item" @mouseover="handleTabChange(2)">The Comments</div>
         </div>
-        <div class="more">
+        <div class="more"  @click="handleClick('/productTest')">
           More
         </div>
         <product-test ref="productTest"></product-test>
-      </div> -->
+      </div>
 
+      <!-- profile -->
+      <div class="biaoti profile-black">
+        <div class="titles" style="color: #FFFFFF;">
+          Profile
+        </div>
+        <div class="fenge">
+        </div>
+        <div class="mores" @click="handleClick('/companyProfile')">
+          More
+        </div>
+        <profile></profile>
+      </div>
+
+      <!-- news -->
+      <div class="biaoti">
+        <div class="titles" style="color: #666666;">
+          News
+        </div>
+        <div class="fenge">
+        </div>
+        <div class="title-list">
+          <div class="title-item" @mouseover="handleNewsChange(0)">Social news</div>
+          <div class="title-item" @mouseover="handleNewsChange(1)">About sex</div>
+          <div class="title-item" @mouseover="handleNewsChange(2)">Industry Dynamic</div>
+        </div>
+        <div class="more" @click="handleClick('/article')">
+          More
+        </div>
+        <news ref="news"></news>
+      </div>
     </div>
 
   </div>
@@ -56,11 +89,13 @@ import "swiper/css/swiper.css"
 // import bannerSwiper from "../components/bannerSwiper22.vue"
 import { message } from "ant-design-vue"
 
-import BannerSwiper from "../components/bannerSwiper.vue"
+import BannerSwiper from "@/components/bannerSwiper.vue"
 import ThreeImages from '@/components/threeImages.vue'
 import FourImagesWithText from '@/components/fourImagesWithText.vue'
 import videos from '@/components/videos.vue'
 import productTest from '@/components/productTest.vue'
+import profile from '@/components/profile.vue'
+import news from "@/components/news.vue"
 
 
 import { websiteApi } from '../services/api'
@@ -70,7 +105,9 @@ export default {
     BannerSwiper,
     FourImagesWithText,
     videos,
-    productTest
+    productTest,
+    profile,
+    news
   },
   // directives: {
   //   swiper: directive
@@ -119,13 +156,22 @@ export default {
 
   },
   methods: {
-    // product test
-
+    // 切换模块
     handleTabChange (index) {
       document.querySelectorAll('.title-item').forEach(el => el.style.color = '#666')
       event.target.style.color = '#FF1C8E'
       this.$refs.productTest.currentTab = index
+    },
+    handleNewsChange (index) {
+      document.querySelectorAll('.title-item').forEach(el => el.style.color = '#666')
+      event.target.style.color = '#FF1C8E'
+      this.$refs.news.currentTab = index
+    },
+    handleClick(url){
+      this.$router.push({ path: url })
     }
+
+
   },
   beforeDestroy () {
   },
@@ -147,6 +193,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .home-box {
+  background-color: #F7F7F7;
   .biaoti {
     line-height: 120%;
     text-align: center;
@@ -193,6 +240,9 @@ export default {
 
   .black {
     background: url(https://www.sexhande.com/template/en/images/hintergrund_pjurlove.jpg) center no-repeat;
+  }
+  .profile-black{
+    background-color: #666666;
   }
 
   .fenge {

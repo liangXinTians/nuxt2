@@ -2,7 +2,7 @@
   <div class="product-test">
     <div class="tab-content" v-for="(tab, index) in tabs" :key="index" v-show="currentTab === index">
       <div class="grid-container">
-        <div class="grid-item" v-for="(item, i) in tab.items" :key="i">
+        <div class="grid-item" v-for="(item, i) in tab.items" :key="i" @click=" $router.push('/productDetail/' + item.title)">
           <img :src="item.image" class="product-image" />
           <div class="product-title">{{ item.title }}</div>
         </div>
@@ -82,6 +82,7 @@ export default {
       overflow: hidden; // 修改为可见
       display: flex; // 新增：启用flex布局
       flex-direction: column; // 新增：垂直排列
+      cursor: pointer;
 
       // &:hover {
       //   transform: translateY(-5px);

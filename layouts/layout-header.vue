@@ -12,18 +12,19 @@
         <!-- pc端 -->
         <div class="header-menus">
           <div class="top-box">
+
             <a-select :key="refreshKey" :value="$i18n.locale" @change="handleLanguageChange" style="width: 120px">
               <a-select-option v-for="lang in $i18n.locales" :key="lang.code" :value="lang.code">
+                <!-- <a-icon :type="lang.icon" style="margin-right: 8px" /> -->
+                 
                 {{ lang.name }}
+                <img src="../assets/images/logo.png" alt="" style="height: 20px;">
               </a-select-option>
             </a-select>
-            <div class="top-box1 top-boxs">信澜天地</div>
-            <div class="top-box2 top-boxs">信福&信悦</div>
 
-            <p>{{ $t('home.title') }}</p>
+            <!-- <p>{{ $t('home.title') }}</p> -->
             <!-- <button @click="switchLocale('zh-CN')">中文</button>
             <button @click="switchLocale('en-US')">English</button> -->
-            <div class="top-box3 top-boxs">信悦88</div>
           </div>
           <a-menu v-model="current" mode="horizontal">
             <!-- 首页 -->
@@ -37,9 +38,9 @@
             <!-- 四个分类 -->
             <a-sub-menu key="product" class="header-item">
               <span slot="title" class="submenu-title-wrapper">
-                  <div class="header-item" @click="handleClick('/product')">
-                    <span>FOR HIM/FOR HER</span>
-                  </div>
+                <div class="header-item" @click="handleClick('/product')">
+                  <span>FOR HIM/FOR HER</span>
+                </div>
               </span>
               <a-menu-item key="product1">
                 <nuxt-link :to="{ path: '/product/1' }">
@@ -132,7 +133,7 @@
             </a-menu-item>
             <!-- 联系我们 -->
             <a-menu-item key="contanctUs" class="header-item">
-              <nuxt-link :to="{ path: '/contanctUs' }">
+              <nuxt-link :to="{ path: '/contactUs' }">
                 <div class="menu-item-text">
                   <span>CONTACT US</span>
                 </div>
@@ -307,6 +308,7 @@ export default {
       this.showMobileMenu = true
       // 路由切换调用
       this.handleMobileMenu()
+
       // 给首页单独设置 点击图标的时候
       if (
         res.path == "/" ||
@@ -314,10 +316,31 @@ export default {
         this.$route.name == "news-all" ||
         this.$route.name == "reviewYear"
       ) {
-        this.current = ["index"]
+        this.current = ["home"]  // 修改为 home，对应菜单项的key
       } else if (this.$route.name == "lianyangxinfu") {
         this.current = ["lianyangxinfu"]
-      } else {
+      }
+      // 添加 product 相关路由的处理
+      else if (res.path === "/product" || res.path.startsWith("/product/")) {
+        this.current = ["product"]
+      }
+      // 添加其他页面的直接匹配
+      else if (res.path === "/video") {
+        this.current = ["video"]
+      }
+      else if (res.path === "/companyProfile") {
+        this.current = ["companyProfile"]
+      }
+      else if (res.path === "/article") {
+        this.current = ["article"]
+      }
+      else if (res.path === "/contanctUs") {
+        this.current = ["contanctUs"]
+      }
+      else if (res.path === "/productTest" || res.path.startsWith("/productTest/")) {
+        this.current = ["productTest"]
+      }
+      else {
         //非首页的时候
         // 对路径进行按'/'切分
         let array = res.path.split("/")
@@ -326,16 +349,30 @@ export default {
         // 将其path赋值给数组current
         this.current = [path]
         console.log("path", path)
+
         // 为stories需要修改
         if (path == "stories") {
           this.current = ["success-stories"]
         }
-        if (!isNaN(this.current)) {
-          this.flags.forEach((item) => {
-            if (this.$route.path.includes(item.flag)) {
-              this.current = [item.name]
-            }
-          })
+
+        // 修复这里的判断 - 应该是 this.current[0]
+        if (!isNaN(this.current[0])) {
+          // 检查是否是 product 子页面
+          if (res.path.includes("/product/")) {
+            this.current = ["product"]
+          }
+          // 检查是否是 productTest 子页面
+          else if (res.path.includes("/productTest/")) {
+            this.current = ["productTest"]
+          }
+          else {
+            // 其他数字路径的处理
+            this.flags.forEach((item) => {
+              if (this.$route.path.includes(item.flag)) {
+                this.current = [item.name]
+              }
+            })
+          }
         }
       }
       console.log("res", res, this.current)
@@ -396,8 +433,8 @@ export default {
 
   },
   methods: {
-    handleClick(e){
-      this.$router.push(e);
+    handleClick (e) {
+      this.$router.push(e)
     },
     handleLanguageChange (selectedLang) {
       // 如果选择的语言和当前语言相同，不做任何操作
@@ -477,18 +514,41 @@ export default {
       if (
         this.$route.name == "index" ||
         this.$route.name == "news-all" ||
-        this.$route.name == "reviewYear"
+        this.$route.name == "reviewYear" ||
+        this.$route.path == "/"
       ) {
-        this.current = ["index"]
+        this.current = ["home"]  // 修改为 home
       } else if (this.$route.name == "lianyangxinfu") {
         this.current = ["lianyangxinfu"]
-      } else {
+      }
+      // 添加 product 路由的处理
+      else if (this.$route.path === "/product" || this.$route.path.startsWith("/product/")) {
+        this.current = ["product"]
+      }
+      // 添加其他页面的直接匹配
+      else if (this.$route.path === "/video") {
+        this.current = ["video"]
+      }
+      else if (this.$route.path === "/companyProfile") {
+        this.current = ["companyProfile"]
+      }
+      else if (this.$route.path === "/article") {
+        this.current = ["article"]
+      }
+      else if (this.$route.path === "/contanctUs") {
+        this.current = ["contanctUs"]
+      }
+      else if (this.$route.path === "/productTest" || this.$route.path.startsWith("/productTest/")) {
+        this.current = ["productTest"]
+      }
+      else {
         console.log("this.$route", this.$route)
         // 拆分路径
         let array = this.$route.path.split("/")
         // 取最后一个
         let lastName = array[array.length - 1]
         console.log("array", array, "lastName", lastName)
+
         // 判断最后一个不为空，为空取倒数第二个
         if (lastName) {
           this.current = [lastName]
@@ -497,18 +557,32 @@ export default {
           this.current = [array[array.length - 2]]
           console.log("this.current", this.current)
         }
+
         // 特殊判断路由
         if (this.current[0] == "stories") {
           this.current = ["success-stories"]
         }
+
         console.log("this.current", this.current, isNaN(this.current[0]))
+
         //因为有文章，所有为了绑定导航栏，只有位数字的才能进去
         if (!isNaN(this.current[0])) {
-          this.flags.forEach((item) => {
-            if (this.$route.path.includes(item.flag)) {
-              this.current = [item.name]
-            }
-          })
+          // 检查是否是 product 子页面
+          if (this.$route.path.includes("/product/")) {
+            this.current = ["product"]
+          }
+          // 检查是否是 productTest 子页面
+          else if (this.$route.path.includes("/productTest/")) {
+            this.current = ["productTest"]
+          }
+          else {
+            // 其他数字路径的处理
+            this.flags.forEach((item) => {
+              if (this.$route.path.includes(item.flag)) {
+                this.current = [item.name]
+              }
+            })
+          }
         }
       }
       console.log("xxx", this.$route, this.current)
@@ -523,6 +597,21 @@ export default {
 </script>
 
 <style lang="less">
+.ant-select-selection{
+ background-color: transparent !important;
+  border: none !important;
+  border-top: 0 !important;
+ color: #fff;
+  box-shadow: none !important;
+  .ant-select-arrow{
+    color: #fff !important;
+  }
+}
+.ant-select-selection:active{
+ box-shadow: none !important;
+}
+
+
 // 背景颜色
 
 .ant-menu {
@@ -710,7 +799,7 @@ export default {
   width: 100%;
   position: fixed;
   top: 0;
-  background: rgba(0, 0, 0, .2);
+  background: rgba(0, 0, 0, .4);
   z-index: 100;
   color: #fff;
   font-family: "Source Han Serif SC VF";
@@ -719,8 +808,8 @@ export default {
   .header {
     z-index: 999;
     width: 100%;
-    height: 90px;
-    line-height: 90px;
+    height: 100px;
+    line-height: 100px;
 
     box-sizing: border-box;
     z-index: 100;
@@ -736,15 +825,15 @@ export default {
 
       // pc端logo部分
       .header-logo {
-        width: 300px;
-        height: 90px;
+        width: 100px !important;
+        height: 100px !important;
         margin-left: 50px;
 
         // background-color: blue;
         img {
           // margin-top: -7px;
-          width: 300px;
-          height: 45px;
+          width: 100px;
+          height: 100px;
         }
       }
 
@@ -761,7 +850,8 @@ export default {
           display: flex;
           flex-direction: row-reverse;
           align-items: center;
-          height: 40px;
+          height: 50px;
+          line-height: 50px;
           margin-right: 25px;
 
           .top-boxs {
@@ -771,6 +861,8 @@ export default {
 
         // 导航栏选项水平属性
         .ant-menu-horizontal {
+          display: flex;
+          justify-content: flex-end;
           border: none;
 
           // 内部每一列的属性
@@ -991,7 +1083,10 @@ export default {
 }
 
 .ant-menu-submenu-selected {
-  color: #b9000e;
+  background-color: transparent !important;
+  border: none !important;
+  border-top: 0 !important;
+  color: inherit !important;
 }
 
 @media screen and (max-width: 419px) {

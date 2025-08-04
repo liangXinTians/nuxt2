@@ -1,30 +1,38 @@
 <template>
   <div class="home">
-    <img class="banner-img" src="../../../assets/images/banner/productBanner.png" alt="">
+    <img class="banner-img" src="../../assets/images/banner/productTestBanner.jpg" alt="">
     <div class="product-nav">
       <ul>
-        <li><a style="color: #ff1c8e;" href="" @click="$event.preventDefault(); $router.push('/product/1')" class="clear">Female sex toys</a></li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">Male sex toys</a></li>
+        <li><a href="" style="color: #ff1c8e;" @click="$event.preventDefault(); $router.push('/productTest/1')"
+            class="clear">Download Center</a>
+        </li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/2')" class="clear">Free Sex Toy
+            Testing</a></li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And Constraints</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/3')" class="clear">To Experience The
+            Product</a>
+        </li>
+
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/4')" class="clear">The Comments
+            Section</a></li>
 
       </ul>
     </div>
-    <div class="title">FOR HIM/FOR HER</div>
+    <div class="title">Download Center</div>
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>
     <div class="product-test">
 
-        <div class="grid-container">
-          <div class="grid-item" v-for="(item, index) in datas" :key="index" @click="$router.push(`/productDetail/${item.title}`)">
-            <img :src="item.url" class="product-image" />
-            <div class="product-title">{{ item.title }}</div>
-          </div>
+      <div class="grid-container">
+        <div class="grid-item" v-for="(item, index) in datas" :key="index"
+          @click="$router.push(`/productTestDetail/${item.title}`)">
+          <img :src="item.url" class="product-image" />
+          <div class="product-title">{{ item.title }}</div>
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -137,36 +145,37 @@ export default {
   }
 
   .title {
-      font-family: 'TENSANS';
-      font-size: 24px;
-      font-size: 4rem;
-      line-height: 120%;
-      color: #fff;
-      font-weight: 600;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      width: 100%;
-      padding: 4rem 0 1rem 0;
-      color: #666;
-      position: relative;
-      font-weight: 900;
+    font-family: 'TENSANS';
+    font-size: 24px;
+    font-size: 4rem;
+    line-height: 120%;
+    color: #fff;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    padding: 4rem 0 1rem 0;
+    color: #666;
+    position: relative;
+    font-weight: 900;
+  }
+
+  .title-logo-container {
+    text-align: center;
+
+    .title-logo {
+      margin: 0 auto;
+      margin-top: 15px;
+      // width: 100%;
+      height: 31px;
     }
-  
-    .title-logo-container {
-      text-align: center;
-  
-      .title-logo {
-        margin: 0 auto;
-        margin-top: 15px;
-        // width: 100%;
-        height: 31px;
-      }
-    }
+  }
 
   .product-test {
     margin-top: 50px;
     cursor: pointer;
+
     .grid-container {
       display: grid;
       grid-template-columns: repeat(5, 1fr);

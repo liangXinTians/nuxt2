@@ -1,6 +1,6 @@
 export default {
   home: {
-    title: '首页',
+    title: '测试切换',
     welcome: '欢迎来到我们的网站'
   },
   menu: {

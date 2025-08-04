@@ -1,18 +1,28 @@
 <template>
   <div class="home">
-    <img class="banner-img" src="../../../assets/images/banner/productBanner.png" alt="">
+    <img class="banner-img" src="../../../assets/images/banner/productTestBanner.jpg" alt="">
     <div class="product-nav">
       <ul>
 
-        <li><a  href="" @click="$event.preventDefault(); $router.push('/product/1')" class="clear">Female sex toys</a></li>
+        <li><a href="" style="color: #ff1c8e;" @click="$event.preventDefault(); $router.push('/productTest/1')"
+            class="clear">Download Center</a>
+        </li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">Male sex toys</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/2')" class="clear">Free Sex Toy
+            Testing</a></li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/3')" class="clear">To Experience The
+            Product</a>
+        </li>
 
-        <li><a style="color: #ff1c8e;" href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And Constraints</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/4')" class="clear">The Comments
+            Section</a></li>
 
       </ul>
+    </div>
+    <div class="title">Download Center</div>
+    <div class="title-logo-container">
+      <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>
   </div>
 </template>
@@ -41,21 +51,21 @@ export default {
     width: 100%;
     height: auto;
   }
+
   .product-nav {
     // display: flex;
     // justify-content: center;
-    padding-top: 90px;
     background-color: #f7f7f7;
     border-bottom: 1px solid #DDDDDD;
     width: 100%;
     margin: 0 auto;
-  
-  
-  
+
+
+
     ul {
       text-align: center;
       margin-bottom: 0;
-  
+
       li {
         display: inline-block;
         text-align: center;
@@ -63,11 +73,11 @@ export default {
         margin: 10px 8px 10px 8px;
         padding: 0 0;
         list-style-type: none;
-  
+
         &:first-child::before {
           display: none;
         }
-  
+
         &:before {
           position: absolute;
           content: '';
@@ -77,7 +87,7 @@ export default {
           left: -10px;
           border-left: 1px solid #DDDDDD;
         }
-  
+
         a {
           padding: 10px 10px;
           color: #333;
@@ -85,7 +95,7 @@ export default {
           margin: 0 auto;
           font-weight: bold;
           font-size: 18px;
-  
+
           &:hover,
           &:active {
             color: #ff1c8e;
@@ -94,8 +104,37 @@ export default {
         }
       }
     }
-  
+
   }
+
+  .title {
+    font-family: 'TENSANS';
+    font-size: 24px;
+    font-size: 4rem;
+    line-height: 120%;
+    color: #fff;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    padding: 4rem 0 1rem 0;
+    color: #666;
+    position: relative;
+    font-weight: 900;
+  }
+
+  .title-logo-container {
+    text-align: center;
+
+    .title-logo {
+      margin: 0 auto;
+      margin-top: 15px;
+      // width: 100%;
+      height: 31px;
+    }
+  }
+
 }
 
 @media screen and (max-width: 1220px) {}
