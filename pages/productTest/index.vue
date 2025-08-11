@@ -28,52 +28,76 @@
 
       <div class="grid-container">
         <div class="grid-item" v-for="(item, index) in datas" :key="index"
-          @click="$router.push(`/productTestDetail/${item.title}`)">
-          <img :src="item.url" class="product-image" />
+           @click="$router.push(`/productTestDetail/${item.id}`)">
+          <img :src="'/file' + item.images[0]" class="product-image" />
           <div class="product-title">{{ item.title }}</div>
         </div>
       </div>
+    </div>
+    <div>
+      <a-pagination 
+      v-model="params.pageNum"
+      :total="total"
+      :pageSize="params.pageSize"
+      :item-render="itemRender"
+      @change="handlePageChange"
+      style="text-align: center; margin: 20px 0;"
+    />
     </div>
   </div>
 </template>
 
 <script>
-
+import Cookies from 'js-cookie';
 export default {
   name: "",
   data () {
     return {
       datas: [
-        {
-          url: require('@/assets/images/yifuyun/5.png'),
-          title: '图片1'
-        },
-        {
-          url: require('@/assets/images/yifuyun/6.png'),
-          title: '图片2'
-        },
-        {
-          url: require('@/assets/images/yifuyun/7.png'),
-          title: '图片3'
-        },
-        {
-          url: require('@/assets/images/yifuyun/6.png'),
-          title: '图片2'
-        },
-        {
-          url: require('@/assets/images/yifuyun/7.png'),
-          title: '图片3'
-        },
-        {
-          url: require('@/assets/images/yifuyun/7.png'),
-          title: '图片3'
-        }
       ],
+      total: 0, 
+      params: {
+        pageNum: 1,
+        pageSize: 10,
+        type: 1,
+        lang: Cookies.get('user_lang')
+      }
     }
   },
-  mounted () { },
+  async mounted () {
+    await this.getProductList();
+  },
   watch: {},
-  methods: {},
+  methods: {
+    itemRender(current, type, originalElement) {
+      if (type === 'prev') {
+        return <a>Previous</a>;
+      } else if (type === 'next') {
+        return <a>Next</a>;
+      }
+      return originalElement;
+    },
+    handlePageChange(page, pageSize) {
+      this.params.pageNum = page;
+      this.getProductList();
+    },
+    async getProductList() {
+      const response = await this.$axios.get(
+        this.$config.apiBaseUrl + "/product-test/list",
+        {
+          params: this.params
+        }
+      )
+      this.datas = response.data.rows.map(item => {
+        return {
+          ...item,
+          images: item.imageUrl.split(',').map(img => img.trim())
+        }
+      });
+      console.log(this.datas,'this.datas0')
+      this.total = response.data.total;  // 设置总条数
+    }
+  },
   computed: {},
   beforeDestroy () { },
   components: {},

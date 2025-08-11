@@ -2,13 +2,14 @@
   <div class="three-images-container">
     <div class="image-grid">
       <div class="image-item" v-for="(item, index) in images" :key="index">
-        <img :src="item.url" :alt="item.alt" class="image-content">
+        <img :src="'/file' + item.fileUrl" :alt="item.alt" class="image-content">
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie';
 export default {
   name: 'ThreeImages',
   data() {
@@ -28,7 +29,28 @@ export default {
         }
       ]
     }
-  }
+  },
+  async mounted () {
+      // this.getBannerImg()
+      const response = await this.$axios.get(
+        this.$config.apiBaseUrl + "/banner-display/list",
+        {
+          params: {  // 将参数包裹在 params 对象中
+            pageNum: 1,
+            pageSize: 3,
+            type: 2,
+            lang: Cookies.get('user_lang')
+          }
+        }
+      )
+      console.log(response.data,'response.data')
+      this.images = response.data.rows
+  
+    },
+
+
+
+
 }
 </script>
 

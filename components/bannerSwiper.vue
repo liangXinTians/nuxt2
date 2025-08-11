@@ -2,7 +2,7 @@
   <div class="swiper-container">
     <swiper ref="mySwiper" :options="swiperOptions">
       <swiper-slide v-for="(item, index) in localImages" :key="index">
-        <img :src="item.url" :alt="item.title" class="swiper-image">
+        <img  :src="'/file' + item.fileUrl" class="swiper-image">
         <!-- <div class="swiper-title">{{ item.title }}</div> -->
       </swiper-slide>
 
@@ -19,6 +19,7 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
+import Cookies from 'js-cookie';
 
 export default {
   name: 'BannerSwiper',
@@ -29,18 +30,6 @@ export default {
   data () {
     return {
       localImages: [
-        {
-          url: require('@/assets/images/yifuyun/5.png'),
-          title: ''
-        },
-        {
-          url: require('@/assets/images/yifuyun/6.png'),
-          title: ''
-        },
-        {
-          url: require('@/assets/images/yifuyun/7.png'),
-          title: ''
-        }
       ],
       swiperOptions: {
         loop: true,
@@ -58,6 +47,33 @@ export default {
         }
       }
     }
+  },
+  async mounted () {
+    // this.getBannerImg()
+    const response = await this.$axios.get(
+      this.$config.apiBaseUrl + "/banner-display/list",
+      {
+        params: {  // 将参数包裹在 params 对象中
+          pageNum: 1,
+          pageSize: 3,
+          type: 1,
+          lang: Cookies.get('user_lang')
+        }
+      }
+    )
+    console.log(response.data,'response.data')
+    this.localImages = response.data.rows
+
+  },
+   methods: {
+    // async getBannerImg () {
+    //   const res = await this.$axios.get('/api/banner')
+    //   if (res.data.code === 200) {
+    //     this.localImages = res.data.data
+    //   }
+    // }
+    
+
   }
 }
 </script>

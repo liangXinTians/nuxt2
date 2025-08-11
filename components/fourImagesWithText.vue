@@ -26,25 +26,25 @@ export default {
     return {
       imageList: [
         {
-          img: require('@/assets/images/yifuyun/5.png'),
+          img: require('@/assets/images/product/product1.jpg'),
           alt: 'Female sex toys',
           text: 'Female sex toys',
           route: 'product/1'
         },
         {
-          img: require('@/assets/images/yifuyun/6.png'),
+          img: require('@/assets/images/product/product2.jpg'),
           alt: 'Male sex toys',
           text: 'Male sex toys',
           route: 'product/2'
         },
         {
-          img: require('@/assets/images/yifuyun/7.png'),
+          img: require('@/assets/images/product/product3.jpg'),
           alt: 'Couple sex toys',
           text: 'Couple sex toys',
           route: 'product/3'
         },
         {
-          img: require('@/assets/images/yifuyun/8.png'),
+          img: require('@/assets/images/product/product4.jpg'),
           alt: 'Bondage And Constraints',
           text: 'Bondage And Constraints',
           route: 'product/4'

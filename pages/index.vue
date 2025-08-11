@@ -239,7 +239,7 @@ export default {
   }
 
   .black {
-    background: url(https://www.sexhande.com/template/en/images/hintergrund_pjurlove.jpg) center no-repeat;
+    background: url(@/assets/images/hintergrund_pjurlove.jpg) center no-repeat;
   }
   .profile-black{
     background-color: #666666;
@@ -251,7 +251,7 @@ export default {
     margin-top: 15px;
     width: 100%;
     height: 31px;
-    background: url(https://www.sexhande.com/template/en/pic/title.png) center no-repeat;
+    background: url(@/assets/images/titleLogo.png) center no-repeat;
   }
 
   .more {
@@ -301,7 +301,7 @@ export default {
     margin-top: 15px;
     width: 100%;
     height: 31px;
-    background: url(https://www.sexhande.com/template/en/pic/title.png) center no-repeat;
+    background: url(@/assets/images/titleLogo.png) center no-repeat;
   }
 
   .mores {

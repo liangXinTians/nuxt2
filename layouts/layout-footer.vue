@@ -8,56 +8,56 @@
           </div>
           <div class="footer-left-list">
             <div class="list-item">
-              <div class="list-item-title">
+              <div class="list-item-title" @click="handleClick('/product')">
                 FOR HIM/FOR HER
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content" @click="handleClick('/product/1')">
                 Female sex toys
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content" @click="handleClick('/product/2')">
                 Male sex toys
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content" @click="handleClick('/product/3')">
                 Couple sex toys
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content" @click="handleClick('/product/4')">
                 Bondage And Constraints
               </div>
 
-              <div class="list-item-title">
+              <div class="list-item-title"  @click="handleClick('/productTest')">
                 SERVICE
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content"   @click="handleClick('/productTest/1')">
                 Download Center
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content"  @click="handleClick('/productTest/2')">
                 Free Sex Toy Testing
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content"  @click="handleClick('/productTest/3')">
                 To Experience The Product
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content"  @click="handleClick('/productTest/4')">
                 The Comments Section
               </div>
             </div>
             <div class="list-item">
-              <div class="list-item-title">
+              <div class="list-item-title" @click="handleClick('/video')">
                 Video
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content" @click="handleClick('/video')">
                 Video
               </div>
 
-              <div class="list-item-title">
+              <div class="list-item-title" @click="handleClick('/article')">
                 News
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content" @click="handleClick('/article')">
                 News
               </div>
-              <div class="list-item-title">
+              <div class="list-item-title" @click="handleClick('/companyProfile')">
                 ABOUT US
               </div>
-              <div class="list-item-content">
+              <div class="list-item-content" @click="handleClick('/companyProfile')">
                 About Us
               </div>
               <!-- <div class="list-item-content">
@@ -71,7 +71,7 @@
               </div> -->
             </div>
             <div class="list-item list-items">
-              <div class="list-item-title">
+              <div class="list-item-title" @click="handleClick('//contactUs')">
                 Contact Us
               </div>
               <div class="list-item-content">
@@ -177,7 +177,9 @@ export default {
     console.log(this.mobile, "this.mobile")
   },
   methods: {
-
+    handleClick(url){
+      this.$router.push({ path: url })
+    }
   },
 
 }

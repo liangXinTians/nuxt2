@@ -57,13 +57,13 @@ export default {
   proxy: {
     // 公司
     '/api': {
-      target: 'http://devsrv.linknology.cn:18888/zhongxin/index.php/',
+      target: 'https://www.amozici.com/prod-api/front/',
       pathRewrite: {
         '^/api': ''
       }
     },
     '/file': {
-      target: 'http://devsrv.linknology.cn:18888/zhongxin/',
+      target: 'https://www.amozici.com/prod-api/',
       pathRewrite: {
         '^/file': ''
       }
@@ -74,6 +74,11 @@ export default {
     apiBaseUrl: "/api",
     apiFileUrl: "/file",
     videoUrl: "",
+
+    // 服务器
+    // apiBaseUrl: "https://www.amozici.com/prod-api/front/",
+    // apiFileUrl: "https://www.amozici.com/prod-api/",
+    // videoUrl: "https://www.amozici.com/prod-api/",
 
   },
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -90,46 +95,38 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+
     [
       'nuxt-i18n',
       {
         locales: [
-          { code: 'zh-CN', name: '中文', iso: 'zh-CN', file: 'zh-CN.js' },
-          { code: 'en-US', name: 'English', iso: 'en-US', file: 'en-US.js' },
-          { code: 'fr-FR', name: 'Français', iso: 'fr-FR', file: 'fr-FR.js' },
-          { code: 'es-ES', name: 'Español', iso: 'es-ES', file: 'es-ES.js' },
-          { code: 'it-IT', name: 'Italiano', iso: 'it-IT', file: 'it-IT.js' }
-
+          // { code: 'zh-CN', name: '中文', iso: 'zh-CN', file: 'zh-CN.js' },
+          // { code: 'en-US', name: 'English', iso: 'en-US', file: 'en-US.js' },
+          // { code: 'fr-FR', name: 'Français', iso: 'fr-FR', file: 'fr-FR.js' },
+          // { code: 'es-ES', name: 'Español', iso: 'es-ES', file: 'es-ES.js' },
+          // { code: 'it-IT', name: 'Italiano', iso: 'it-IT', file: 'it-IT.js' }
+          { code: 'en', name: 'English', iso: 'en', file: 'en-US.js' },
+          { code: 'fr', name: 'Français', iso: 'fr', file: 'fr-FR.js' },
+          { code: 'es', name: 'Español', iso: 'es', file: 'es-ES.js' },
+          { code: 'it', name: 'Italiano', iso: 'it', file: 'it-IT.js' }
         ],
-        // lazy: true,
-        // langDir: 'lang/',
-        // defaultLocale: 'zh-CN',
-        // strategy: 'prefix_except_default', // 修改策略
-        // detectBrowserLanguage: {
-        //   useCookie: false,    // 完全禁用浏览器语言检测
-        //   redirectOn: 'no'     // 不进行自动重定向
-        // },
-        // vueI18nLoader: true,
-        // vueI18n: {
-        //   fallbackLocale: 'zh-CN',
-        //   silentTranslationWarn: true // 禁止翻译警告
-        // },
-        // parsePages: false, // 禁用自动路由生成
-        // baseUrl: 'http://192.168.100.165:3000/' 
         lazy: true,
         langDir: 'lang/',
-        defaultLocale: 'zh-CN',
-        strategy: 'prefix_except_default',
+        defaultLocale: 'en',
+        strategy: 'no_prefix',
         detectBrowserLanguage: {
-          useCookie: true,        // 启用cookie
-          cookieKey: 'i18n_redirected',
-          redirectOn: 'root',     // 只在根路径重定向
-          alwaysRedirect: false,  // 不总是重定向
-          fallbackLocale: 'zh-CN'
+          useCookie: true,
+          cookieKey: 'user_lang',
+          cookieDomain: null,
+          cookieSecure: false,
+          cookieCrossOrigin: false,
+          redirectOn: 'no',              // 完全禁用重定向
+          alwaysRedirect: false,
+          fallbackLocale: 'en'
         },
         vueI18nLoader: true,
         vueI18n: {
-          fallbackLocale: 'zh-CN',
+          fallbackLocale: 'en',
           silentTranslationWarn: true
         },
         parsePages: false,

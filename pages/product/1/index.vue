@@ -3,13 +3,16 @@
     <img class="banner-img" src="../../../assets/images/banner/productBanner.png" alt="">
     <div class="product-nav">
       <ul>
-        <li><a style="color: #ff1c8e;" href="" @click="$event.preventDefault(); $router.push('/product/1')" class="clear">Female sex toys</a></li>
+        <li><a style="color: #ff1c8e;" href="" @click="$event.preventDefault(); $router.push('/product/1')"
+            class="clear">Female sex toys</a></li>
 
         <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">Male sex toys</a></li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a>
+        </li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And Constraints</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And
+            Constraints</a></li>
 
       </ul>
     </div>
@@ -19,53 +22,73 @@
     </div>
     <div class="product-test">
 
-        <div class="grid-container">
-          <div class="grid-item" v-for="(item, index) in datas" :key="index" @click="$router.push(`/productDetail/${item.title}`)">
-            <img :src="item.url" class="product-image" />
-            <div class="product-title">{{ item.title }}</div>
-          </div>
+      <div class="grid-container">
+        <div class="grid-item" v-for="(item, index) in datas" :key="index"
+          @click="$router.push(`/productDetail/${item.id}`)">
+          <img :src="'/file' + item.images[0]" class="product-image" />
+          <div class="product-title">{{ item.title }}</div>
         </div>
+      </div>
+    </div>
+    <div>
+      <a-pagination v-model="params.pageNum" :total="total" :pageSize="params.pageSize" :item-render="itemRender"
+        @change="handlePageChange" style="text-align: center; margin: 20px 0;" />
     </div>
   </div>
 </template>
 
 <script>
-
+import Cookies from 'js-cookie'
 export default {
   name: "",
   data () {
     return {
       datas: [
-        {
-          url: require('@/assets/images/yifuyun/5.png'),
-          title: '图片1'
-        },
-        {
-          url: require('@/assets/images/yifuyun/6.png'),
-          title: '图片2'
-        },
-        {
-          url: require('@/assets/images/yifuyun/7.png'),
-          title: '图片3'
-        },
-        {
-          url: require('@/assets/images/yifuyun/6.png'),
-          title: '图片2'
-        },
-        {
-          url: require('@/assets/images/yifuyun/7.png'),
-          title: '图片3'
-        },
-        {
-          url: require('@/assets/images/yifuyun/7.png'),
-          title: '图片3'
-        }
       ],
+      total: 0,
+      params: {
+        pageNum: 1,
+        pageSize: 10,
+        categoryId: 1,
+        lang: Cookies.get('user_lang')
+      }
     }
   },
-  mounted () { },
+  async mounted () {
+    await this.getProductList()
+  },
   watch: {},
-  methods: {},
+  methods: {
+    itemRender (current, type, originalElement) {
+      if (type === 'prev') {
+        return <a>Previous</a>
+      } else if (type === 'next') {
+        return <a>Next</a>
+      }
+      return originalElement
+    },
+    handlePageChange (page, pageSize) {
+      this.params.pageNum = page
+      this.getProductList()
+    },
+    async getProductList () {
+      const response = await this.$axios.get(
+        this.$config.apiBaseUrl + "/product/list",
+        {
+          params: this.params
+        }
+      )
+      this.datas = response.data.rows.map(item => {
+        return {
+          ...item,
+          images: item.images.split(',').map(img => img.trim())
+        }
+      })
+      console.log(this.datas,'this.datas1')
+
+      this.total = response.data.total  // 设置总条数
+    }
+  },
   computed: {},
   beforeDestroy () { },
   components: {},
@@ -137,36 +160,37 @@ export default {
   }
 
   .title {
-      font-family: 'TENSANS';
-      font-size: 24px;
-      font-size: 4rem;
-      line-height: 120%;
-      color: #fff;
-      font-weight: 600;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      width: 100%;
-      padding: 4rem 0 1rem 0;
-      color: #666;
-      position: relative;
-      font-weight: 900;
+    font-family: 'TENSANS';
+    font-size: 24px;
+    font-size: 4rem;
+    line-height: 120%;
+    color: #fff;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    padding: 4rem 0 1rem 0;
+    color: #666;
+    position: relative;
+    font-weight: 900;
+  }
+
+  .title-logo-container {
+    text-align: center;
+
+    .title-logo {
+      margin: 0 auto;
+      margin-top: 15px;
+      // width: 100%;
+      height: 31px;
     }
-  
-    .title-logo-container {
-      text-align: center;
-  
-      .title-logo {
-        margin: 0 auto;
-        margin-top: 15px;
-        // width: 100%;
-        height: 31px;
-      }
-    }
+  }
 
   .product-test {
     margin-top: 50px;
     cursor: pointer;
+
     .grid-container {
       display: grid;
       grid-template-columns: repeat(5, 1fr);

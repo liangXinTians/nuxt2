@@ -3,34 +3,90 @@
     <img class="banner-img" src="../../../assets/images/banner/productBanner.png" alt="">
     <div class="product-nav">
       <ul>
-
-        <li><a style="color: #ff1c8e;" href="" @click="$event.preventDefault(); $router.push('/product/1')"
+        <li><a  href="" @click="$event.preventDefault(); $router.push('/product/1')"
             class="clear">Female sex toys</a></li>
 
         <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">Male sex toys</a></li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a>
+        <li><a style="color: #ff1c8e;" href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a>
         </li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And
+        <li><a  href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And
             Constraints</a></li>
 
       </ul>
     </div>
+    <div class="title">FOR HIM/FOR HER</div>
+    <div class="title-logo-container">
+      <img src="@/assets/images/titleLogo.png" class="title-logo">
+    </div>
+    <div class="product-test">
 
+      <div class="grid-container">
+        <div class="grid-item" v-for="(item, index) in datas" :key="index"
+          @click="$router.push(`/productDetail/${item.id}`)">
+          <img :src="'/file' + item.images[0]" class="product-image" />
+          <div class="product-title">{{ item.title }}</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a-pagination v-model="params.pageNum" :total="total" :pageSize="params.pageSize" :item-render="itemRender"
+        @change="handlePageChange" style="text-align: center; margin: 20px 0;" />
+    </div>
   </div>
 </template>
 
 <script>
-
+import Cookies from 'js-cookie'
 export default {
   name: "",
   data () {
-    return {}
+    return {
+      datas: [
+      ],
+      total: 0,
+      params: {
+        pageNum: 1,
+        pageSize: 10,
+        categoryId: 3,
+        lang: Cookies.get('user_lang')
+      }
+    }
   },
-  mounted () { },
+  async mounted () {
+    await this.getProductList()
+  },
   watch: {},
-  methods: {},
+  methods: {
+    itemRender (current, type, originalElement) {
+      if (type === 'prev') {
+        return <a>Previous</a>
+      } else if (type === 'next') {
+        return <a>Next</a>
+      }
+      return originalElement
+    },
+    handlePageChange (page, pageSize) {
+      this.params.pageNum = page
+      this.getProductList()
+    },
+    async getProductList () {
+      const response = await this.$axios.get(
+        this.$config.apiBaseUrl + "/product/list",
+        {
+          params: this.params
+        }
+      )
+      this.datas = response.data.rows.map(item => {
+        return {
+          ...item,
+          images: item.images.split(',').map(img => img.trim())
+        }
+      })
+      this.total = response.data.total  // 设置总条数
+    }
+  },
   computed: {},
   beforeDestroy () { },
   components: {},
@@ -49,7 +105,6 @@ export default {
   .product-nav {
     // display: flex;
     // justify-content: center;
-    padding-top: 90px;
     background-color: #f7f7f7;
     border-bottom: 1px solid #DDDDDD;
     width: 100%;
@@ -100,6 +155,82 @@ export default {
       }
     }
 
+  }
+
+  .title {
+    font-family: 'TENSANS';
+    font-size: 24px;
+    font-size: 4rem;
+    line-height: 120%;
+    color: #fff;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    padding: 4rem 0 1rem 0;
+    color: #666;
+    position: relative;
+    font-weight: 900;
+  }
+
+  .title-logo-container {
+    text-align: center;
+
+    .title-logo {
+      margin: 0 auto;
+      margin-top: 15px;
+      // width: 100%;
+      height: 31px;
+    }
+  }
+
+  .product-test {
+    margin-top: 50px;
+    cursor: pointer;
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      padding: 20px;
+
+      .grid-item {
+        height: auto; // 移除固定高度
+        aspect-ratio: 1/1; // 新增：容器宽高比1:1
+        overflow: hidden; // 修改为可见
+        display: flex; // 新增：启用flex布局
+        flex-direction: column; // 新增：垂直排列
+
+        // &:hover {
+        //   transform: translateY(-5px);
+        // }
+      }
+    }
+
+    .product-image {
+      width: 100%;
+      height: calc(100% - 30px);
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      transform-origin: center center;
+      object-fit: cover;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    .product-title {
+      font-size: 16px;
+      color: #fff;
+      transition: color 0.3s;
+      background-color: #773369;
+      cursor: pointer;
+      text-align: center;
+      padding: 5px 0; // 新增：内边距
+      z-index: 1; // 新增：确保文字在上层
+    }
   }
 }
 

@@ -64,7 +64,8 @@ export default {
 
 <style lang="less" scoped>
 .indexk3 {
-    background: url(https://www.sexhande.com/template/en/pic/title.png);
+    background: url(@/assets/images/titleLogo.png);
+    
     background-size: cover;
     width: 100%;
     margin: 0 auto;
