@@ -146,7 +146,14 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <div>
+        <div class="footer-bottom-imgs">
+          <img src="../assets/images/webapp/web1.png" alt="">
+          <img src="../assets/images/webapp/web2.png" alt="">
+          <img src="../assets/images/webapp/web3.png" alt="">
+          <img src="../assets/images/webapp/web4.png" alt="">
+          <img src="../assets/images/webapp/web5.png" alt="">
+        </div>
+        <div class="footer-bottom-text">
           Copyright © 2020 Shenzhen S-hande Technology Co.,LTD All Rights Reserved.
         </div>
       </div>
@@ -388,9 +395,21 @@ export default {
   // 底部区域
   .footer-bottom {
     margin: 0 auto;
-    div{
-      text-align: center;
+    // div{
+    //   text-align: center;
+    //   margin-top: 50px;
+    // }
+    .footer-bottom-imgs{
       margin-top: 50px;
+      text-align: center;
+      img{
+        margin: 0 5px;
+        cursor: pointer;
+      }
+    }
+    .footer-bottom-text {
+      margin-top: 10px;
+      text-align: center;
     }
 
   }

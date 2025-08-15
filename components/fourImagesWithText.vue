@@ -1,12 +1,8 @@
 <template>
-  <div class="baibg" style="padding-top: 3rem;">
+  <div class="baibg">
     <div class="indexk1">
       <ul>
-        <li 
-          v-for="(item, index) in imageList" 
-          :key="index" 
-          @click="navigateToProduct(item.route)"
-        >
+        <li v-for="(item, index) in imageList" :key="index" @click="navigateToProduct(item.route)">
           <a href="javascript:void(0)">
             <img :src="item.img" :alt="item.alt">
             <span></span>
@@ -22,7 +18,7 @@
 <script>
 export default {
   name: 'FourImagesWithCenterText',
-  data() {
+  data () {
     return {
       imageList: [
         {
@@ -53,8 +49,8 @@ export default {
     }
   },
   methods: {
-    navigateToProduct(route) {
-      this.$router.push({ path: route });
+    navigateToProduct (route) {
+      this.$router.push({ path: route })
     }
   }
 }
@@ -63,6 +59,7 @@ export default {
 <style lang="less" scoped>
 .baibg {
   width: 100%;
+  padding-top: 3rem;
 }
 
 .indexk1 {
@@ -94,7 +91,8 @@ export default {
   position: relative;
   width: 100%;
   height: 0;
-  padding-bottom: 78.48%; /* 宽高比 */
+  padding-bottom: 78.48%;
+  /* 宽高比 */
   text-decoration: none;
 }
 
@@ -104,7 +102,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
   display: block;
   transition: transform 0.5s ease;
 }
@@ -174,39 +172,43 @@ export default {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+  .baibg {
+  width: 100%;
+  padding-top: 0;
+}
   .indexk1 ul {
     flex-wrap: wrap;
   }
-  
+
   .indexk1 ul li {
     flex: 0 0 calc(50% - 5px);
     margin-bottom: 10px;
   }
-  
+
   .indexk1 ul li:nth-child(odd) {
     margin-right: 10px;
   }
-  
+
   .indexk1 ul li p {
     font-size: 16px;
   }
 }
 
 @media (max-width: 480px) {
-  .indexk1 ul {
-    flex-direction: column;
-  }
-  
-  .indexk1 ul li {
-    flex: 1;
-    margin-bottom: 15px;
-    margin-right: 0;
-  }
-  
-  .indexk1 ul li:last-child {
-    margin-bottom: 0;
-  }
-  
+  // .indexk1 ul {
+  //   flex-direction: column;
+  // }
+
+  // .indexk1 ul li {
+  //   flex: 1;
+  //   margin-bottom: 15px;
+  //   margin-right: 0;
+  // }
+
+  // .indexk1 ul li:last-child {
+  //   margin-bottom: 0;
+  // }
+
   .indexk1 ul li p {
     font-size: 14px;
   }

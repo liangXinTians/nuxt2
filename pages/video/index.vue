@@ -34,7 +34,7 @@
 <script>
 export default {
   name: "",
-  data() {
+  data () {
     return {
       videoList: [
         {
@@ -60,11 +60,11 @@ export default {
       ],
     }
   },
-  mounted() { },
+  mounted () { },
   watch: {},
   methods: {},
   computed: {},
-  beforeDestroy() { },
+  beforeDestroy () { },
   components: {},
 }
 </script>
@@ -127,7 +127,8 @@ export default {
       }
     }
   }
-  .title{
+
+  .title {
     font-family: 'TENSANS';
     font-size: 24px;
     font-size: 4rem;
@@ -143,13 +144,15 @@ export default {
     position: relative;
     font-weight: 900;
   }
-  .title-logo-container{
+
+  .title-logo-container {
     text-align: center;
-    .title-logo{
+
+    .title-logo {
       margin: 0 auto;
-    margin-top: 15px;
-    // width: 100%;
-    height: 31px;
+      margin-top: 15px;
+      // width: 100%;
+      height: 31px;
     }
   }
 
@@ -173,6 +176,8 @@ export default {
         overflow: hidden;
         display: flex;
         flex-wrap: wrap;
+        padding: 0 20px;
+
         li.video-poster-container {
           width: 24%;
           margin: 0 0.5% 1rem;
@@ -185,16 +190,16 @@ export default {
 
           &:hover {
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            
+
             .poster-wrapper {
               .video-poster {
                 transform: scale(1.1);
               }
-              
+
               .play-button-overlay {
                 opacity: 1;
                 transform: translate(-50%, -50%) scale(1.1);
-                
+
                 // i {
                 //   color: #ff1c8e;
                 // }
@@ -207,7 +212,7 @@ export default {
             overflow: hidden;
             width: 100%;
             padding-top: 56.29%;
-            
+
             .video-poster {
               position: absolute;
               top: 0;
@@ -217,7 +222,7 @@ export default {
               object-fit: cover;
               transition: transform 0.5s ease;
             }
-            
+
             .play-button-overlay {
               position: absolute;
               top: 50%;
@@ -225,7 +230,7 @@ export default {
               transform: translate(-50%, -50%);
               opacity: 0.8;
               transition: all 0.3s ease;
-              
+
               .play-button {
                 font-size: 4rem;
                 color: rgba(255, 255, 255, 0.9);
@@ -234,12 +239,12 @@ export default {
               }
             }
           }
-          
+
           p.xianzhi1 {
             color: #fff;
             text-align: center;
             position: relative;
-            z-index: 990;
+            z-index: 20;
             line-height: 25px;
             padding: 5px;
             background: #773369;
@@ -248,7 +253,114 @@ export default {
             white-space: nowrap;
             margin-bottom: 0 !important;
             margin-top: 0;
-            transition: none; 
+            transition: none;
+          }
+        }
+      }
+    }
+  }
+
+  /* 媒体查询适配 */
+  @media screen and (max-width: 1200px) {
+    .indexk3 {
+      .indexk44 {
+        ul {
+          padding: 0 18px;
+
+          li.video-poster-container {
+            width: 32%;
+            margin: 0 0.67% 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 990px) {
+
+
+      .title-logo-container {
+        .title-logo {
+          width: 100% !important;
+        }
+      }
+
+      .indexk3 {
+        .indexk44 {
+          ul {
+            padding: 0 16px;
+
+            li.video-poster-container {
+              width: 31%;
+              margin: 0 0.67% 1rem;
+            }
+          }
+        }
+      }
+    
+  }
+
+  @media screen and (max-width: 768px) {
+    .indexk3 {
+      padding: 30px 0 20px;
+
+      .indexk44 {
+        ul {
+          padding: 0 15px;
+
+          li.video-poster-container {
+            width: 48%;
+            margin: 0 1% 1rem;
+
+            .poster-wrapper {
+              .play-button-overlay {
+                .play-button {
+                  font-size: 3rem;
+                }
+              }
+            }
+
+            p.xianzhi1 {
+              font-size: 14px;
+              line-height: 22px;
+              padding: 8px 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .title {
+      font-size: 3rem;
+      padding: 3rem 0 1rem 0;
+    }
+
+    .indexk3 {
+      padding: 20px 0 15px;
+
+      .indexk44 {
+        ul {
+          padding: 0 10px;
+
+          li.video-poster-container {
+            width: 98%;
+            margin: 0 1% 1rem;
+
+            .poster-wrapper {
+              .play-button-overlay {
+                .play-button {
+                  font-size: 2.5rem;
+                }
+              }
+            }
+
+            p.xianzhi1 {
+              font-size: 13px;
+              line-height: 20px;
+              padding: 10px 8px;
+            }
           }
         }
       }

@@ -68,14 +68,10 @@ export default {
     height: auto;
   }
   .product-nav {
-    // display: flex;
-    // justify-content: center;
     background-color: #f7f7f7;
     border-bottom: 1px solid #DDDDDD;
     width: 100%;
     margin: 0 auto;
-
-
 
     ul {
       text-align: center;
@@ -119,7 +115,6 @@ export default {
         }
       }
     }
-
   }
 
   .title {
@@ -145,7 +140,6 @@ export default {
     .title-logo {
       margin: 0 auto;
       margin-top: 15px;
-      // width: 100%;
       height: 31px;
     }
   }
@@ -159,22 +153,31 @@ export default {
     .grid-item {
       background-color: #fff;
       height: 430px;
-      // aspect-ratio: 340/450;
-      overflow: hidden; // 修改为可见
-      display: flex; // 新增：启用flex布局
-      flex-direction: column; // 新增：垂直排列
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
 
       &:hover {
         box-shadow: 0 0 0 1px #FF1C8E;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          box-shadow: inset 0 0 0 1px #FF1C8E;
+          pointer-events: none;
+        }
       }
 
       .product-image {
-        width: 100%;
-        aspect-ratio: 340/200;
-        // height: 200px;
-        object-fit: cover;
         cursor: pointer;
-
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
       }
 
       .product-info {
@@ -183,11 +186,11 @@ export default {
         align-items: center;
 
         .blog_time {
-          // width: 20%;
           width: 65px;
           height: 78px;
           background-color: #ff1c8e;
           z-index: 10;
+          flex-shrink: 0;
 
           span {
             display: block;
@@ -216,31 +219,22 @@ export default {
         .product-titles {
           display: flex;
           flex-direction: column;
-          // justify-content: center;
-          width: 80%;
+          flex: 1;
+          box-sizing: border-box;
           padding: 15px;
+          width: 50%;
 
           .product-title {
             cursor: pointer;
-
             margin-bottom: 10px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            text-align: left;
-
             height: 30px;
             line-height: 30px;
             color: #000;
             font-size: 16px;
             font-weight: bold;
-            display: block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-
           }
 
           .product-subtitle {
@@ -259,32 +253,129 @@ export default {
 
       .product-content {
         padding: 10px;
-        line-height: 27px;
+        line-height: 30px;
         margin-bottom: 10px;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
-
+        flex-grow: 1;
       }
-
-
-
-
-
-
-
-
     }
   }
 
+  /* 统一媒体查询 */
+  @media screen and (max-width: 1200px) {
+    .grid-container {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      padding: 18px;
+    }
+  }
+
+  @media screen and (max-width: 990px) {
+    .title-logo{
+      width: 100%;
+    }
+    .grid-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding: 16px;
+      
+      .grid-item {
+        .product-info {
+          padding: 10px 10px 10px 10px;
+          
+          .blog_time {
+            display: none;
+          }
+          
+          .product-titles {
+            // padding: 15px 0px 15px 0px;
+            padding: 0;
+            .product-title {
+              white-space: normal;
+              display: -webkit-box;
+              -webkit-line-clamp: 1;
+              -webkit-box-orient: vertical;
+              margin-bottom: 0px;
+              height: 26px;
+              line-height: 26px;
+              font-size: 15px;
+              text-align: left;
+            }
+            
+            .product-subtitle {
+              display: none;
+            }
+          }
+        }
+        
+        .product-content {
+          line-height: 31.5px;
+          -webkit-line-clamp: 5;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      padding: 15px;
+      
+      .grid-item {
+        height: 400px;
+        
+        .product-image {
+          height: 180px;
+        }
+        .product-info {
+          .product-titles {
+            padding: 0px;
+          }
+        }
+        
+        .product-content {
+          line-height: 29.5px;
+          -webkit-line-clamp: 5;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .grid-container {
+      padding: 10px;
+      
+      .grid-item {
+        height: 400px;
+        
+        .product-image {
+          height: 160px;
+        }
+        
+        .product-info {
+          padding: 8px;
+          
+          .product-titles {
+            .product-title {
+              font-size: 14px;
+              margin-bottom: 8px;
+            }
+          }
+        }
+        
+        .product-content {
+          padding: 8px;
+          font-size: 14px;
+          line-height: 28px;
+          -webkit-line-clamp: 6;
+        }
+      }
+    }
+  }
 }
-
-@media screen and (max-width: 1220px) {}
-
-
-@media screen and (max-width: 1000px) {}
-
-@media screen and (max-width: 992px) {}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <!-- <img class="banner-img" src="../../assets/images/banner/contactUsBanner.jpg" alt=""> -->
+    <img class="banner-img" src="../../assets/images/banner/contactUsBanner.jpg" alt="">
     <div class="title">CONTACT US</div>
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
@@ -70,7 +70,7 @@ export default {
 
   .title {
     font-family: 'TENSANS';
-    font-size: 24px;
+    // font-size: 24px;
     font-size: 4rem;
     line-height: 120%;
     color: #fff;
@@ -177,10 +177,47 @@ export default {
   }
 }
 
-@media screen and (max-width: 1220px) {}
+@media screen and (max-width: 992px) {
+
+  .title-logo {
+    width: 100%;
+  }
+  .title {
+      font-size: 3.2rem !important;
+      padding: 3rem 0 1rem 0 !important;
+  }
+}
+@media screen and (max-width: 768px){
+  .title {
+      font-size: 2.5rem !important;
+      padding: 2.5rem 0 1rem 0 !important;
+    }
+}
 
 
-@media screen and (max-width: 1000px) {}
+@media screen and (max-width: 630px) {
+  .home {
+    .contact-box {
+      flex-direction: column;
 
-@media screen and (max-width: 992px) {}
+      .contact-box1 {
+        width: 100% !important;
+      }
+
+      .contact-box2 {
+        margin-top: 30px;
+        width: 100% !important;
+
+      }
+    }
+  }
+
+
+}
+@media screen and (max-width: 480px){
+  .title {
+      font-size: 2rem !important;
+      padding: 2rem 0 1rem 0 !important;
+    }
+}
 </style>

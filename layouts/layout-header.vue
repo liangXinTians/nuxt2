@@ -19,10 +19,7 @@
                 <img src="../assets/images/logo.png" alt="" style="height: 20px;">
               </a-select-option>
             </a-select>
-
             <p>{{ $t('home.title') }}</p>
-            <!-- <button @click="switchLocale('zh-CN')">中文</button>
-            <button @click="switchLocale('en-US')">English</button> -->
           </div>
           <a-menu v-model="current" mode="horizontal" :selectedKeys="selectedKeys">
             <!-- 首页 -->
@@ -143,13 +140,13 @@
     </header>
     <header class="mobile-header" ref="mobileNav" v-else>
       <div class="header-logo">
-        <nuxt-link :to="{ path: '/' }">
+        <!-- <nuxt-link :to="{ path: '/' }">
           <img loading="lazy" @dragstart.prevent src="../assets/images/logo.png" />
-        </nuxt-link>
+        </nuxt-link> -->
       </div>
       <div class="mobile-header-menus">
         <div class="m-header-right" @click="handleMobileMenu">
-          菜单栏
+          <img src="@/assets/images/menu.svg" alt="">
         </div>
         <div class="m-header-menu-root" id="mobile-slide-right" v-if="mobile">
           <div class="close-btn-box">
@@ -1077,9 +1074,9 @@ export default {
     width: 100%;
     z-index: 99999999;
     color: #000 !important;
-    background: white;
-    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
-    height: 76px;
+    // background: #FF1C8E;
+    // box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1253,14 +1250,75 @@ export default {
       flex-shrink: 0;
       color: #000 !important;
 
+      // .m-header-right {
+      //   font-size: 16px;
+      //   // color: #000 !important;
+      //   color: #fff !important;
+      //   // padding: 5px 10px;
+      //   // border: 1px solid #ccc;
+      //   // padding: 10px;
+      //   // box-shadow: 0.125rem 0.125rem 10px rgba(72, 72, 72, 0.1);
+      //   cursor: pointer;
+      //   background-color: #FF1C8E;
+      //   border-radius: 50%;
+
+      //   position: relative; 
+      //   transition: all 0.3s ease; 
+      //   transform-origin: right center; 
+
+      //   img {
+      //     font-size: 16px;
+      //     height: 20px;
+      //     width: 20px;
+      //     margin: 10px;
+      //       transition: all 0.3s ease; 
+      //   }
+
+      //   &:hover {
+      //     transform: scale(3, 3) translateX(-10px); 
+      //     z-index: 10; 
+
+      //     img {
+      //       transform: scale(0.8); 
+      //     }
+      //   }
+      // }
       .m-header-right {
         font-size: 16px;
-        color: #000 !important;
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        box-shadow: 0.125rem 0.125rem 10px rgba(72, 72, 72, 0.1);
+        color: #fff !important;
         cursor: pointer;
+        background-color: #FF1C8E;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 45px;
+        height: 45px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+
+        img {
+          height: 20px;
+          width: 20px;
+          transition: all 0.3s ease;
+        }
+
+        &:hover {
+
+          cursor: pointer;
+
+          width: 70px;
+          height: 70px;
+
+          img {
+            transform: scale(1.5);
+          }
+        }
       }
+
+
 
       .m-header-menu-root {
         color: #000 !important;
