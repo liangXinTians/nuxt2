@@ -1,22 +1,17 @@
 <template>
-
-  <div>
+  <div class="home">
     <div class="product-nav">
       <ul>
-
         <li><a href="" @click="$event.preventDefault(); $router.push('/product/1')" class="clear">Female sex toys</a>
         </li>
-
         <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">Male sex toys</a></li>
-
         <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a>
         </li>
-
         <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And
             Constraints</a></li>
-
       </ul>
     </div>
+
     <div class="product-page">
       <div class="product-image-viewer">
         <!-- 左侧缩略图列表 -->
@@ -62,7 +57,8 @@
 
             <!-- 主图片拖动区域 -->
             <div class="main-image-wrapper" @mousedown="startDrag" @mousemove="onMouseMove" @mouseup="endDrag"
-              @mouseleave="handleMouseLeave" ref="imageWrapper">
+              @mouseleave="handleMouseLeave" @touchstart="startTouch" @touchmove="onTouchMove" @touchend="endTouch"
+              @touchcancel="endTouch" ref="imageWrapper">
               <img :src="currentImage.mainUrl" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
                 ref="mainImage" @dragstart.prevent>
 
@@ -91,9 +87,11 @@
           <div class="magnified-image" :style="magnifiedImageStyle"></div>
         </div>
       </div>
+
       <div class="product-list">
         <H3 class="product-title">Recommended</H3>
-        <div class="product-item" v-for="(item, index) in dataList" :key="item.title" @click="$router.push(`/productDetail/${item.id}`)">
+        <div class="product-item" v-for="(item, index) in dataList" :key="item.title"
+          @click="$router.push(`/productDetail/${item.id}`)">
           <img :src="item.img" alt="product">
           <div class="product-content">{{ item.title }}</div>
         </div>
@@ -117,6 +115,11 @@ export default {
       isDragging: false,
       dragStartX: 0,
       dragThreshold: 50, // 拖动阈值
+
+      // 触摸相关 - 新增
+      isTouching: false,
+      touchStartX: 0,
+      touchStartTime: 0,
 
       // 放大镜相关
       showMagnifier: false,
@@ -177,6 +180,7 @@ export default {
       ]
     }
   },
+
   computed: {
     currentImage () {
       return this.images[this.currentIndex]
@@ -228,29 +232,34 @@ export default {
       }
     }
   },
+
   mounted () {
     this.windowWidth = window.innerWidth
     this.calculateScrollLimits()
     window.addEventListener('resize', this.handleResize)
   },
+
   beforeDestroy () {
     window.removeEventListener('resize', this.handleResize)
   },
+
   methods: {
     handleResize () {
       this.windowWidth = window.innerWidth
       this.calculateScrollLimits()
     },
+
     nextImage () {
       this.currentIndex = (this.currentIndex + 1) % this.images.length
       this.scrollToActiveThumb()
     },
+
     prevImage () {
       this.currentIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1
       this.scrollToActiveThumb()
     },
 
-    // 拖动相关方法
+    // 鼠标拖动相关方法
     startDrag (e) {
       this.isDragging = true
       this.dragStartX = e.clientX
@@ -263,8 +272,8 @@ export default {
         return
       }
 
-      if (this.isDragging) {
-        // 拖动模式下不显示放大镜
+      if (this.isDragging || this.isTouching) {
+        // 拖动或触摸模式下不显示放大镜
         this.showMagnifier = false
         return
       }
@@ -358,6 +367,79 @@ export default {
       this.showMagnifier = false // 鼠标离开时隐藏放大镜
     },
 
+    // 新增：触摸事件处理方法
+    startTouch (e) {
+      // 防止触摸时触发鼠标事件
+      e.preventDefault()
+
+      this.isTouching = true
+      this.touchStartX = e.touches[0].clientX
+      this.touchStartTime = Date.now()
+      this.showMagnifier = false
+
+      // 添加触摸反馈
+      if (this.$refs.imageWrapper) {
+        this.$refs.imageWrapper.style.transition = 'transform 0.1s ease'
+        this.$refs.imageWrapper.style.transform = 'scale(0.98)'
+      }
+    },
+
+    onTouchMove (e) {
+      if (!this.isTouching) return
+
+      // 防止页面滚动
+      e.preventDefault()
+
+      const currentX = e.touches[0].clientX
+      const deltaX = currentX - this.touchStartX
+
+      // 添加实时的拖动视觉反馈
+      if (Math.abs(deltaX) > 10 && this.$refs.imageWrapper) {
+        const maxRotation = 5 // 最大旋转角度
+        const rotation = Math.max(-maxRotation, Math.min(maxRotation, deltaX / 50))
+        this.$refs.imageWrapper.style.transform = `scale(0.98) rotate(${rotation}deg)`
+      }
+    },
+
+    endTouch (e) {
+      if (!this.isTouching) return
+
+      // 重置视觉效果
+      if (this.$refs.imageWrapper) {
+        this.$refs.imageWrapper.style.transition = 'transform 0.3s ease'
+        this.$refs.imageWrapper.style.transform = 'scale(1) rotate(0deg)'
+      }
+
+      // 计算滑动距离和时间
+      const touchEndX = e.changedTouches[0].clientX
+      const touchDistance = touchEndX - this.touchStartX
+      const touchDuration = Date.now() - this.touchStartTime
+
+      // 快速滑动检测（提高灵敏度）
+      const isQuickSwipe = touchDuration < 300 && Math.abs(touchDistance) > 30
+      const isLongSwipe = Math.abs(touchDistance) > this.dragThreshold
+
+      if (isQuickSwipe || isLongSwipe) {
+        if (touchDistance > 0) {
+          // 向右滑动，显示上一张
+          this.prevImage()
+        } else {
+          // 向左滑动，显示下一张
+          this.nextImage()
+        }
+      }
+
+      this.isTouching = false
+
+      // 清理样式
+      setTimeout(() => {
+        if (this.$refs.imageWrapper) {
+          this.$refs.imageWrapper.style.transition = ''
+          this.$refs.imageWrapper.style.transform = ''
+        }
+      }, 300)
+    },
+
     scrollThumbnails (direction) {
       const scrollStep = 95 // 单次滚动距离 (80px thumbnail + 15px gap)
 
@@ -367,6 +449,7 @@ export default {
         this.scrollTop = Math.min(this.maxScrollTop, this.scrollTop + scrollStep)
       }
     },
+
     calculateScrollLimits () {
       this.$nextTick(() => {
         const wrapper = this.$refs.thumbWrapper
@@ -379,6 +462,7 @@ export default {
         }
       })
     },
+
     scrollToActiveThumb () {
       // 自动滚动到当前选中的缩略图
       const itemHeight = 95 // 80px + 15px gap
@@ -398,6 +482,7 @@ export default {
       }
     }
   },
+
   watch: {
     currentIndex () {
       this.scrollToActiveThumb()
@@ -514,10 +599,10 @@ export default {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-            transition: 0.3s;
-            font-size: 14px;
-            padding-top: 5px;
-            padding-bottom: 2px;
+        transition: 0.3s;
+        font-size: 14px;
+        padding-top: 5px;
+        padding-bottom: 2px;
       }
 
       &:hover {
@@ -631,6 +716,13 @@ export default {
     cursor: grab;
     user-select: none;
 
+    // 触摸优化
+    touch-action: pan-y;
+    /* 允许垂直滚动，禁用水平滚动和缩放 */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
     &:active {
       cursor: grabbing;
     }
@@ -638,10 +730,16 @@ export default {
     .main-image {
       max-width: 584px;
       height: 584px;
-      // object-fit: contain; // 修改为contain以防止图片被裁剪
       display: block;
       object-fit: cover;
-      // background-color: #f8f8f8; // 添加背景色防止透明区域显示异常
+
+      // 防止图片被选中和拖拽
+      pointer-events: none;
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
     }
 
     // 放大镜矩形框
@@ -819,11 +917,13 @@ export default {
 // 响应式适配
 @media screen and (max-width: 1200px) {
   .product-image-viewer {
+    width: 100% !important;
     flex-direction: column;
-    align-items: center;
-    gap: 30px;
+    align-items: center !important;
+    gap: 60px !important;
     padding: 20px;
-    margin-top: 100px;
+    margin-top: 50px !important;
+
 
     .thumbnail-container {
       order: 2; // 移动到主图下方
@@ -878,8 +978,13 @@ export default {
     }
 
     .main-image-section {
+
       order: 1;
     }
+  }
+
+  .product-list {
+    display: none;
   }
 
   .magnifier-display {
@@ -888,45 +993,124 @@ export default {
   }
 }
 
-@media screen and (max-width: 768px) {
-  .product-image-viewer {
-    padding: 15px;
-    gap: 20px;
-    margin-top: 50px;
-
-    .main-image-container {
-
-      .arrow-left,
-      .arrow-right {
-        display: none !important; // 隐藏左右箭头
+/* 992px 以下的适配 */
+@media screen and (max-width: 992px) {
+  .home {
+    .product-nav {
+      ul li a {
+        font-size: 16px;
+        padding: 8px 8px;
       }
     }
 
-    .thumbnail-container {
-      max-height: 90px;
+    .title {
+      font-size: 3.2rem;
+      padding: 3rem 0 1rem 0;
+    }
 
-      .thumbnail-item {
-        width: 70px;
-        height: 70px;
+    .title-logo-container .title-logo {
+      // height: 28px;
+      width: 100%;
+      margin: 0 auto;
+
+    }
+
+    .product-test {
+      margin-top: 40px;
+
+      .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        padding: 15px;
       }
 
-      .scroll-button {
-        width: 25px;
+      .product-title {
+        font-size: 15px;
       }
     }
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
+  .home {
+    .product-nav {
+      ul {
+        li {
+          margin: 8px 6px;
+
+          &:before {
+            height: 10px;
+            top: 6px;
+            left: -8px;
+          }
+
+          a {
+            font-size: 14px;
+            padding: 6px 6px;
+          }
+        }
+      }
+    }
+
+    .product-image-viewer {
+      padding: 15px;
+      gap: 20px;
+      margin-top: 50px;
+
+      .main-image-container {
+
+        .arrow-left,
+        .arrow-right {
+          display: none !important; // 隐藏左右箭头
+        }
+      }
+
+      .thumbnail-container {
+        max-height: 90px;
+        display: none !important;
+
+        .thumbnail-item {
+          width: 70px;
+          height: 70px;
+        }
+
+        .scroll-button {
+          width: 25px;
+        }
+      }
+    }
+
+    .main-image-wrapper {
+      cursor: default; // 移动端不显示抓取光标
+
+      // 增加触摸反馈
+      &:active {
+        cursor: default;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
   .thumbnail-item {
     width: 60px;
     height: 60px;
   }
 
+  .main-image-section {
+    width: 100% !important;
+  }
+
+  .product-image-viewer {
+    height: auto !important;
+    min-height: 300px !important;
+  }
+
   .main-image {
-    max-width: 100%;
-    height: auto;
-    max-height: 400px;
+    // max-width: 100%;
+    width: 100% !important;
+    height: auto !important;
+    // max-height: 400px;
   }
 
   .thumbnail-container {
@@ -936,6 +1120,34 @@ export default {
   .magnifier-display {
     width: 200px;
     height: 140px;
+  }
+}
+
+/* 480px 以下的适配 */
+@media screen and (max-width: 480px) {
+  .home {
+    .product-nav {
+      padding: 20px 0;
+
+      ul {
+        li {
+          // display: block;
+          margin: 10px;
+
+          &:before {
+            display: none;
+          }
+
+          a {
+            font-size: 13px;
+            padding: 10px;
+            display: block;
+            width: auto;
+            border: 1px solid #DDDDDD;
+          }
+        }
+      }
+    }
   }
 }
 </style>

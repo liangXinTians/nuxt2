@@ -12,7 +12,7 @@
       <div class="article-detail">
         <div class="article-detail-header">
           <div class="article-detail-title">Inclusivity Matters: Supporting the LGBT+ Community as a Sex Toy Business
-</div>
+          </div>
           <div class="article-detail-img"><img class="banner-img" src="@/assets/images/titleLogo.png" alt="">
           </div>
           <div class="article-detail-time">Viewed:1728 Date:2023-06-01</div>
@@ -253,4 +253,26 @@ export default {
 @media screen and (max-width: 1000px) {}
 
 @media screen and (max-width: 992px) {}
+
+@media screen and (max-width: 776px) {
+  .home {
+    .container {
+      .article-detail {
+        width: 100%;
+        .article-detail-header{
+          .article-detail-img{
+            img{
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      .news-list {
+        display: none;
+      }
+    }
+  }
+
+}
 </style>

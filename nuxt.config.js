@@ -90,7 +90,7 @@ export default {
   },
   router: {
     // base: process.env.NODE_ENV === 'production'? '/': '/',
-    // base: '/zhongxin'
+    // base: ''
   },
   modules: [
     '@nuxtjs/axios',
@@ -154,7 +154,7 @@ export default {
       ],
       comments: true
     },
-    // publicPath:'/zhongxin',
+    // publicPath:'',
     // 开启css source map  true 为开发模式，false为生产模式
     cssSourceMap: false,
     //两个参数，第一个webpack的配置对象，第二个构建环境对象

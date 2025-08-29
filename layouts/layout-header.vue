@@ -12,14 +12,19 @@
         <!-- pc端 -->
         <div class="header-menus">
           <div class="top-box">
-
             <a-select :key="refreshKey" :value="$i18n.locale" @change="handleLanguageChange" style="width: 120px">
+              <div slot="suffixIcon" style="display: flex; align-items: center;">
+                <span style="color: #fff; margin-right: 8px;">{{ getCurrentLanguageName() }}</span>
+                <img :src="getCurrentLanguageFlag()" alt="" style="height: 20px;">
+              </div>
               <a-select-option v-for="lang in $i18n.locales" :key="lang.code" :value="lang.code">
-                {{ lang.name }}
-                <img src="../assets/images/logo.png" alt="" style="height: 20px;">
+                <div style="display: flex; align-items: center;">
+                  <img :src="getLanguageFlag(lang.code)" alt="" style="height: 16px; margin-right: 8px;">
+                  <span>{{ lang.name }}</span>
+                </div>
               </a-select-option>
             </a-select>
-            <p>{{ $t('home.title') }}</p>
+            <!-- <p>{{ $t('home.title') }}</p> -->
           </div>
           <a-menu v-model="current" mode="horizontal" :selectedKeys="selectedKeys">
             <!-- 首页 -->
@@ -150,7 +155,19 @@
         </div>
         <div class="m-header-menu-root" id="mobile-slide-right" v-if="mobile">
           <div class="close-btn-box">
-            <a-icon class="close" type="close" @click="handleMobileMenu" />
+            <div class="close-btn"><a-icon class="close" type="close" @click="handleMobileMenu" /></div>
+            <a-select :key="refreshKey" :value="$i18n.locale" @change="handleLanguageChange" style="width: 120px">
+              <div slot="suffixIcon" style="display: flex; align-items: center;">
+                <span style="color: rgba(0, 0, 0, 0.7); margin-right: 8px;">{{ getCurrentLanguageName() }}</span>
+                <img :src="getCurrentLanguageFlag()" alt="" style="height: 20px;">
+              </div>
+              <a-select-option v-for="lang in $i18n.locales" :key="lang.code" :value="lang.code">
+                <div style="display: flex; align-items: center;">
+                  <img :src="getLanguageFlag(lang.code)" alt="" style="height: 16px; margin-right: 8px;">
+                  <span>{{ lang.name }}</span>
+                </div>
+              </a-select-option>
+            </a-select>
           </div>
           <a-menu v-model="current" mode="inline">
             <a-menu-item key="home" class="header-item">
@@ -459,6 +476,32 @@ export default {
       this.updateSelectedKeys(this.$route.path) // 新增：初始化 selectedKeys
       console.log("updateNavChecked", this.$route, this.current)
     },
+    // 新增：获取当前选中语言的国旗
+    getCurrentLanguageFlag () {
+      return this.getLanguageFlag(this.$i18n.locale)
+    },
+    // 新增：获取当前选中语言的名称
+    getCurrentLanguageName () {
+      const currentLang = this.$i18n.locales.find(lang => lang.code === this.$i18n.locale)
+      return currentLang ? currentLang.name : 'English'
+    },
+    // 新增：根据语言代码获取对应的国旗图片路径
+    getLanguageFlag (langCode) {
+      // const flagMap = {
+      //   'en': '../assets/images/flag/English.png',
+      //   'fr': '../assets/images/flag/French.png', 
+      //   'es': '../assets/images/flag/Spanish.png',
+      //   'it': '../assets/images/flag/Italian.png'
+      // }
+      // return flagMap[langCode] || '../assets/images/flag/English.png'
+      const flagMap = {
+        'en': require('../assets/images/flag/English.png'),
+        'fr': require('../assets/images/flag/Franais.png'),
+        'es': require('../assets/images/flag/Espaol.png'),
+        'it': require('../assets/images/flag/Italiano.png')
+      }
+      return flagMap[langCode] || require('../assets/images/flag/English.png')
+    }
   },
   beforeDestroy () {
     window.removeEventListener("scroll", this.scrolling)
@@ -762,6 +805,30 @@ export default {
   color: #b9000e !important;
 }
 
+// ===== 语言选择器样式优化 =====
+.ant-select {
+  .ant-select-selection {
+    display: flex !important;
+    align-items: center !important;
+    padding-right: 0 !important;
+  }
+
+  .ant-select-selection-selected-value {
+    display: none !important; // 隐藏默认的选中值显示
+  }
+}
+
+// 下拉选项样式
+.ant-select-dropdown {
+  .ant-select-dropdown-menu-item {
+    padding: 8px 12px !important;
+
+    &:hover {
+      background-color: rgba(185, 0, 14, 0.1) !important;
+    }
+  }
+}
+
 // ===== 头部导航样式 =====
 .header1 {
   width: 100%;
@@ -833,239 +900,6 @@ export default {
     }
   }
 
-  // 移动端导航
-  // .mobile-header {
-  //   position: fixed;
-  //   top: 0;
-  //   width: 100%;
-  //   z-index: 99999999;
-  //   color: #000 !important;
-  //   background: white;
-  //   box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
-  //   height: 76px;
-  //   display: flex;
-  //   justify-content: space-between;
-  //   align-items: center;
-  //   transition: transform 0.5s;
-  //   padding: 0 20px;
-  //   box-sizing: border-box;
-
-  //   .ant-menu {
-  //     color: #000 !important;
-  //   }
-
-  //   .ant-select-selection {
-  //     // background-color: transparent !important;
-  //     // border: none !important;
-  //     // border-top: 0 !important;
-  //     color: #000 !important;
-  //     // box-shadow: none !important;
-
-  //     .ant-select-arrow {
-  //       color: #000 !important;
-  //     }
-
-  //     &:active {
-  //       // box-shadow: none !important;
-  //     }
-  //   }
-
-  //   .menu-item-text1 {
-  //     padding: 0 !important;
-  //     display: flex !important;
-  //     flex-direction: row !important;
-  //     /* 改为水平布局 */
-  //     justify-content: flex-start !important;
-  //     align-items: center !important;
-  //     height: 40px;
-  //     /* 设置固定高度 */
-
-  //     span {
-  //       font-family: "Source Han Serif SC VF";
-  //       display: block;
-  //       line-height: normal !important;
-  //       /* 使用normal而不是initial */
-  //       font-size: 15px;
-  //       color: #000;
-  //       margin: 0;
-  //       /* 移除默认margin */
-  //     }
-
-  //     /* 选中状态下的span颜色 */
-  //     .ant-menu-item-selected & span {
-  //       color: #b9000e !important;
-  //     }
-
-  //     /* hover状态下的span颜色 */
-  //     .ant-menu-item:hover & span {
-  //       color: #b9000e !important;
-  //     }
-  //   }
-
-  //   .menu-item-textss {
-  //     padding: 0 !important;
-  //     display: flex;
-  //     align-items: center;
-  //     // height: 40px;
-
-  //     span {
-  //       font-family: "Source Han Serif SC VF";
-  //       display: block;
-  //       line-height: normal !important;
-  //       font-size: 15px;
-  //       color: #000;
-  //       margin: 0;
-  //     }
-  //   }
-
-  //   /* 只有当前选中的子菜单项变红，其他保持黑色 */
-  //   .ant-menu-item-selected .menu-item-textss span {
-  //     color: #b9000e !important;
-  //   }
-
-  //   /* 子菜单项hover效果 */
-  //   .ant-menu-item:hover .menu-item-textss span {
-  //     color: #b9000e !important;
-  //   }
-
-  //   /* 父级菜单标题样式 */
-  //   .ant-menu-submenu-title {
-  //     display: flex !important;
-  //     align-items: center !important;
-  //     // height: 40px !important;
-  //     line-height: normal !important;
-
-  //     .submenu-title-wrapper {
-  //       display: flex;
-  //       align-items: center;
-  //       width: 100%;
-
-  //       .header-item {
-  //         display: flex;
-  //         align-items: center;
-  //         height: 100%;
-
-  //         span {
-  //           font-family: "Source Han Serif SC VF";
-  //           font-size: 15px;
-  //           color: #000;
-  //           line-height: normal;
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   /* 确保选中的父级菜单标题变红 */
-  //   .ant-menu-submenu-selected .ant-menu-submenu-title span {
-  //     color: #b9000e !important;
-  //   }
-
-  //   /* 父级菜单hover效果 */
-  //   .ant-menu-submenu:hover .ant-menu-submenu-title span {
-  //     color: #b9000e !important;
-  //   }
-
-  //   /* 修复整个菜单项的高度和对齐 */
-  //   .ant-menu-item,
-  //   .ant-menu-submenu {
-  //     // height: 40px !important;
-  //     // line-height: 40px !important;
-  //     display: flex !important;
-  //     align-items: center !important;
-  //   }
-
-  //   /* 确保链接也垂直居中 */
-  //   .ant-menu-item>a,
-  //   .ant-menu-submenu>.ant-menu-submenu-title {
-  //     display: flex !important;
-  //     align-items: center !important;
-  //     // height: 100% !important;
-  //     line-height: normal !important;
-  //     width: 100%;
-  //   }
-
-  //   /* 移除不必要的内边距 */
-  //   .ant-menu-item,
-  //   .ant-menu-submenu-title {
-  //     padding-top: 0 !important;
-  //     padding-bottom: 0 !important;
-  //   }
-
-  //   .header-logo {
-  //     height: 35px;
-
-  //     a {
-  //       display: inline-block;
-  //       height: 35px;
-  //     }
-
-  //     img {
-  //       height: 100%;
-  //     }
-  //   }
-
-  //   .mobile-header-menus {
-  //     flex-shrink: 0;
-  //     color: #000 !important;
-
-  //     .m-header-right {
-  //       font-size: 16px;
-  //       color: #000 !important;
-  //       padding: 5px 10px;
-  //       border: 1px solid #ccc;
-  //       box-shadow: 0.125rem 0.125rem 10px rgba(72, 72, 72, 0.1);
-  //       cursor: pointer;
-  //     }
-
-  //     .m-header-menu-root {
-  //       color: #000 !important;
-  //       background: white;
-  //       position: fixed;
-  //       scroll-behavior: inherit;
-  //       -webkit-overflow-scrolling: touch;
-  //       min-height: 100vh;
-  //       transition: right 0.5s;
-  //       top: 0;
-  //       right: -330px;
-  //       bottom: 0;
-  //       z-index: 999;
-  //       width: 330px;
-  //       max-width: 100%;
-  //       padding: 10px 0;
-
-  //       .close-btn-box {
-  //         text-align: right;
-  //         padding-right: 20px;
-
-  //         .close {
-  //           font-size: 34px;
-  //         }
-  //       }
-
-  //       .m-menu-box {
-  //         font-size: 16px;
-
-  //         .ant-menu {
-  //           font-size: 16px;
-  //           color: #000 !important;
-  //         }
-  //       }
-
-  //       &.slide-right {
-  //         overflow-y: auto;
-  //         right: 0;
-  //       }
-  //     }
-  //   }
-
-  //   &.header-scroll-up {
-  //     transform: translateY(-100%);
-  //   }
-
-  //   &.header-scroll-down {
-  //     transform: translateY(0);
-  //   }
-  // }
 
   // 移动端导航完整样式
   .mobile-header {
@@ -1334,16 +1168,38 @@ export default {
         z-index: 999;
         width: 330px;
         max-width: 100%;
-        padding: 10px 0;
+        // padding: 10px 0;
         overflow-y: auto; // 确保可以滚动
+        box-sizing: border-box;
+        overflow-x: hidden;
+        padding: 0 !important;
 
         .close-btn-box {
-          text-align: right;
-          padding-right: 20px;
+          width: 100%;
+          background-color: #EFEFEF;
+          display: flex;
 
-          .close {
-            font-size: 34px;
+          border-bottom: 1px solid #ccc9c9;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          box-sizing: border-box;
+          height: 60px;
+          align-items: center;
+          margin-bottom: 20px;
+
+          .close-btn {
+            height: 59px;
+            width: 60px;
+            background-color: #E0E0E0;
+            // background-color: #ac1f1f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .close {
+              font-size: 26px;
+            }
           }
+
         }
 
         .m-menu-box {
@@ -1373,6 +1229,7 @@ export default {
           }
         }
       }
+
     }
 
     // 滚动相关的样式
@@ -1449,7 +1306,6 @@ export default {
       }
     }
   }
-
 }
 
 // ===== 遮罩层样式 =====

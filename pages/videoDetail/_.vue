@@ -259,6 +259,26 @@ export default {
 @media screen and (max-width: 992px) {
 
 }
+@media screen and (max-width: 776px) {
+  .home {
+    .container {
+      .article-detail {
+        width: 100%;
+        .article-detail-header{
+          .article-detail-img{
+            img{
+              width: 100%;
+            }
+          }
+        }
+      }
 
+      .news-list {
+        display: none;
+      }
+    }
+  }
+
+}
 
 </style>

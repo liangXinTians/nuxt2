@@ -7,7 +7,7 @@ const api = axios.create({
   baseURL: process.env.NODE_ENV === 'development'
     ? '/api'
     : process.env.API_BASE_URL,
-  // baseURL: 'http://devsrv.linknology.cn:18888/zhongxin/index.php/',
+  // baseURL: '',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'

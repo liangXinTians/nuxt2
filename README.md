@@ -19,8 +19,6 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 ## 项目说明
 
-这是中信官网的项目
-
 ## 静态打包问题
 
 静态打包的时候，报错：nuxt.config.js is not in cwd，
@@ -34,12 +32,3 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 公司服务器静态打包 generate，传 dist 文件
 客户服务器动态打包 build,传.nuxt 文件
-
-## 客服机器人
-
-在 layouts 目录下的 default.vue 中引入（现已注释）(阿里云上有下边的代码)
-window.AlimeDialog({
-from: 'eOxESQ9xh6'
-})
-
-## 下次需要改(暂无)
