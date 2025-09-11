@@ -11,13 +11,13 @@
     <div class="container">
       <div class="article-detail">
         <div class="article-detail-header">
-          <div class="article-detail-title">Inclusivity Matters: Supporting the LGBT+ Community as a Sex Toy Business
+          <div class="article-detail-title">{{ datas1.title }}
           </div>
           <div class="article-detail-img"><img class="banner-img" src="@/assets/images/titleLogo.png" alt="">
           </div>
-          <div class="article-detail-time">Viewed:1728 Date:2023-06-01</div>
+          <div class="article-detail-time">Date:{{ datas1.createTime }}</div>
         </div>
-        <div class="article-detail-content">内容</div>
+        <div class="article-detail-content" v-html="datas1.content"></div>
       </div>
       <div class="news-list">
         <H3 class="product-title">Recommended</H3>
@@ -27,7 +27,7 @@
           <div class="product-contents">
             <div class="product-content">{{ item.title }}</div>
             <!-- <div class="product-time">[{{ item.createTime }}]</div> -->
-             <div class="product-time">[{{ item.createTime.split(' ')[0] }}]</div>
+            <div class="product-time">[{{ item.createTime.split(' ')[0] }}]</div>
           </div>
         </div>
 
@@ -69,21 +69,31 @@ export default {
         pageSize: 5,
         lang: Cookies.get('user_lang')
       },
-      total: 0, 
-      datas: []
+      total: 0,
+      datas: [],
+      datas1: ''
     }
   },
   async mounted () {
+    const id = this.$route.params.pathMatch
+    const response1 = await this.$axios.get(
+      `${this.$config.apiBaseUrl}/article/selectInfoById/${id}`
+    )
+    console.log(response1.data, 'response.data')
+    this.datas1 = response1.data.data
+
+
+
     // this.getBannerImg()
     const response = await this.$axios.get(
       this.$config.apiBaseUrl + "/article/list",
       {
-         params: this.params
-        
+        params: this.params
+
       }
     )
     console.log(response.data, 'response.data')
-    this.total = response.data.total; 
+    this.total = response.data.total
     this.datas = response.data.rows.map(item => {
       if (item.createTime) {
         const [datePart, timePart] = item.createTime.split(' ')
@@ -292,9 +302,10 @@ export default {
     .container {
       .article-detail {
         width: 100%;
-        .article-detail-header{
-          .article-detail-img{
-            img{
+
+        .article-detail-header {
+          .article-detail-img {
+            img {
               width: 100%;
             }
           }
