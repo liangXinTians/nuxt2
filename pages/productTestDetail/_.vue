@@ -1,27 +1,24 @@
-
-
 <template>
   <div class="home">
-        <div class="product-nav">
+    <div class="product-nav">
       <ul>
-
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/1')" class="clear">Download Center</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/1')" class="clear">Download
+            Center</a>
         </li>
-
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/2')" class="clear">Free Sex Toy Testing</a></li>
-
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/3')" class="clear">To Experience The Product</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/2')" class="clear">Free Sex Toy
+            Testing</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/3')" class="clear">To Experience The
+            Product</a>
         </li>
-
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/4')" class="clear">The Comments Section</a></li>
-
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/4')" class="clear">The Comments
+            Section</a></li>
       </ul>
     </div>
 
     <div class="product-page">
       <div class="product-image-viewer">
         <!-- 左侧缩略图列表 -->
-        <div class="thumbnail-container">
+        <div class="thumbnail-container" v-if="detail.images && detail.images.length > 0">
           <!-- 上滑按钮 -->
           <div class="scroll-button scroll-up" :class="{ disabled: scrollTop <= 0 }" @click="scrollThumbnails('up')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,9 +30,9 @@
           <!-- 缩略图列表容器 -->
           <div class="thumbnail-list-wrapper" ref="thumbWrapper">
             <div class="thumbnail-list" ref="thumbList" :style="{ transform: `translateY(-${scrollTop}px)` }">
-              <div v-for="(img, index) in images" :key="index" class="thumbnail-item"
+              <div v-for="(img, index) in detail.images" :key="index" class="thumbnail-item"
                 :class="{ active: currentIndex === index }" @click="currentIndex = index">
-                <img :src="img.thumbUrl" :alt="`Product view ${index + 1}`" class="thumbnail-img">
+                <img :src="'/file' + img" :alt="`Product view ${index + 1}`" class="thumbnail-img">
               </div>
             </div>
           </div>
@@ -55,7 +52,7 @@
           <!-- 中央主图区域 -->
           <div class="main-image-container" @mouseenter="showArrows = true" @mouseleave="showArrows = false">
             <!-- 左侧箭头 -->
-            <div class="arrow-left" :class="{ show: showArrows }" @click="prevImage">
+            <div class="arrow-left" :class="{ show: showArrows }" @click="prevImage" v-if="detail.images && detail.images.length > 1">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 20L13.4 18.6L7.8 13H20V11H7.8L13.4 5.4L12 4L4 12L12 20Z" fill="#4D4D4D" />
               </svg>
@@ -65,15 +62,19 @@
             <div class="main-image-wrapper" @mousedown="startDrag" @mousemove="onMouseMove" @mouseup="endDrag"
               @mouseleave="handleMouseLeave" @touchstart="startTouch" @touchmove="onTouchMove" @touchend="endTouch"
               @touchcancel="endTouch" ref="imageWrapper">
-              <img :src="currentImage.mainUrl" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
+              <img v-if="currentImage" :src="'/file' + currentImage" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
                 ref="mainImage" @dragstart.prevent>
+              <!-- 默认占位图片 -->
+              <div v-else class="image-placeholder">
+                <span>暂无图片</span>
+              </div>
 
               <!-- 放大镜矩形框 -->
-              <div v-if="showMagnifier && windowWidth >= 1200" class="magnifier-box" :style="magnifierBoxStyle"></div>
+              <div v-if="showMagnifier && windowWidth >= 1200 && currentImage" class="magnifier-box" :style="magnifierBoxStyle"></div>
             </div>
 
             <!-- 右侧箭头 -->
-            <div class="arrow-right" :class="{ show: showArrows }" @click="nextImage">
+            <div class="arrow-right" :class="{ show: showArrows }" @click="nextImage" v-if="detail.images && detail.images.length > 1">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 4L10.6 5.4L16.2 11H4V13H16.2L10.6 18.6L12 20L20 12L12 4Z" fill="#4D4D4D" />
               </svg>
@@ -81,25 +82,26 @@
           </div>
 
           <!-- 底部指示器 -->
-          <div class="indicator-dots">
-            <div v-for="(img, index) in images" :key="index" class="dot" :class="{ active: currentIndex === index }"
-              @click="currentIndex = index"></div>
+          <div class="indicator-dots" v-if="detail.images && detail.images.length > 1">
+            <div v-for="(img, index) in detail.images" :key="index" class="dot"
+              :class="{ active: currentIndex === index }" @click="currentIndex = index"></div>
           </div>
         </div>
 
         <!-- 固定位置的放大镜显示区域 -->
-        <div v-if="showMagnifier && windowWidth >= 1200" class="magnifier-display" ref="magnifierDisplay">
-          <div class="magnifier-title">介绍介绍</div>
+        <div v-if="showMagnifier && windowWidth >= 1200 && currentImage" class="magnifier-display" ref="magnifierDisplay">
+          <div class="magnifier-title">{{ detail.title || '产品图片' }}</div>
           <div class="magnified-image" :style="magnifiedImageStyle"></div>
         </div>
       </div>
 
       <div class="product-list">
-        <H3 class="product-title">Recommended</H3>
-        <div class="product-item" v-for="(item, index) in dataList" :key="item.title"
+        <H3 class="product-title">推荐产品</H3>
+        <div class="product-item" v-for="(item, index) in dataList" :key="item.id || index"
           @click="$router.push(`/productDetail/${item.id}`)">
-          <img :src="item.img" alt="product">
-          <div class="product-content">{{ item.title }}</div>
+          <img v-if="item.images && item.images.length > 0" :src="'/file' + item.images[0]" alt="product">
+          <div v-else class="product-placeholder">暂无图片</div>
+          <div class="product-content">{{ item.title || '无标题' }}</div>
         </div>
       </div>
     </div>
@@ -107,6 +109,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   name: "ProductImageViewer",
   data () {
@@ -122,7 +125,7 @@ export default {
       dragStartX: 0,
       dragThreshold: 50, // 拖动阈值
 
-      // 触摸相关 - 新增
+      // 触摸相关
       isTouching: false,
       touchStartX: 0,
       touchStartTime: 0,
@@ -135,61 +138,32 @@ export default {
       magnifierHeight: 200, // 放大镜矩形框高度
       magnifierScale: 2.5, // 放大倍数
 
-      images: [
-        // 使用占位图片，您可以替换为实际图片URL
-        {
-          thumbUrl: require("../../assets/images/yifuyun/4.png"),
-          mainUrl: require("../../assets/images/yifuyun/4.png")
-        },
-        {
-          thumbUrl: require("../../assets/images/yifuyun/5.png"),
-          mainUrl: require("../../assets/images/yifuyun/5.png")
-        },
-        {
-          thumbUrl: require("../../assets/images/yifuyun/6.png"),
-          mainUrl: require("../../assets/images/yifuyun/6.png")
-        },
-        {
-          thumbUrl: require("../../assets/images/yifuyun/7.png"),
-          mainUrl: require("../../assets/images/yifuyun/7.png")
-        },
-        {
-          thumbUrl: require("../../assets/images/yifuyun/5.png"),
-          mainUrl: require("../../assets/images/yifuyun/5.png")
-        },
-        {
-          thumbUrl: require("../../assets/images/yifuyun/6.png"),
-          mainUrl: require("../../assets/images/yifuyun/6.png")
-        },
-        {
-          thumbUrl: require("../../assets/images/yifuyun/7.png"),
-          mainUrl: require("../../assets/images/yifuyun/7.png")
-        }
-      ],
-      dataList: [
-        {
-          title: 'title1title1title1title1title1title1title1title1title1title1',
-          img: require("../../assets/images/yifuyun/4.png")
-        },
-        {
-          title: 'title2',
-          img: require("../../assets/images/yifuyun/5.png")
-        },
-        {
-          title: 'title3',
-          img: require("../../assets/images/yifuyun/6.png")
-        },
-        {
-          title: 'title4',
-          img: require("../../assets/images/yifuyun/7.png")
-        }
-      ]
+      // 初始化数据
+      dataList: [],
+      detail: {
+        images: [],
+        title: ''
+      },
+      params: {
+        pageNum: 1,
+        pageSize: 5,
+        lang: Cookies.get('user_lang')
+      },
+      loading: false
     }
   },
 
   computed: {
+    // 当前显示的图片
     currentImage () {
-      return this.images[this.currentIndex]
+      // 确保 detail.images 存在且不为空
+      if (this.detail && this.detail.images && this.detail.images.length > 0) {
+        // 确保 currentIndex 在有效范围内
+        const index = Math.max(0, Math.min(this.currentIndex, this.detail.images.length - 1))
+        return this.detail.images[index]
+      }
+      // 没有图片时返回空字符串
+      return ''
     },
 
     // 放大镜矩形框样式
@@ -208,7 +182,7 @@ export default {
 
     // 放大镜显示区域的背景图片样式
     magnifiedImageStyle () {
-      if (!this.showMagnifier) return {}
+      if (!this.showMagnifier || !this.currentImage) return {}
 
       const mainImage = this.$refs.mainImage
       if (!mainImage) return {}
@@ -231,7 +205,7 @@ export default {
       const bgPosY = -(positionY * this.magnifierScale - this.magnifierHeight / 2)
 
       return {
-        backgroundImage: `url(${this.currentImage.mainUrl})`,
+        backgroundImage: `url('/file${this.currentImage}')`,
         backgroundSize: `${naturalWidth * this.magnifierScale}px ${naturalHeight * this.magnifierScale}px`,
         backgroundPosition: `${bgPosX}px ${bgPosY}px`,
         backgroundRepeat: 'no-repeat'
@@ -239,7 +213,22 @@ export default {
     }
   },
 
-  mounted () {
+  async mounted () {
+    const id = this.$route.params.pathMatch
+    console.log(this.$route, '路由参数')
+    
+    // 添加加载状态
+    this.loading = true
+    
+    try {
+      await this.getDetail(id)
+      await this.getList()
+    } catch (error) {
+      console.error('页面初始化失败:', error)
+    } finally {
+      this.loading = false
+    }
+    
     this.windowWidth = window.innerWidth
     this.calculateScrollLimits()
     window.addEventListener('resize', this.handleResize)
@@ -250,18 +239,95 @@ export default {
   },
 
   methods: {
+    // 获取产品详情 - 添加错误处理
+    async getDetail (id) {
+      try {
+        const response = await this.$axios.get(
+          `${this.$config.apiBaseUrl}/product-test/selectInfoById/${id}`
+        )
+        console.log(response, '详情响应')
+        
+        const data = response.data.data
+        
+        // 检查数据是否存在
+        if (data) {
+          // 安全地处理图片数组
+          let images = []
+          if (data.imageUrl && typeof data.imageUrl === 'string') {
+            images = data.imageUrl.split(',')
+              .map(img => img.trim())
+              .filter(img => img.length > 0) // 过滤空字符串
+          }
+          
+          this.detail = {
+            ...data,
+            images: images
+          }
+          
+          // 重置当前索引以防超出范围
+          if (this.currentIndex >= images.length) {
+            this.currentIndex = 0
+          }
+        } else {
+          throw new Error('未获取到有效数据')
+        }
+
+      } catch (error) {
+        console.error('获取产品详情失败:', error)
+        // 设置默认值以防止模板报错
+        this.detail = {
+          images: [],
+          title: '加载失败',
+          imageUrl: ''
+        }
+      }
+    },
+
+    // 获取产品列表 - 添加错误处理
+    async getList () {
+      try {
+        const response = await this.$axios.get(
+          this.$config.apiBaseUrl + '/product-test/list',
+          { params: this.params }
+        )
+        
+        if (response.data && response.data.rows) {
+          this.dataList = response.data.rows.map(item => {
+            // 安全地处理每个项目的图片
+            let images = []
+            if (item.imageUrl && typeof item.imageUrl === 'string') {
+              images = item.imageUrl.split(',')
+                .map(img => img.trim())
+                .filter(img => img.length > 0)
+            }
+            
+            return {
+              ...item,
+              images: images,
+              createTime: item.createTime ? item.createTime.split(' ')[0] : '' // 安全地分割时间
+            }
+          })
+        }
+      } catch (error) {
+        console.error('获取产品列表失败:', error)
+        this.dataList = []
+      }
+    },
+
     handleResize () {
       this.windowWidth = window.innerWidth
       this.calculateScrollLimits()
     },
 
     nextImage () {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length
+      if (!this.detail.images || this.detail.images.length === 0) return
+      this.currentIndex = (this.currentIndex + 1) % this.detail.images.length
       this.scrollToActiveThumb()
     },
 
     prevImage () {
-      this.currentIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1
+      if (!this.detail.images || this.detail.images.length === 0) return
+      this.currentIndex = this.currentIndex === 0 ? this.detail.images.length - 1 : this.currentIndex - 1
       this.scrollToActiveThumb()
     },
 
@@ -288,7 +354,7 @@ export default {
       const mainImage = this.$refs.mainImage
       const wrapper = this.$refs.imageWrapper
 
-      if (mainImage && wrapper) {
+      if (mainImage && wrapper && this.currentImage) {
         const imageRect = mainImage.getBoundingClientRect()
         const wrapperRect = wrapper.getBoundingClientRect()
 
@@ -373,7 +439,7 @@ export default {
       this.showMagnifier = false // 鼠标离开时隐藏放大镜
     },
 
-    // 新增：触摸事件处理方法
+    // 触摸事件处理方法
     startTouch (e) {
       // 防止触摸时触发鼠标事件
       e.preventDefault()

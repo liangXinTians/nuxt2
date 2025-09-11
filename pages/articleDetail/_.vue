@@ -21,12 +21,13 @@
       </div>
       <div class="news-list">
         <H3 class="product-title">Recommended</H3>
-        <div class="product-item" v-for="(item, index) in dataList" :key="item.title"
+        <div class="product-item" v-for="(item, index) in datas" :key="item.title"
           @click="$router.push(`/articleDetail/${item.id}`)">
-          <img :src="item.img" alt="product">
+          <img :src="'/file' + item.imageUrl" alt="product">
           <div class="product-contents">
             <div class="product-content">{{ item.title }}</div>
-            <div class="product-time">[{{ item.time }}]</div>
+            <!-- <div class="product-time">[{{ item.createTime }}]</div> -->
+             <div class="product-time">[{{ item.createTime.split(' ')[0] }}]</div>
           </div>
         </div>
 
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-
+import Cookies from 'js-cookie'
 export default {
   name: "",
   data () {
@@ -62,10 +63,42 @@ export default {
           img: require("../../assets/images/yifuyun/7.png"),
           time: '2023-06-01'
         }
-      ]
+      ],
+      params: {
+        pageNum: 1,
+        pageSize: 5,
+        lang: Cookies.get('user_lang')
+      },
+      total: 0, 
+      datas: []
     }
   },
-  mounted () { },
+  async mounted () {
+    // this.getBannerImg()
+    const response = await this.$axios.get(
+      this.$config.apiBaseUrl + "/article/list",
+      {
+         params: this.params
+        
+      }
+    )
+    console.log(response.data, 'response.data')
+    this.total = response.data.total; 
+    this.datas = response.data.rows.map(item => {
+      if (item.createTime) {
+        const [datePart, timePart] = item.createTime.split(' ')
+        const [year, month, day] = datePart.split('-')
+
+
+        return {
+          ...item,
+          yearMonth: `${year}-${month}`,
+          day: day
+        }
+      }
+      return item
+    })
+  },
   watch: {},
   methods: {},
   computed: {},

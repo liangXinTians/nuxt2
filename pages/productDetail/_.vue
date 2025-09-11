@@ -27,9 +27,9 @@
           <!-- 缩略图列表容器 -->
           <div class="thumbnail-list-wrapper" ref="thumbWrapper">
             <div class="thumbnail-list" ref="thumbList" :style="{ transform: `translateY(-${scrollTop}px)` }">
-              <div v-for="(img, index) in images" :key="index" class="thumbnail-item"
+              <div v-for="(img, index) in detail.images" :key="index" class="thumbnail-item"
                 :class="{ active: currentIndex === index }" @click="currentIndex = index">
-                <img :src="img.thumbUrl" :alt="`Product view ${index + 1}`" class="thumbnail-img">
+                <img :src="'/file' + img" :alt="`Product view ${index + 1}`" class="thumbnail-img">
               </div>
             </div>
           </div>
@@ -59,8 +59,10 @@
             <div class="main-image-wrapper" @mousedown="startDrag" @mousemove="onMouseMove" @mouseup="endDrag"
               @mouseleave="handleMouseLeave" @touchstart="startTouch" @touchmove="onTouchMove" @touchend="endTouch"
               @touchcancel="endTouch" ref="imageWrapper">
-              <img :src="currentImage.mainUrl" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
+              <img :src="'/file' + currentImage" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
                 ref="mainImage" @dragstart.prevent>
+              <!-- <img :src="currentImage" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
+                ref="mainImage" @dragstart.prevent> -->
 
               <!-- 放大镜矩形框 -->
               <div v-if="showMagnifier && windowWidth >= 1200" class="magnifier-box" :style="magnifierBoxStyle"></div>
@@ -76,14 +78,14 @@
 
           <!-- 底部指示器 -->
           <div class="indicator-dots">
-            <div v-for="(img, index) in images" :key="index" class="dot" :class="{ active: currentIndex === index }"
+            <div v-for="(img, index) in detail.images" :key="index" class="dot" :class="{ active: currentIndex === index }"
               @click="currentIndex = index"></div>
           </div>
         </div>
 
         <!-- 固定位置的放大镜显示区域 -->
         <div v-if="showMagnifier && windowWidth >= 1200" class="magnifier-display" ref="magnifierDisplay">
-          <div class="magnifier-title">介绍介绍</div>
+          <div class="magnifier-title">{{ detail.title }}</div>
           <div class="magnified-image" :style="magnifiedImageStyle"></div>
         </div>
       </div>
@@ -92,7 +94,7 @@
         <H3 class="product-title">Recommended</H3>
         <div class="product-item" v-for="(item, index) in dataList" :key="item.title"
           @click="$router.push(`/productDetail/${item.id}`)">
-          <img :src="item.img" alt="product">
+          <img :src="'/file' + item.images[0]" alt="product">
           <div class="product-content">{{ item.title }}</div>
         </div>
       </div>
@@ -101,6 +103,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   name: "ProductImageViewer",
   data () {
@@ -161,29 +164,47 @@ export default {
         }
       ],
       dataList: [
-        {
-          title: 'title1title1title1title1title1title1title1title1title1title1',
-          img: require("../../assets/images/yifuyun/4.png")
-        },
-        {
-          title: 'title2',
-          img: require("../../assets/images/yifuyun/5.png")
-        },
-        {
-          title: 'title3',
-          img: require("../../assets/images/yifuyun/6.png")
-        },
-        {
-          title: 'title4',
-          img: require("../../assets/images/yifuyun/7.png")
-        }
-      ]
+        // {
+        //   title: 'title1title1title1title1title1title1title1title1title1title1',
+        //   img: require("../../assets/images/yifuyun/4.png")
+        // },
+        // {
+        //   title: 'title2',
+        //   img: require("../../assets/images/yifuyun/5.png")
+        // },
+        // {
+        //   title: 'title3',
+        //   img: require("../../assets/images/yifuyun/6.png")
+        // },
+        // {
+        //   title: 'title4',
+        //   img: require("../../assets/images/yifuyun/7.png")
+        // }
+      ],
+      detail: {
+        images: []
+      },
+      params: {
+        pageNum: 1,
+        pageSize: 5,
+        lang: Cookies.get('user_lang')
+      }
     }
   },
 
   computed: {
+    // currentImage () {
+    //   // return this.images[this.currentIndex]
+    //   return this.detail.images[this.currentIndex] || this.images[this.currentIndex]
+    // },
     currentImage () {
-      return this.images[this.currentIndex]
+      // 确保 detail.images 存在且不为空
+      if (this.detail && this.detail.images && this.detail.images.length > 0) {
+        return this.detail.images[this.currentIndex]
+      }
+
+      // 都没有的话返回空字符串或默认图片
+      return ''
     },
 
     // 放大镜矩形框样式
@@ -225,7 +246,8 @@ export default {
       const bgPosY = -(positionY * this.magnifierScale - this.magnifierHeight / 2)
 
       return {
-        backgroundImage: `url(${this.currentImage.mainUrl})`,
+        // backgroundImage: `url('/file' + ${this.currentImage})`,
+         backgroundImage: `url('/file${this.currentImage}')`,
         backgroundSize: `${naturalWidth * this.magnifierScale}px ${naturalHeight * this.magnifierScale}px`,
         backgroundPosition: `${bgPosX}px ${bgPosY}px`,
         backgroundRepeat: 'no-repeat'
@@ -233,7 +255,13 @@ export default {
     }
   },
 
-  mounted () {
+  async mounted () {
+
+
+    const id = this.$route.params.pathMatch
+    console.log(this.$route, 'idid')
+    await this.getDetail(id)
+    await this.getList()
     this.windowWidth = window.innerWidth
     this.calculateScrollLimits()
     window.addEventListener('resize', this.handleResize)
@@ -244,18 +272,50 @@ export default {
   },
 
   methods: {
+    async getDetail (id) {
+      try {
+        const response = await this.$axios.get(
+          `${this.$config.apiBaseUrl}/product/selectInfoById/${id}`
+        )
+        console.log(response, 'response')
+        this.detail = response.data.data
+        this.detail.images = this.detail.images.split(',').map(img => img.trim())
+        console.log(this.detail.images[0], 'detail')
+
+      } catch (error) {
+        console.error('Failed to fetch videos:', error)
+      }
+    },
+    async getList () {
+      try {
+        const response = await this.$axios.get(
+          this.$config.apiBaseUrl + '/product/list',
+          { params: this.params }
+        )
+        this.dataList = response.data.rows.map(item => {
+          return {
+            ...item,
+            images: item.images.split(',').map(img => img.trim()),
+            createTime: item.createTime.split(' ')[0] // 分割字符串取第一部分
+          }
+        })
+      } catch (error) {
+        console.error('Failed to fetch videos:', error)
+      }
+    },
+
     handleResize () {
       this.windowWidth = window.innerWidth
       this.calculateScrollLimits()
     },
 
     nextImage () {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length
+      this.currentIndex = (this.currentIndex + 1) % this.detail.images.length
       this.scrollToActiveThumb()
     },
 
     prevImage () {
-      this.currentIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1
+      this.currentIndex = this.currentIndex === 0 ? this.detail.images.length - 1 : this.currentIndex - 1
       this.scrollToActiveThumb()
     },
 

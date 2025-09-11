@@ -14,14 +14,15 @@
     </div>
 
     <div class="grid-container">
-      <div class="grid-item" v-for="(item, index) in items" :key="index">
-        <img :src="item.image" class="product-image" @click="$router.push(`/articleDetail/${item.title}`)"/>
+      <div class="grid-item" v-for="(item, index) in datas" :key="index">
+        <img :src="'/file' + item.imageUrl" class="product-image" @click="$router.push(`/articleDetail/${item.id}`)" />
 
         <div class="product-info">
-          <div class="blog_time l"><span class="blog_y">12</span><span class="blog_day">2023-06</span></div>
+          <div class="blog_time l"><span class="blog_y">{{ item.day }}</span><span class="blog_day">{{ item.yearMonth
+            }}</span></div>
           <div class="product-titles">
-            <div class="product-title" @click="$router.push(`/articleDetail/${item.title}`)">{{ item.title }}</div>
-            <div class="product-subtitle">{{ item.subtitle }}</div>
+            <div class="product-title" @click="$router.push(`/articleDetail/${item.id}`)">{{ item.title }}</div>
+            <div class="product-subtitle">{{ item.summary }}</div>
           </div>
 
         </div>
@@ -30,11 +31,21 @@
         </div>
       </div>
     </div>
+    <div>
+      <a-pagination 
+      v-model="params.pageNum"
+      :total="total"
+      :pageSize="params.pageSize"
+      :item-render="itemRender"
+      @change="handlePageChange"
+      style="text-align: center; margin: 20px 0;"
+    />
+    </div>
   </div>
 </template>
 
 <script>
-
+import Cookies from 'js-cookie'
 export default {
   name: "",
   data () {
@@ -46,12 +57,57 @@ export default {
         { image: require('@/assets/images/yifuyun/2.png'), title: '产品222222222222222', subtitle: '产品11111' },
         { image: require('@/assets/images/yifuyun/1.png'), title: '产品1标题标题标题标题标题标题标题标题', subtitle: '产品11111标题标题标题标题标题标题标题标题标题', content: '产品11111标题标题标题标题标题标题产品11111标题标题标题标题标题标题产品11111标题标题标题标题标题标题产品11111标题标题标题标题标题标题产品11111标题标题标题标题标题标题产品11111标题标题标题标题标题标题产品11111标题标题标题标题标题标题产品11111标题标题标题标题标题标题标题标题标题' },
         { image: require('@/assets/images/yifuyun/2.png'), title: '产品222222222222222', subtitle: '产品11111' },
-      ]
+      ],
+      params: {
+        pageNum: 1,
+        pageSize: 10,
+        lang: Cookies.get('user_lang')
+      },
+      total: 0, 
+      datas: []
     }
   },
-  mounted () { },
+  async mounted () {
+    // this.getBannerImg()
+    const response = await this.$axios.get(
+      this.$config.apiBaseUrl + "/article/list",
+      {
+         params: this.params
+        
+      }
+    )
+    console.log(response.data, 'response.data')
+    this.total = response.data.total; 
+    this.datas = response.data.rows.map(item => {
+      if (item.createTime) {
+        const [datePart, timePart] = item.createTime.split(' ')
+        const [year, month, day] = datePart.split('-')
+
+
+        return {
+          ...item,
+          yearMonth: `${year}-${month}`,
+          day: day
+        }
+      }
+      return item
+    })
+  },
   watch: {},
-  methods: {},
+  methods: {
+    handlePageChange(page, pageSize) {
+      this.params.pageNum = page;
+      this.getProductList();
+    },
+    itemRender(current, type, originalElement) {
+      if (type === 'prev') {
+        return <a>Previous</a>;
+      } else if (type === 'next') {
+        return <a>Next</a>;
+      }
+      return originalElement;
+    },
+  },
   computed: {},
   beforeDestroy () { },
   components: {},
@@ -67,6 +123,7 @@ export default {
     width: 100%;
     height: auto;
   }
+
   .product-nav {
     background-color: #f7f7f7;
     border-bottom: 1px solid #DDDDDD;
@@ -235,6 +292,8 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            text-align:left;
+
           }
 
           .product-subtitle {
@@ -261,6 +320,8 @@ export default {
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         flex-grow: 1;
+        text-align:left;
+
       }
     }
   }
@@ -275,25 +336,27 @@ export default {
   }
 
   @media screen and (max-width: 990px) {
-    .title-logo{
+    .title-logo {
       width: 100%;
     }
+
     .grid-container {
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       padding: 16px;
-      
+
       .grid-item {
         .product-info {
           padding: 10px 10px 10px 10px;
-          
+
           .blog_time {
             display: none;
           }
-          
+
           .product-titles {
             // padding: 15px 0px 15px 0px;
             padding: 0;
+
             .product-title {
               white-space: normal;
               display: -webkit-box;
@@ -305,13 +368,13 @@ export default {
               font-size: 15px;
               text-align: left;
             }
-            
+
             .product-subtitle {
               display: none;
             }
           }
         }
-        
+
         .product-content {
           line-height: 31.5px;
           -webkit-line-clamp: 5;
@@ -325,19 +388,20 @@ export default {
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
       padding: 15px;
-      
+
       .grid-item {
         height: 400px;
-        
+
         .product-image {
           height: 180px;
         }
+
         .product-info {
           .product-titles {
             padding: 0px;
           }
         }
-        
+
         .product-content {
           line-height: 29.5px;
           -webkit-line-clamp: 5;
@@ -349,17 +413,17 @@ export default {
   @media screen and (max-width: 480px) {
     .grid-container {
       padding: 10px;
-      
+
       .grid-item {
         height: 400px;
-        
+
         .product-image {
           height: 160px;
         }
-        
+
         .product-info {
           padding: 8px;
-          
+
           .product-titles {
             .product-title {
               font-size: 14px;
@@ -367,7 +431,7 @@ export default {
             }
           }
         }
-        
+
         .product-content {
           padding: 8px;
           font-size: 14px;

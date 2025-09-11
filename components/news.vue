@@ -1,5 +1,5 @@
 <template>
-  <div class="product-test">
+  <!-- <div class="product-test">
     <div class="tab-content" v-for="(tab, index) in tabs" :key="index" v-show="currentTab === index">
       <div class="grid-container">
         <div class="grid-item" v-for="(item, i) in tab.items" :key="i">
@@ -20,10 +20,34 @@
       </div>
     </div>
 
+  </div> -->
+  <div class="product-test">
+    <div class="tab-content">
+      <div class="grid-container">
+        <div class="grid-item" v-for="(item, i) in datas" :key="i">
+          <img :src="'/file' + item.imageUrl" class="product-image"
+            @click=" $router.push('/articleDetail/' + item.id)" />
+          <div class="product-info">
+            <div class="blog_time l"><span class="blog_y">{{ item.day }}</span><span class="blog_day">{{ item.yearMonth
+            }}</span></div>
+            <div class="product-titles">
+              <div class="product-title" @click=" $router.push('/articleDetail/' + item.id)">{{ item.title }}</div>
+              <div class="product-subtitle">{{ item.summary }}</div>
+            </div>
+          </div>
+          <div class="product-content">
+            <!-- <div v-html="item.content"></div> -->
+            <div>{{ item.content }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   name: 'news',
   props: {
@@ -34,6 +58,7 @@ export default {
   },
   data () {
     return {
+      datas: [],
       images: [
         {
           url: require('@/assets/images/yifuyun/5.png'),
@@ -70,13 +95,42 @@ export default {
       ]
     }
   },
+
+  async mounted () {
+    const response = await this.$axios.get(
+      this.$config.apiBaseUrl + "/article/list",
+      {
+        params: {
+          pageNum: 1,
+          pageSize: 5,
+          lang: Cookies.get('user_lang')
+        }
+      }
+    )
+    console.log(response.data, 'news')
+
+    this.datas = response.data.rows.map(item => {
+      if (item.createTime) {
+        const [datePart, timePart] = item.createTime.split(' ')
+        const [year, month, day] = datePart.split('-')
+
+
+        return {
+          ...item,
+          yearMonth: `${year}-${month}`,
+          day: day
+        }
+      }
+      return item
+    })
+  },
   methods: {
-    aadiv_show (index) {
-      // 这里实现选项卡切换逻辑
-      const tabs = document.querySelectorAll('.tabcon')
-      tabs.forEach(tab => tab.style.display = 'none')
-      document.getElementById(`aashowdiv${index}`).style.display = 'block'
-    }
+    // aadiv_show (index) {
+    //   // 这里实现选项卡切换逻辑
+    //   const tabs = document.querySelectorAll('.tabcon')
+    //   tabs.forEach(tab => tab.style.display = 'none')
+    //   document.getElementById(`aashowdiv${index}`).style.display = 'block'
+    // }
   }
 
 }
@@ -175,6 +229,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            text-align: left;
           }
 
           .product-subtitle {
@@ -201,6 +256,7 @@ export default {
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         flex-grow: 1;
+        text-align: left;
       }
     }
   }
@@ -219,17 +275,18 @@ export default {
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       padding: 16px;
-      
+
       .grid-item {
         .product-info {
           padding: 10px 10px 10px 10px;
-          
+
           .blog_time {
             display: none;
           }
-          
+
           .product-titles {
             padding: 15px 0px 15px 0px;
+
             .product-title {
               white-space: normal;
               display: -webkit-box;
@@ -241,13 +298,13 @@ export default {
               font-size: 15px;
               text-align: left;
             }
-            
+
             .product-subtitle {
               display: none;
             }
           }
         }
-        
+
         .product-content {
           line-height: 28px;
           -webkit-line-clamp: 5;
@@ -261,23 +318,24 @@ export default {
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
       padding: 15px;
-      
+
       .grid-item {
         height: 400px;
-        
+
         .product-image {
           height: 180px;
         }
+
         .product-info {
 
 
           .product-titles {
             padding: 0px;
 
-          
+
           }
         }
-        
+
         .product-content {
           line-height: 31.5px;
           -webkit-line-clamp: 5;
@@ -289,17 +347,17 @@ export default {
   @media screen and (max-width: 480px) {
     .grid-container {
       padding: 10px;
-      
+
       .grid-item {
         height: 400px;
-        
+
         .product-image {
           height: 160px;
         }
-        
+
         .product-info {
           padding: 8px;
-          
+
           .product-titles {
             .product-title {
               font-size: 14px;
@@ -307,7 +365,7 @@ export default {
             }
           }
         }
-        
+
         .product-content {
           padding: 8px;
           font-size: 14px;

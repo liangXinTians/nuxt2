@@ -5,7 +5,7 @@ const path = require('path')
  */
 export default {
   head: {
-    title: '前台标题',
+    title: 'amozici',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no' },

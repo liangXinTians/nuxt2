@@ -1,215 +1,168 @@
+
 <template>
-    <div class="indexk3" style="background:url();">
-        <div class="indexk44">
-            <ul>
-                <li v-for="(video, index) in videoList" :key="index">
-                    <video 
-                        src="" 
-                        controls="controls" 
-                        :poster="video.poster" 
-                        class="video-item"
-                    ></video>
-                    <p class="xianzhi1">{{ video.title }}</p>
-                </li>
-            </ul>
-        </div>
+  <div class="video-gallery">
+    <div class="gallery-container">
+      <ul class="video-list">
+        <li v-for="(video, index) in videoList" :key="index" class="video-item">
+          <div class="video-wrapper">
+            <video
+              :src="'/file' + video.videoUrl"
+              controls
+              :poster="'/file' + video.imageUrl"
+              class="video-player"
+              @play="handleVideoPlay(index)"
+            ></video>
+          </div>
+          <p class="video-title">{{ video.name }}</p>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+
 export default {
-    name: 'VideoGallery',
-    data() {
-        return {
-            videoList: [
-                {
-                    poster: require('@/assets/images/yifuyun/7.png'),
-                    title: 'Factory penis【S206-2】with belt sex toys dildo huge shop vibrating dildos vibrator for women'
-                },
-                {
-                    poster: require('@/assets/images/yifuyun/7.png'),
-                    title: 'Banana Adult Penty Vibrator【S-219】Sex Toy Women Silicone G Spot Vibrator Penis Ring'
-                },
-                {
-                    poster: require('@/assets/images/yifuyun/7.png'),
-                    title: 'Factory penis with belt【S-305】sex toys dildo huge dildos vibrator for women'
-                }
-            ],
-            images: [
-                {
-                    url: require('@/assets/images/yifuyun/5.png'),
-                    alt: '图片1',
-                    caption: '文字1'
-                },
-                {
-                    url: require('@/assets/images/yifuyun/6.png'),
-                    alt: '图片2',
-                    caption: '文字2'
-                },
-                {
-                    url: require('@/assets/images/yifuyun/7.png'),
-                    alt: '图片3',
-                    caption: '文字3'
-                },
-                {
-                    url: require('@/assets/images/yifuyun/8.png'),
-                    alt: '图片4',
-                    caption: '文字4'
-                }
-            ]
+  name: 'VideoGallery',
+  data() {
+    return {
+      videoList: [
+        {
+          videoUrl: '',
+          imageUrl: '',
+          name: 'Factory penis【S206-2】with belt sex toys dildo huge shop vibrating dildos vibrator for women'
+        },
+        {
+          videoUrl: '',
+          imageUrl: '',
+          name: 'Banana Adult Penty Vibrator【S-219】Sex Toy Women Silicone G Spot Vibrator Penis Ring'
+        },
+        {
+          videoUrl: '',
+          imageUrl: '',
+          name: 'Factory penis with belt【S-305】sex toys dildo huge dildos vibrator for women'
         }
+      ],
+      params: {
+        pageNum: 1,
+        pageSize: 3,
+        lang: Cookies.get('user_lang') || 'en' // 默认语言
+      },
+      videoElements: [] // 存储视频DOM元素的引用
     }
+  },
+  async mounted() {
+    await this.getProductList()
+    // 在nextTick中获取视频元素，确保DOM已渲染
+    this.$nextTick(() => {
+      this.videoElements = document.querySelectorAll('.video-player')
+    })
+  },
+  methods: {
+    async getProductList() {
+      try {
+        const response = await this.$axios.get(
+          this.$config.apiBaseUrl + '/video-category/list',
+          { params: this.params }
+        )
+        this.videoList = response.data.rows 
+      } catch (error) {
+        console.error('Failed to fetch videos:', error)
+      }
+    },
+    handleVideoPlay(currentIndex) {
+      // 遍历所有视频元素
+      this.videoElements.forEach((video, index) => {
+        if (index !== currentIndex && !video.paused) {
+          video.pause() // 暂停其他正在播放的视频
+        }
+      })
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
-.indexk3 {
-    background: url(@/assets/images/titleLogo.png);
-    
-    background-size: cover;
-    width: 100%;
-    margin: 0 auto;
-    height: auto;
-    padding: 40px 0 30px;
+/* 原有样式保持不变 */
+.video-gallery {
+  width: 100%;
+  padding: 40px 0;
+  background: url('@/assets/images/titleLogo.png') no-repeat;
+  background-size: cover;
 
-    .slideBox {
-        width: 1000px;
-        height: 600px;
+  .gallery-container {
+
+  }
+
+  .video-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+
+
+    .video-item {
+      width: calc(33.33% - 20px);
+      margin: 0 10px 30px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+
+      .video-wrapper {
         position: relative;
-        margin: 0 auto;
+        width: 100%;
+        padding-top: 56.25%; 
+        background: #000;
 
-        .hd {
-            height: 15px;
-            overflow: hidden;
-            position: absolute;
-            right: 5px;
-            bottom: 5px;
-            z-index: 1;
-
-            ul {
-                overflow: hidden;
-                zoom: 1;
-                float: left;
-
-                li {
-                    float: left;
-                    margin-right: 2px;
-                    width: 15px;
-                    height: 15px;
-                    line-height: 14px;
-                    text-align: center;
-                    background: #fff;
-                    cursor: pointer;
-
-                    &.on {
-                        background: #f00;
-                        color: #fff;
-                    }
-                }
-            }
+        .video-player {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
+      }
 
-        .bd {
-            position: relative;
-            height: 100%;
-            z-index: 0;
-
-            li {
-                zoom: 1;
-                vertical-align: middle;
-            }
-
-            img {
-                width: 1000px;
-                height: 600px;
-                display: block;
-            }
-        }
-
-        .prev, .next {
-            position: absolute;
-            top: 30%;
-            margin-top: -25px;
-            display: block;
-            width: 100px;
-            height: 203px;
-            filter: alpha(opacity=50);
-            opacity: 0.5;
-
-            &:hover {
-                filter: alpha(opacity=100);
-                opacity: 1;
-            }
-        }
-
-        .prev {
-            left: -20%;
-        }
-
-        .next {
-            right: -20%;
-        }
-
-        .prevStop, .nextStop {
-            display: none;
-        }
+      .video-title {
+        color: #fff;
+        background: #773369;
+        margin: 0;
+        padding: 12px 15px;
+        font-size: 14px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
+  }
 }
 
-.indexk44 {
-    width: 100%;
-    margin: 0 auto;
-    height: auto;
-    overflow: hidden;
-
-    ul {
-        li {
-            width: 32.3%;
-            margin: 0 0.5%;
-            float: left;
-            margin-bottom: 1rem;
-            background: #fff;
-            overflow: hidden;
-            position: relative;
-
-            .video-item {
-                object-fit: fill;
-                width: 100%;
-                display: block;
-                float: left;
-            }
-
-            img {
-                max-width: 100%;
-                margin: 0 auto;
-                display: block;
-                transform: scale(1);
-                transition: all 0.5s ease 0s;
-                -webkit-transform: scale(1);
-                -webkit-transform: all 0.5s ease 0s;
-
-                &:hover {
-                    transform: scale(1.1);
-                    transition: all 0.5s ease 0s;
-                    -webkit-transform: scale(1.1);
-                    -webkit-transform: all 0.5s ease 0s;
-                }
-            }
-
-            p {
-                color: #fff;
-                text-align: center;
-                position: relative;
-                z-index: 990;
-                line-height: 25px;
-                padding: 5px;
-                background: #773369;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                margin-bottom: 0 !important;
-            }
-        }
+/* 响应式调整 */
+@media (max-width: 992px) {
+  .video-list .video-item {
+    width: calc(50% - 20px);
+  }
+}
+@media (max-width: 768px) {
+  .video-gallery{
+    .gallery-container{
+      .video-list{
+        
+      }
     }
+  }
+}
+
+@media (max-width: 576px) {
+  .video-list .video-item {
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    // padding: 0 10px !important;
+  }
 }
 </style>

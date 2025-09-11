@@ -44,15 +44,37 @@
 </template>
 
 <script>
-
+// /ContactInfo/list
+import Cookies from 'js-cookie';
 export default {
   name: "",
   data () {
-    return {}
+    return {
+      params: {
+        pageNum: 1,
+        pageSize: 10,
+        lang: Cookies.get('user_lang')
+      },
+      datas: [
+      ],
+    }
   },
-  mounted () { },
+  async mounted () {
+    await this.getProductList();
+  },
   watch: {},
-  methods: {},
+  methods: {
+    async getProductList() {
+      const response = await this.$axios.get(
+        this.$config.apiBaseUrl + "/ContactInfo/list",
+        {
+          params: this.params
+        }
+      )
+      this.datas = response.data.rows[0]
+      console.log(this.datas,'this.datas0')
+    }
+  },
   computed: {},
   beforeDestroy () { },
   components: {},

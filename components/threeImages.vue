@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
 export default {
   name: 'ThreeImages',
-  data() {
+  data () {
     return {
       images: [
         {
@@ -31,22 +31,21 @@ export default {
     }
   },
   async mounted () {
-      // this.getBannerImg()
-      const response = await this.$axios.get(
-        this.$config.apiBaseUrl + "/banner-display/list",
-        {
-          params: {  // 将参数包裹在 params 对象中
-            pageNum: 1,
-            pageSize: 3,
-            type: 2,
-            lang: Cookies.get('user_lang')
-          }
+    // this.getBannerImg()
+    const response = await this.$axios.get(
+      this.$config.apiBaseUrl + "/banner-display/list",
+      {
+        params: {  // 将参数包裹在 params 对象中
+          pageNum: 1,
+          pageSize: 3,
+          type: 2,
+          lang: Cookies.get('user_lang')
         }
-      )
-      console.log(response.data,'response.data')
-      this.images = response.data.rows
-  
-    },
+      }
+    )
+    console.log(response.data, 'response.data')
+    this.images = response.data.rows
+  },
 
 
 
@@ -57,23 +56,23 @@ export default {
 <style lang="less" scoped>
 .three-images-container {
   width: 100%;
-  
+
   .image-grid {
     display: flex;
     width: 100%;
-    
+
     .image-item {
       flex: 1;
       overflow: hidden;
-      
-      
+
+
       .image-content {
         width: 100%;
         display: block;
         object-fit: cover;
         aspect-ratio: 1/1;
       }
-      
+
       // 移除图片间的边框线（如果有）
       &:not(:last-child) {
         border-right: none;
@@ -86,16 +85,15 @@ export default {
 //   .three-images-container {
 //     .image-grid {
 //       flex-direction: column;
-      
+
 //       .image-item {
 //         // 移除垂直排列时的间距
 //         margin-bottom: 0;
-        
+
 //         .image-content {
 //           width: 100%;
 //         }
 //       }
 //     }
 //   }
-// }
-</style>
+// }</style>

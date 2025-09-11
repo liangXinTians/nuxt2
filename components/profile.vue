@@ -2,7 +2,7 @@
   <div class="product-test">
     <div class="indexk6">
       <div class="indexk6_zi">
-        <p style="text-align:center;">Established in
+        <!-- <p style="text-align:center;">Established in
           2014, Shenzhen S-Hande Technology Co.,
           Ltd has been developed into top 10 sex
           toy manufacturers in China.S-Hande
@@ -30,16 +30,19 @@
           of 8 members to make high quality
           pictures and even pickagings as
           customer’s request.We warmly invite you
-          to build a brighter future.<br>***</p>
+          to build a brighter future.<br>***</p> -->
+          <div v-html="data.content"></div>
       </div>
       <div class="indexk6_img">
-        <img src="../assets/images/yifuyun/5.png" alt="">
+        <!-- <img src="../assets/images/yifuyun/5.png" alt=""> -->
+        <img :src="'/file' + data.imageUrl" alt="">
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   name: 'profile',
   props: {
@@ -47,11 +50,29 @@ export default {
   },
   data () {
     return {
-
+      params: {
+        pageNum: 1,
+        pageSize: 1,
+        lang: Cookies.get('user_lang') || 'en' // 默认语言
+      },
+      data: []
     }
   },
+  async mounted() {
+    await this.getProductList()
+  },
   methods: {
-
+    async getProductList() {
+      try {
+        const response = await this.$axios.get(
+          this.$config.apiBaseUrl + '/company-profile/list',
+          { params: this.params }
+        )
+        this.data = response.data.rows[0]
+      } catch (error) {
+        console.error('Failed to fetch videos:', error)
+      }
+    },
   }
 
 }
@@ -89,6 +110,7 @@ export default {
 .indexk6_zi {
     width: 100%;
     float: left;
+    color: #fff;
 }
 
 .indexk6_zi p {

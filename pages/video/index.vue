@@ -11,58 +11,122 @@
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>
-    <a-icon class="play-button" type="play-circle" theme="filled" />
+    <!-- <a-icon class="play-button" type="play-circle" theme="filled" /> -->
     <div class="indexk3">
       <div class="indexk44">
         <ul>
-          <li v-for="(video, index) in videoList" :key="index" @click="$router.push(`/videoDetail/${video.title}`)"
+          <li v-for="(video, index) in videoList" :key="index" @click="$router.push(`/videoDetail/${video.id}`)"
             class="video-poster-container">
             <div class="poster-wrapper">
-              <img :src="video.poster" class="video-poster" :alt="video.title">
+              <img :src="'/file' + video.imageUrl" class="video-poster" :alt="video.name">
               <div class="play-button-overlay">
-                <a-icon class="play-button" type="play-circle" theme="filled" />1111
+                <a-icon class="play-button" type="play-circle" theme="filled" />
               </div>
             </div>
-            <p class="xianzhi1">{{ video.title }}</p>
+            <p class="xianzhi1">{{ video.name }}</p>
           </li>
         </ul>
       </div>
+    </div>
+    <div>
+      <a-pagination 
+        v-model="params.pageNum"
+        :total="total"
+        :pageSize="params.pageSize"
+        :item-render="itemRender"
+        @change="handlePageChange"
+        style="text-align: center; margin: 20px 0;"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie';
 export default {
   name: "",
   data () {
     return {
       videoList: [
-        {
-          poster: require('@/assets/images/yifuyun/7.png'),
-          title: 'Factory penis【S206-2】with belt sex toys dildo huge shop vibrating dildos vibrator for women'
-        },
-        {
-          poster: require('@/assets/images/yifuyun/7.png'),
-          title: 'Banana Adult Penty Vibrator【S-219】Sex Toy Women Silicone G Spot Vibrator Penis Ring'
-        },
-        {
-          poster: require('@/assets/images/yifuyun/7.png'),
-          title: 'Factory penis with belt【S-305】sex toys dildo huge dildos vibrator for women'
-        },
-        {
-          poster: require('@/assets/images/yifuyun/7.png'),
-          title: 'Banana Adult Penty Vibrator【S-219】Sex Toy Women Silicone G Spot Vibrator Penis Ring'
-        },
-        {
-          poster: require('@/assets/images/yifuyun/7.png'),
-          title: 'Factory penis with belt【S-305】sex toys dildo huge dildos vibrator for women'
-        }
+        // {
+        //   poster: require('@/assets/images/yifuyun/7.png'),
+        //   title: 'Factory penis【S206-2】with belt sex toys dildo huge shop vibrating dildos vibrator for women'
+        // },
+        // {
+        //   poster: require('@/assets/images/yifuyun/7.png'),
+        //   title: 'Banana Adult Penty Vibrator【S-219】Sex Toy Women Silicone G Spot Vibrator Penis Ring'
+        // },
+        // {
+        //   poster: require('@/assets/images/yifuyun/7.png'),
+        //   title: 'Factory penis with belt【S-305】sex toys dildo huge dildos vibrator for women'
+        // },
+        // {
+        //   poster: require('@/assets/images/yifuyun/7.png'),
+        //   title: 'Banana Adult Penty Vibrator【S-219】Sex Toy Women Silicone G Spot Vibrator Penis Ring'
+        // },
+        // {
+        //   poster: require('@/assets/images/yifuyun/7.png'),
+        //   title: 'Factory penis with belt【S-305】sex toys dildo huge dildos vibrator for women'
+        // }
       ],
+      datas: [
+      ],
+      total: 0, 
+      params: {
+        pageNum: 1,
+        pageSize: 8,
+        lang: Cookies.get('user_lang')
+      }
     }
   },
-  mounted () { },
+  async mounted () {
+    await this.getProductList();
+  },
   watch: {},
-  methods: {},
+  methods: {
+    itemRender(current, type, originalElement) {
+      if (type === 'prev') {
+        return <a>Previous</a>;
+      } else if (type === 'next') {
+        return <a>Next</a>;
+      }
+      return originalElement;
+    },
+    handlePageChange(page, pageSize) {
+      this.params.pageNum = page;
+      this.getProductList();
+    },
+    // async getProductList() {
+    //   const response = await this.$axios.get(
+    //     this.$config.apiBaseUrl + "/video-category/list",
+    //     {
+    //       params: this.params
+    //     }
+    //   )
+    //   this.datas = response.data.rows
+    //   // this.datas = response.data.rows.map(item => {
+    //   //   return {
+    //   //     ...item,
+    //   //     images: item.images.split(',').map(img => img.trim())
+    //   //   }
+    //   // });
+    //   console.log(this.datas,'this.datas0')
+    //   this.total = response.data.total;  // 设置总条数
+    // }
+
+    async getProductList() {
+      try {
+        const response = await this.$axios.get(
+          this.$config.apiBaseUrl + '/video-category/list',
+          { params: this.params }
+        )
+        this.videoList = response.data.rows 
+        this.total = response.data.total
+      } catch (error) {
+        console.error('Failed to fetch videos:', error)
+      }
+    },
+  },
   computed: {},
   beforeDestroy () { },
   components: {},

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img class="banner-img" src="../../assets/images/banner/videoBanner.jpg" alt="">
-<div class="product-nav">
+    <div class="product-nav">
       <ul>
         <li><a href="" @click="$event.preventDefault(); $router.push('/video')" class="clear">VIDEO</a>
         </li>
@@ -11,22 +11,27 @@
     <div class="container">
       <div class="article-detail">
         <div class="article-detail-header">
-          <div class="article-detail-title">Inclusivity Matters: Supporting the LGBT+ Community as a Sex Toy Business
-</div>
-          <div class="article-detail-img"><img class="banner-img" src="@/assets/images/titleLogo.png" alt="">
+          <div class="article-detail-title">{{ detail.name }}</div>
+          <!-- <div class="article-detail-img"><img class="banner-img" src="@/assets/images/titleLogo.png" alt="">
+          </div> -->
+          <div class="article-detail-img">
           </div>
-          <div class="article-detail-time">Viewed:1728 Date:2023-06-01</div>
+          <div class="article-detail-time">Date:{{ detail.createTime }}</div>
         </div>
-        <div class="article-detail-content"></div>
+        <div class="article-detail-content">
+
+          <video :src="'/file' + detail.videoUrl" width="100%" controls :poster="'/file' + detail.imageUrl"
+            class="video-player"></video>
+        </div>
       </div>
       <div class="news-list">
         <H3 class="product-title">Recommended</H3>
-        <div class="product-item" v-for="(item, index) in dataList" :key="item.title"
+        <div class="product-item" v-for="(item, index) in dataList" :key="item.id"
           @click="$router.push(`/videoDetail/${item.id}`)">
-          <img :src="item.img" alt="product">
+          <img :src="'/file' + item.imageUrl" alt="product">
           <div class="product-contents">
-            <div class="product-content">{{ item.title }}</div>
-            <div class="product-time">[{{ item.time }}]</div>
+            <div class="product-content">{{ item.name }}</div>
+            <div class="product-time">[{{ item.createTime }}]</div>
           </div>
         </div>
 
@@ -36,7 +41,7 @@
 </template>
 
 <script>
-
+import Cookies from 'js-cookie'
 export default {
   name: "",
   data () {
@@ -62,15 +67,55 @@ export default {
           img: require("../../assets/images/yifuyun/7.png"),
           time: '2023-06-01'
         }
-      ]
+      ],
+      detail: '',
+      params: {
+        pageNum: 1,
+        pageSize: 5,
+        lang: Cookies.get('user_lang')
+      }
     }
   },
-  mounted () {},
+  async mounted () {
+    const id = this.$route.params.pathMatch
+    console.log(this.$route, 'idid')
+    await this.getDetail(id)
+    await this.getList()
+  },
   watch: {},
-  methods: {},
+  methods: {
+    async getDetail (id) {
+      try {
+        const response = await this.$axios.get(
+          `${this.$config.apiBaseUrl}/video-category/selectInfoById/${id}`
+        )
+        console.log(response, 'response')
+        this.detail = response.data.data
+      } catch (error) {
+        console.error('Failed to fetch videos:', error)
+      }
+    },
+    async getList () {
+      try {
+        const response = await this.$axios.get(
+          this.$config.apiBaseUrl + '/video-category/list',
+          { params: this.params }
+        )
+        this.dataList = response.data.rows.map(item => {
+          return {
+            ...item,
+            createTime: item.createTime.split(' ')[0] // 分割字符串取第一部分
+          }
+        })
+      } catch (error) {
+        console.error('Failed to fetch videos:', error)
+      }
+    }
+
+  },
   computed: {},
-  beforeDestroy () {},
-  components: {  },
+  beforeDestroy () { },
+  components: {},
 }
 </script>
 
@@ -146,6 +191,7 @@ export default {
     background: #fff;
 
     .article-detail {
+      box-sizing: border-box;
       width: 68%;
       float: left;
       margin-left: 2%;
@@ -169,9 +215,15 @@ export default {
         }
 
         .article-detail-img {
+          // width: 100%;
+          // height: 31px;
+          // margin: 15px auto 0px;
+          display: block;
+          margin: 0 auto;
+          margin-top: 15px;
           width: 100%;
           height: 31px;
-          margin: 15px auto 0px;
+          background: url(@/assets/images/titleLogo.png) no-repeat center;
 
           img {
             width: 80%;
@@ -247,26 +299,28 @@ export default {
   }
 }
 
-@media screen and (max-width: 1220px) {
-
-}
+@media screen and (max-width: 1220px) {}
 
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1000px) {}
 
-}
+@media screen and (max-width: 992px) {}
 
-@media screen and (max-width: 992px) {
-
-}
 @media screen and (max-width: 776px) {
   .home {
     .container {
       .article-detail {
         width: 100%;
-        .article-detail-header{
-          .article-detail-img{
-            img{
+        margin-left: 0;
+        padding: 10px;
+
+        .article-detail-header {
+          .article-detail-title {
+            font-size: 1.4rem;
+          }
+
+          .article-detail-img {
+            img {
               width: 100%;
             }
           }
@@ -280,5 +334,4 @@ export default {
   }
 
 }
-
 </style>
