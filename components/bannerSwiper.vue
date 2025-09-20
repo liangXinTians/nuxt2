@@ -2,7 +2,7 @@
   <div class="swiper-container">
     <swiper ref="mySwiper" :options="swiperOptions">
       <swiper-slide v-for="(item, index) in localImages" :key="index">
-        <img  :src="'/file' + item.fileUrl" class="swiper-image">
+        <img  :src="$config.apiFileUrl + item.fileUrl" class="swiper-image">
         <!-- <div class="swiper-title">{{ item.title }}</div> -->
       </swiper-slide>
 
@@ -72,7 +72,6 @@ export default {
     //     this.localImages = res.data.data
     //   }
     // }
-    
 
   }
 }

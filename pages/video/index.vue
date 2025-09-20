@@ -18,7 +18,7 @@
           <li v-for="(video, index) in videoList" :key="index" @click="$router.push(`/videoDetail/${video.id}`)"
             class="video-poster-container">
             <div class="poster-wrapper">
-              <img :src="'/file' + video.imageUrl" class="video-poster" :alt="video.name">
+              <img :src="$config.apiFileUrl + video.imageUrl" class="video-poster" :alt="video.name">
               <div class="play-button-overlay">
                 <a-icon class="play-button" type="play-circle" theme="filled" />
               </div>

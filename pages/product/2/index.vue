@@ -25,7 +25,7 @@
       <div class="grid-container">
         <div class="grid-item" v-for="(item, index) in datas" :key="index"
           @click="$router.push(`/productDetail/${item.id}`)">
-          <img :src="'/file' + item.images[0]" class="product-image" />
+          <img :src="$config.apiFileUrl + item.images[0]" class="product-image" />
           <div class="product-title">{{ item.title }}</div>
         </div>
       </div>

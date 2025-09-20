@@ -15,19 +15,19 @@
 
     <div class="grid-container">
       <div class="grid-item" v-for="(item, index) in datas" :key="index">
-        <img :src="'/file' + item.imageUrl" class="product-image" @click="$router.push(`/articleDetail/${item.id}`)" />
+        <img :src="$config.apiFileUrl + item.imageUrl" class="product-image" @click="$router.push(`/articleDetail/${item.id}`)" />
 
         <div class="product-info">
           <div class="blog_time l"><span class="blog_y">{{ item.day }}</span><span class="blog_day">{{ item.yearMonth
             }}</span></div>
           <div class="product-titles">
             <div class="product-title" @click="$router.push(`/articleDetail/${item.id}`)">{{ item.title }}</div>
-            <div class="product-subtitle">{{ item.summary }}</div>
+            <div class="product-subtitle"></div>
           </div>
 
         </div>
         <div class="product-content">
-          {{ item.content }}
+          {{ item.summary }}
         </div>
       </div>
     </div>
@@ -292,7 +292,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            text-align:left;
+            text-align:center;
 
           }
 

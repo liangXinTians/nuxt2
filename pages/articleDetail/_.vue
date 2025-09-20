@@ -23,7 +23,7 @@
         <H3 class="product-title">Recommended</H3>
         <div class="product-item" v-for="(item, index) in datas" :key="item.title"
           @click="$router.push(`/articleDetail/${item.id}`)">
-          <img :src="'/file' + item.imageUrl" alt="product">
+          <img :src="$config.apiFileUrl + item.imageUrl" alt="product">
           <div class="product-contents">
             <div class="product-content">{{ item.title }}</div>
             <!-- <div class="product-time">[{{ item.createTime }}]</div> -->

@@ -2,7 +2,7 @@
   <div class="three-images-container">
     <div class="image-grid">
       <div class="image-item" v-for="(item, index) in images" :key="index">
-        <img :src="'/file' + item.fileUrl" :alt="item.alt" class="image-content">
+        <img :src="$config.apiFileUrl + item.fileUrl" :alt="item.alt" class="image-content">
       </div>
     </div>
   </div>

@@ -32,7 +32,7 @@
             <div class="thumbnail-list" ref="thumbList" :style="{ transform: `translateY(-${scrollTop}px)` }">
               <div v-for="(img, index) in detail.images" :key="index" class="thumbnail-item"
                 :class="{ active: currentIndex === index }" @click="currentIndex = index">
-                <img :src="'/file' + img" :alt="`Product view ${index + 1}`" class="thumbnail-img">
+                <img :src="$config.apiFileUrl + img" :alt="`Product view ${index + 1}`" class="thumbnail-img">
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@
             <div class="main-image-wrapper" @mousedown="startDrag" @mousemove="onMouseMove" @mouseup="endDrag"
               @mouseleave="handleMouseLeave" @touchstart="startTouch" @touchmove="onTouchMove" @touchend="endTouch"
               @touchcancel="endTouch" ref="imageWrapper">
-              <img v-if="currentImage" :src="'/file' + currentImage" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
+              <img v-if="currentImage" :src="$config.apiFileUrl + currentImage" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
                 ref="mainImage" @dragstart.prevent>
               <!-- 默认占位图片 -->
               <div v-else class="image-placeholder">
@@ -99,7 +99,7 @@
         <H3 class="product-title">推荐产品</H3>
         <div class="product-item" v-for="(item, index) in dataList" :key="item.id || index"
           @click="$router.push(`/productDetail/${item.id}`)">
-          <img v-if="item.images && item.images.length > 0" :src="'/file' + item.images[0]" alt="product">
+          <img v-if="item.images && item.images.length > 0" :src="$config.apiFileUrl + item.images[0]" alt="product">
           <div v-else class="product-placeholder">暂无图片</div>
           <div class="product-content">{{ item.title || '无标题' }}</div>
         </div>
@@ -205,7 +205,8 @@ export default {
       const bgPosY = -(positionY * this.magnifierScale - this.magnifierHeight / 2)
 
       return {
-        backgroundImage: `url('/file${this.currentImage}')`,
+        // backgroundImage: `url('/file${this.currentImage}')`,
+        backgroundImage: `url('${this.$config.apiFileUrl}${this.currentImage}')`,
         backgroundSize: `${naturalWidth * this.magnifierScale}px ${naturalHeight * this.magnifierScale}px`,
         backgroundPosition: `${bgPosX}px ${bgPosY}px`,
         backgroundRepeat: 'no-repeat'

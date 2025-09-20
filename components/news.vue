@@ -21,11 +21,11 @@
     </div>
 
   </div> -->
-  <div class="product-test">
+  <!-- <div class="product-test">
     <div class="tab-content">
       <div class="grid-container">
         <div class="grid-item" v-for="(item, i) in datas" :key="i">
-          <img :src="'/file' + item.imageUrl" class="product-image"
+          <img :src="$config.apiFileUrl + item.imageUrl" class="product-image"
             @click=" $router.push('/articleDetail/' + item.id)" />
           <div class="product-info">
             <div class="blog_time l"><span class="blog_y">{{ item.day }}</span><span class="blog_day">{{ item.yearMonth
@@ -36,8 +36,29 @@
             </div>
           </div>
           <div class="product-content">
-            <!-- <div v-html="item.content"></div> -->
             <div>{{ item.content }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+    <div class="product-test">
+    <div class="tab-content">
+      <div class="grid-container">
+        <div class="grid-item" v-for="(item, i) in datas" :key="i">
+          <img :src="$config.apiFileUrl + item.imageUrl" class="product-image"
+            @click=" $router.push('/articleDetail/' + item.id)" />
+          <div class="product-info">
+            <div class="blog_time l"><span class="blog_y">{{ item.day }}</span><span class="blog_day">{{ item.yearMonth
+            }}</span></div>
+            <div class="product-titles">
+              <div class="product-title" @click=" $router.push('/articleDetail/' + item.id)">{{ item.title }}</div>
+              <div class="product-subtitle"></div>
+            </div>
+          </div>
+          <div class="product-content">
+            <div>{{ item.summary }}</div>
           </div>
         </div>
       </div>
@@ -229,7 +250,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            text-align: left;
+            
           }
 
           .product-subtitle {

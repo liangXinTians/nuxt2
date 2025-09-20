@@ -29,7 +29,7 @@
             <div class="thumbnail-list" ref="thumbList" :style="{ transform: `translateY(-${scrollTop}px)` }">
               <div v-for="(img, index) in detail.images" :key="index" class="thumbnail-item"
                 :class="{ active: currentIndex === index }" @click="currentIndex = index">
-                <img :src="'/file' + img" :alt="`Product view ${index + 1}`" class="thumbnail-img">
+                <img :src="$config.apiFileUrl + img" :alt="`Product view ${index + 1}`" class="thumbnail-img">
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
             <div class="main-image-wrapper" @mousedown="startDrag" @mousemove="onMouseMove" @mouseup="endDrag"
               @mouseleave="handleMouseLeave" @touchstart="startTouch" @touchmove="onTouchMove" @touchend="endTouch"
               @touchcancel="endTouch" ref="imageWrapper">
-              <img :src="'/file' + currentImage" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
+              <img :src="$config.apiFileUrl + currentImage" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
                 ref="mainImage" @dragstart.prevent>
               <!-- <img :src="currentImage" :alt="`Main product view ${currentIndex + 1}`" class="main-image"
                 ref="mainImage" @dragstart.prevent> -->
@@ -94,7 +94,7 @@
         <H3 class="product-title">Recommended</H3>
         <div class="product-item" v-for="(item, index) in dataList" :key="item.title"
           @click="$router.push(`/productDetail/${item.id}`)">
-          <img :src="'/file' + item.images[0]" alt="product">
+          <img :src="$config.apiFileUrl + item.images[0]" alt="product">
           <div class="product-content">{{ item.title }}</div>
         </div>
       </div>
@@ -247,7 +247,8 @@ export default {
 
       return {
         // backgroundImage: `url('/file' + ${this.currentImage})`,
-         backgroundImage: `url('/file${this.currentImage}')`,
+        //  backgroundImage: `url('/file${this.currentImage}')`,
+        backgroundImage: `url('${this.$config.apiFileUrl}${this.currentImage}')`,
         backgroundSize: `${naturalWidth * this.magnifierScale}px ${naturalHeight * this.magnifierScale}px`,
         backgroundPosition: `${bgPosX}px ${bgPosY}px`,
         backgroundRepeat: 'no-repeat'

@@ -35,7 +35,7 @@
       </div>
       <div class="indexk6_img">
         <!-- <img src="../assets/images/yifuyun/5.png" alt=""> -->
-        <img :src="'/file' + data.imageUrl" alt="">
+        <img :src="$config.apiFileUrl + data.imageUrl" alt="">
       </div>
     </div>
   </div>

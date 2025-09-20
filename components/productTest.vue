@@ -7,7 +7,7 @@
         :key="i" 
         @click="$router.push('/productDetail/' + item.id)"
       >
-        <img :src="'/file' + item.imageUrl[0]" class="product-image" />
+        <img :src="$config.apiFileUrl + item.imageUrl[0]" class="product-image" />
         <div class="product-title">{{ item.title }}</div>
       </div>
     </div>

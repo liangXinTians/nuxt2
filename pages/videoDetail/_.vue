@@ -20,7 +20,7 @@
         </div>
         <div class="article-detail-content">
 
-          <video :src="'/file' + detail.videoUrl" width="100%" controls :poster="'/file' + detail.imageUrl"
+          <video :src="$config.apiFileUrl + detail.videoUrl" width="100%" controls :poster="$config.apiFileUrl + detail.imageUrl"
             class="video-player"></video>
         </div>
       </div>
@@ -28,7 +28,7 @@
         <H3 class="product-title">Recommended</H3>
         <div class="product-item" v-for="(item, index) in dataList" :key="item.id"
           @click="$router.push(`/videoDetail/${item.id}`)">
-          <img :src="'/file' + item.imageUrl" alt="product">
+          <img :src="$config.apiFileUrl + item.imageUrl" alt="product">
           <div class="product-contents">
             <div class="product-content">{{ item.name }}</div>
             <div class="product-time">[{{ item.createTime }}]</div>

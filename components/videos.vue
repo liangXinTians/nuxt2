@@ -6,9 +6,9 @@
         <li v-for="(video, index) in videoList" :key="index" class="video-item">
           <div class="video-wrapper">
             <video
-              :src="'/file' + video.videoUrl"
+              :src="$config.apiFileUrl + video.videoUrl"
               controls
-              :poster="'/file' + video.imageUrl"
+              :poster="$config.apiFileUrl + video.imageUrl"
               class="video-player"
               @play="handleVideoPlay(index)"
             ></video>

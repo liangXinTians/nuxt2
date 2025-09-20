@@ -21,13 +21,16 @@ export default {
     ],
   },
 
-  // 动态打包
+  // 动态打包 build
   target: 'server',
   server: {
     port: 3000,   //自定义前端端口号
     host: "0.0.0.0",    //允许任意ip访问
     timing: false
   },
+
+  // 静态打包 generate
+  // target: 'static',
 
   css: [
     'assets/style/public-class.less',//这一引入的是全局less
@@ -55,7 +58,6 @@ export default {
   ],
   // 跨域问题
   proxy: {
-    // 公司
     '/api': {
       target: 'https://www.amozici.com/prod-api/front/',
       pathRewrite: {
@@ -71,14 +73,14 @@ export default {
   },
   publicRuntimeConfig: {
     // 本地
-    apiBaseUrl: "/api",
-    apiFileUrl: "/file",
-    videoUrl: "",
+    // apiBaseUrl: "/api",
+    // apiFileUrl: "/file",
+    // videoUrl: "",
 
     // 服务器
-    // apiBaseUrl: "https://www.amozici.com/prod-api/front/",
-    // apiFileUrl: "https://www.amozici.com/prod-api/",
-    // videoUrl: "https://www.amozici.com/prod-api/",
+    apiBaseUrl: "https://www.amozici.com/prod-api/front/",
+    apiFileUrl: "https://www.amozici.com/prod-api/",
+    videoUrl: "https://www.amozici.com/prod-api/",
 
   },
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -90,7 +92,7 @@ export default {
   },
   router: {
     // base: process.env.NODE_ENV === 'production'? '/': '/',
-    // base: ''
+    base: '/'
   },
   modules: [
     '@nuxtjs/axios',
@@ -130,7 +132,9 @@ export default {
           silentTranslationWarn: true
         },
         parsePages: false,
-        baseUrl: 'http://192.168.100.165:3000/'
+        // baseUrl: 'http://192.168.100.165:3000/', //本地  
+        baseUrl: 'https://www.amozici.com/', //服务器
+        // baseUrl: 'http://192.168.100.165:3000/'
       }
     ]
   ],

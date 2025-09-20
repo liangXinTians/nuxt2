@@ -26,9 +26,9 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 把它替换为 cwd: upath . normalize ( rootDir )，
 <https://blog.csdn.net/aguai888/article/details/125407680>
 
-## node 版本 16.20.2
+## node 版本 14.21.3
 
 ## 打包
 
-公司服务器静态打包 generate，传 dist 文件
-客户服务器动态打包 build,传.nuxt 文件
+静态打包 generate，传 dist 文件
+动态打包 build,传.nuxt 文件
