@@ -9,73 +9,73 @@
           <div class="footer-left-list">
             <div class="list-item">
               <div class="list-item-title" @click="handleClick('/product')">
-                FOR HIM/FOR HER
+                {{ $t('menu.forHimHer') }}
               </div>
               <div class="list-item-content" @click="handleClick('/product/1')">
-                Female sex toys
+                {{ $t('menu.femaleToys') }}
               </div>
               <div class="list-item-content" @click="handleClick('/product/2')">
-                Male sex toys
+                {{ $t('menu.maleToys') }}
               </div>
               <div class="list-item-content" @click="handleClick('/product/3')">
-                Couple sex toys
+                {{ $t('menu.coupleToys') }}
               </div>
               <div class="list-item-content" @click="handleClick('/product/4')">
-                Bondage And Constraints
+                {{ $t('menu.bondage') }}
               </div>
 
               <div class="list-item-title"  @click="handleClick('/productTest')">
-                SERVICE
+                {{ $t('menu.service') }}
               </div>
               <div class="list-item-content"   @click="handleClick('/productTest/1')">
-                Download Center
+                {{ $t('menu.download') }}
               </div>
               <div class="list-item-content"  @click="handleClick('/productTest/2')">
-                Free Sex Toy Testing
+                {{ $t('menu.freeTesting') }}
               </div>
               <div class="list-item-content"  @click="handleClick('/productTest/3')">
-                To Experience The Product
+                {{ $t('menu.experience') }}
               </div>
               <div class="list-item-content"  @click="handleClick('/productTest/4')">
-                The Comments Section
+                {{ $t('menu.comments') }}
               </div>
             </div>
             <div class="list-item">
               <div class="list-item-title" @click="handleClick('/video')">
-                Video
+                {{ $t('menu.video') }}
               </div>
               <div class="list-item-content" @click="handleClick('/video')">
-                Video
+                {{ $t('menu.video') }}
               </div>
 
               <div class="list-item-title" @click="handleClick('/article')">
-                News
+                {{ $t('menu.news') }}
               </div>
               <div class="list-item-content" @click="handleClick('/article')">
-                News
+                {{ $t('menu.news') }}
               </div>
               <div class="list-item-title" @click="handleClick('/companyProfile')">
-                ABOUT US
+                {{ $t('menu.about') }}
               </div>
               <div class="list-item-content" @click="handleClick('/companyProfile')">
-                About Us
+                {{ $t('menu.about') }}
               </div>
             </div>
             <div class="list-item list-items">
               <div class="list-item-title" @click="handleClick('/contactUs')">
-                Contact Us
+                {{ $t('menu.contact') }}
               </div>
               <div class="list-item-content">
-                Contact : Wendy
+                {{ $t('footer.contact') }}: Wendy
               </div>
               <div class="list-item-content">
-                E-mail: info@sexhande.com
+                {{ $t('footer.email') }}: info@sexhande.com
               </div>
               <div class="list-item-content">
-                Phone: +86 133 1656 3803
+                {{ $t('footer.phone') }}: +86 133 1656 3803
               </div>
               <div class="list-item-content">
-                Wechat: 13316563803
+                {{ $t('footer.wechat') }}: 13316563803
               </div>
             </div>
           </div>

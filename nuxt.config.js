@@ -73,14 +73,14 @@ export default {
   },
   publicRuntimeConfig: {
     // 本地
-    // apiBaseUrl: "/api",
-    // apiFileUrl: "/file",
-    // videoUrl: "",
+    apiBaseUrl: "/api",
+    apiFileUrl: "/file",
+    videoUrl: "",
 
     // 服务器
-    apiBaseUrl: "https://www.amozici.com/prod-api/front/",
-    apiFileUrl: "https://www.amozici.com/prod-api/",
-    videoUrl: "https://www.amozici.com/prod-api/",
+    // apiBaseUrl: "https://www.amozici.com/prod-api/front/",
+    // apiFileUrl: "https://www.amozici.com/prod-api/",
+    // videoUrl: "https://www.amozici.com/prod-api/",
 
   },
   // Auto import components: https://go.nuxtjs.dev/config-components

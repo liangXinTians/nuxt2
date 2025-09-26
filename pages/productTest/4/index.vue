@@ -4,23 +4,20 @@
     <div class="product-nav">
       <ul>
 
-        <li><a href="" style="color: #ff1c8e;" @click="$event.preventDefault(); $router.push('/productTest/1')"
-            class="clear">Download Center</a>
+        <li><a href=""  @click="$event.preventDefault(); $router.push('/productTest/1')"
+            class="clear">{{ $t('menu.download') }}</a>
         </li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/2')" class="clear">Free Sex Toy
-            Testing</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/2')" class="clear">{{ $t('menu.freeTesting') }}</a></li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/3')" class="clear">To Experience The
-            Product</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/3')" class="clear">{{ $t('menu.experience') }}</a>
         </li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/4')" class="clear">The Comments
-            Section</a></li>
+        <li><a href="" style="color: #ff1c8e;" @click="$event.preventDefault(); $router.push('/productTest/4')" class="clear">{{ $t('menu.comments') }}</a></li>
 
       </ul>
     </div>
-    <div class="title">Download Center</div>
+    <div class="title">{{ $t('menu.download') }}</div>
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>

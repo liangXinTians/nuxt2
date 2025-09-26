@@ -3,7 +3,7 @@
     <img class="banner-img" src="../../assets/images/banner/newsBanner.jpg" alt="">
     <div class="product-nav">
       <ul>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/article')" class="clear">NEWS</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/article')" class="clear">{{ $t('menu.news') }}</a>
         </li>
 
       </ul>
@@ -15,12 +15,12 @@
           </div>
           <div class="article-detail-img"><img class="banner-img" src="@/assets/images/titleLogo.png" alt="">
           </div>
-          <div class="article-detail-time">Date:{{ datas1.createTime }}</div>
+          <div class="article-detail-time">{{ $t('other.date') }}:{{ datas1.createTime }}</div>
         </div>
         <div class="article-detail-content" v-html="datas1.content"></div>
       </div>
       <div class="news-list">
-        <H3 class="product-title">Recommended</H3>
+        <H3 class="product-title">{{ $t('other.recommended') }}</H3>
         <div class="product-item" v-for="(item, index) in datas" :key="item.title"
           @click="$router.push(`/articleDetail/${item.id}`)">
           <img :src="$config.apiFileUrl + item.imageUrl" alt="product">

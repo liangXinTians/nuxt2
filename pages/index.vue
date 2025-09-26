@@ -7,12 +7,12 @@
       <three-images></three-images>
       <div class="biaoti">
         <div class="title">
-          S-HANDE For You
+          {{ $t('home.forYou') }}
         </div>
         <div class="fenge">
         </div>
         <div class="more" @click="handleClick('/product')">
-          More
+          {{ $t('home.more') }}
         </div>
       </div>
       <four-images-with-text></four-images-with-text>
@@ -20,12 +20,12 @@
       <!-- video -->
       <div class="biaoti black">
         <div class="titles">
-          S-HANDE Video
+          {{ $t('home.video') }}
         </div>
         <div class="fenge">
         </div>
         <div class="mores" @click="handleClick('/video')">
-          More
+          {{ $t('home.more') }}
         </div>
         <videos></videos>
       </div>
@@ -33,17 +33,17 @@
       <!-- product-test -->
       <div class="biaoti">
         <div class="titles" style="color: #666666;">
-          Product Test
+          {{ $t('home.productTest') }}
         </div>
         <div class="fenge">
         </div>
         <div class="title-list">
-          <div class="title-item" @mouseover="handleTabChange(0)">Free Sex Toy</div>
-          <div class="title-item" @mouseover="handleTabChange(1)">To Experience</div>
-          <div class="title-item" @mouseover="handleTabChange(2)">The Comments</div>
+          <div class="title-item" @mouseover="handleTabChange(0)">{{ $t('home.freeSexToy') }}</div>
+          <div class="title-item" @mouseover="handleTabChange(1)">{{ $t('home.toExperience') }}</div>
+          <div class="title-item" @mouseover="handleTabChange(2)">{{ $t('home.theComments') }}</div>
         </div>
         <div class="more" @click="handleClick('/productTest')">
-          More
+          {{ $t('home.more') }}
         </div>
         <product-test ref="productTest"></product-test>
       </div>
@@ -51,12 +51,12 @@
       <!-- profile -->
       <div class="biaoti profile-black">
         <div class="titles" style="color: #FFFFFF;">
-          Profile
+          {{ $t('home.profile') }}
         </div>
         <div class="fenge">
         </div>
         <div class="mores" @click="handleClick('/companyProfile')">
-          More
+          {{ $t('home.more') }}
         </div>
         <profile></profile>
       </div>
@@ -64,7 +64,7 @@
       <!-- news -->
       <div class="biaoti">
         <div class="titles" style="color: #666666;">
-          News
+          {{ $t('home.news') }}
         </div>
         <div class="fenge">
         </div>
@@ -74,7 +74,7 @@
           <div class="title-item" @mouseover="handleNewsChange(2)">Industry Dynamic</div>
         </div> -->
         <div class="more" @click="handleClick('/article')">
-          More
+          {{ $t('home.more') }}
         </div>
         <news ref="news"></news>
       </div>

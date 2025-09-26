@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img class="banner-img" src="../../assets/images/banner/aboutUsBanner.jpg" alt="">
-    <div class="title">Company Profile</div>
+    <div class="title">{{ $t('other.companyProfile') }}</div>
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>

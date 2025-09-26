@@ -3,12 +3,12 @@
     <img class="banner-img" src="../../assets/images/banner/newsBanner.jpg" alt="">
     <div class="product-nav">
       <ul>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/article')" class="clear">NEWS</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/article')" class="clear">{{ $t('menu.news') }}</a>
         </li>
 
       </ul>
     </div>
-    <div class="title">NEWS</div>
+    <div class="title">{{ $t('menu.news') }}</div>
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>

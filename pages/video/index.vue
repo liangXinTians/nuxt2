@@ -4,10 +4,10 @@
 
     <div class="product-nav">
       <ul>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/video')" class="clear">Video</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/video')" class="clear">{{ $t('menu.video') }}</a></li>
       </ul>
     </div>
-    <div class="title">VIDEO</div>
+    <div class="title">{{ $t('menu.video') }}</div>
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>

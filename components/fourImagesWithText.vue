@@ -23,26 +23,26 @@ export default {
       imageList: [
         {
           img: require('@/assets/images/product/product1.jpg'),
-          alt: 'Female sex toys',
-          text: 'Female sex toys',
+          alt: this.$t('menu.femaleToys'), // "Female sex toys"
+          text: this.$t('menu.femaleToys'),
           route: 'product/1'
         },
         {
           img: require('@/assets/images/product/product2.jpg'),
-          alt: 'Male sex toys',
-          text: 'Male sex toys',
+          alt: this.$t('menu.maleToys'), // "Male sex toys"
+          text: this.$t('menu.maleToys'),
           route: 'product/2'
         },
         {
           img: require('@/assets/images/product/product3.jpg'),
-          alt: 'Couple sex toys',
-          text: 'Couple sex toys',
+          alt: this.$t('menu.coupleToys'), // "Couple sex toys"
+          text: this.$t('menu.coupleToys'),
           route: 'product/3'
         },
         {
           img: require('@/assets/images/product/product4.jpg'),
-          alt: 'Bondage And Constraints',
-          text: 'Bondage And Constraints',
+          alt: this.$t('menu.bondage'), // "Bondage And Constraints"
+          text: this.$t('menu.bondage'),
           route: 'product/4'
         }
       ]
@@ -173,9 +173,10 @@ export default {
 /* 响应式设计 */
 @media (max-width: 768px) {
   .baibg {
-  width: 100%;
-  padding-top: 0;
-}
+    width: 100%;
+    padding-top: 0;
+  }
+
   .indexk1 ul {
     flex-wrap: wrap;
   }

@@ -2,13 +2,12 @@
   <div class="home">
     <div class="product-nav">
       <ul>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/1')" class="clear">Female sex toys</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/1')" class="clear">{{ $t('menu.femaleToys') }}</a>
         </li>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">Male sex toys</a></li>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">{{ $t('menu.maleToys') }}</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">{{ $t('menu.coupleToys') }}</a>
         </li>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And
-            Constraints</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">{{ $t('menu.bondege') }}</a></li>
       </ul>
     </div>
 
@@ -91,7 +90,7 @@
       </div>
 
       <div class="product-list">
-        <H3 class="product-title">Recommended</H3>
+        <H3 class="product-title">{{ $t('other.recommended') }}</H3>
         <div class="product-item" v-for="(item, index) in dataList" :key="item.title"
           @click="$router.push(`/productDetail/${item.id}`)">
           <img :src="$config.apiFileUrl + item.images[0]" alt="product">

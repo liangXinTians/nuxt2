@@ -2,16 +2,12 @@
   <div class="home">
     <div class="product-nav">
       <ul>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/1')" class="clear">Download
-            Center</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/1')" class="clear">{{ $t('menu.download') }}</a>
         </li>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/2')" class="clear">Free Sex Toy
-            Testing</a></li>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/3')" class="clear">To Experience The
-            Product</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/2')" class="clear">{{ $t('menu.freeTesting') }}</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/3')" class="clear">{{ $t('menu.experience') }}</a>
         </li>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/4')" class="clear">The Comments
-            Section</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/productTest/4')" class="clear">{{ $t('menu.comments') }}</a></li>
       </ul>
     </div>
 
@@ -96,7 +92,7 @@
       </div>
 
       <div class="product-list">
-        <H3 class="product-title">推荐产品</H3>
+        <H3 class="product-title">{{ $t('other.recommended') }}</H3>
         <div class="product-item" v-for="(item, index) in dataList" :key="item.id || index"
           @click="$router.push(`/productDetail/${item.id}`)">
           <img v-if="item.images && item.images.length > 0" :src="$config.apiFileUrl + item.images[0]" alt="product">

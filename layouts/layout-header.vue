@@ -31,7 +31,7 @@
             <a-menu-item key="home" class="header-item">
               <nuxt-link :to="{ path: '/' }">
                 <div class="menu-item-text">
-                  <span>HOME</span>
+                  <span>{{ $t('menu.home') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -39,34 +39,34 @@
             <a-sub-menu key="product" class="header-item">
               <span slot="title" class="submenu-title-wrapper">
                 <div class="header-item" @click="handleClick('/product')">
-                  <span>FOR HIM/FOR HER</span>
+                  <span>{{ $t('menu.forHimHer') }}</span>
                 </div>
               </span>
               <a-menu-item key="product1">
                 <nuxt-link :to="{ path: '/product/1' }">
                   <div class="menu-item-texts">
-                    <span>Female sex toys</span>
+                    <span>{{ $t('menu.femaleToys') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="product2">
                 <nuxt-link :to="{ path: '/product/2' }">
                   <div class="menu-item-texts">
-                    <span>Male sex toys</span>
+                    <span>{{ $t('menu.maleToys') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="product3">
                 <nuxt-link :to="{ path: '/product/3' }">
                   <div class="menu-item-texts">
-                    <span>Couple sex toys</span>
+                    <span>{{ $t('menu.coupleToys') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="product4">
                 <nuxt-link :to="{ path: '/product/4' }">
                   <div class="menu-item-texts">
-                    <span>Bondage And Constraints</span>
+                    <span>{{ $t('menu.bondage') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
@@ -75,7 +75,7 @@
             <a-menu-item key="video" class="header-item">
               <nuxt-link :to="{ path: '/video' }">
                 <div class="menu-item-text">
-                  <span>VIDEO</span>
+                  <span>{{ $t('menu.video') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -83,34 +83,34 @@
             <a-sub-menu key="productTest" class="header-item">
               <span slot="title" class="submenu-title-wrapper">
                 <div class="header-item" @click="handleClick('/productTest')">
-                  <span>SERVICE</span>
+                  <span>{{ $t('menu.service') }}</span>
                 </div>
               </span>
               <a-menu-item key="productTest1">
                 <nuxt-link :to="{ path: '/productTest/1' }">
                   <div class="menu-item-texts">
-                    <span>Download Center</span>
+                    <span>{{ $t('menu.download') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="productTest2">
                 <nuxt-link :to="{ path: '/productTest/2' }">
                   <div class="menu-item-texts">
-                    <span>Free Sex Toy Testing</span>
+                    <span>{{ $t('menu.freeTesting') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="productTest3">
                 <nuxt-link :to="{ path: '/productTest/3' }">
                   <div class="menu-item-texts">
-                    <span>To Experience The Product</span>
+                    <span>{{ $t('menu.experience') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="productTest4">
                 <nuxt-link :to="{ path: '/xinfuxinyue/4' }">
                   <div class="menu-item-texts">
-                    <span>The Comments Section</span>
+                    <span>{{ $t('menu.comments') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
@@ -119,7 +119,7 @@
             <a-menu-item key="companyProfile" class="header-item">
               <nuxt-link :to="{ path: '/companyProfile' }">
                 <div class="menu-item-text">
-                  <span>ABOUT US</span>
+                  <span>{{ $t('menu.about') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -127,7 +127,7 @@
             <a-menu-item key="article" class="header-item">
               <nuxt-link :to="{ path: '/article' }">
                 <div class="menu-item-text">
-                  <span>NEWS</span>
+                  <span>{{ $t('menu.news') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -135,7 +135,7 @@
             <a-menu-item key="contanctUs" class="header-item">
               <nuxt-link :to="{ path: '/contactUs' }">
                 <div class="menu-item-text">
-                  <span>CONTACT US</span>
+                  <span>{{ $t('menu.contact') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -173,7 +173,7 @@
             <a-menu-item key="home" class="header-item">
               <nuxt-link :to="{ path: '/' }">
                 <div class="menu-item-text1">
-                  <span>HOME</span>
+                  <span>{{ $t('menu.home') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -181,34 +181,34 @@
             <a-sub-menu key="product" class="header-item">
               <span slot="title" class="submenu-title-wrapper">
                 <div class="header-item" @click="handleClick('/product')">
-                  <span>FOR HIM/FOR HER</span>
+                  <span>{{ $t('menu.forHimHer') }}</span>
                 </div>
               </span>
               <a-menu-item key="product1">
                 <nuxt-link :to="{ path: '/product/1' }">
                   <div class="menu-item-textss">
-                    <span>Female sex toys</span>
+                    <span>{{ $t('menu.femaleToys') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="product2">
                 <nuxt-link :to="{ path: '/product/2' }">
                   <div class="menu-item-textss">
-                    <span>Male sex toys</span>
+                    <span>{{ $t('menu.maleToys') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="product3">
                 <nuxt-link :to="{ path: '/product/3' }">
                   <div class="menu-item-textss">
-                    <span>Couple sex toys</span>
+                    <span>{{ $t('menu.coupleToys') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="product4">
                 <nuxt-link :to="{ path: '/product/4' }">
                   <div class="menu-item-textss">
-                    <span>Bondage And Constraints</span>
+                    <span>{{ $t('menu.bondage') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
@@ -217,7 +217,7 @@
             <a-menu-item key="video" class="header-item">
               <nuxt-link :to="{ path: '/video' }">
                 <div class="menu-item-text1">
-                  <span>VIDEO</span>
+                  <span>{{ $t('menu.video') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -225,34 +225,34 @@
             <a-sub-menu key="productTest" class="header-item">
               <span slot="title" class="submenu-title-wrapper">
                 <div class="header-item" @click="handleClick('/productTest')">
-                  <span>SERVICE</span>
+                  <span>{{ $t('menu.service') }}</span>
                 </div>
               </span>
               <a-menu-item key="productTest1">
                 <nuxt-link :to="{ path: '/productTest/1' }">
                   <div class="menu-item-textss">
-                    <span>Download Center</span>
+                    <span>{{ $t('menu.download') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="productTest2">
                 <nuxt-link :to="{ path: '/productTest/2' }">
                   <div class="menu-item-textss">
-                    <span>Free Sex Toy Testing</span>
+                    <span>{{ $t('menu.freeTesting') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="productTest3">
                 <nuxt-link :to="{ path: '/productTest/3' }">
                   <div class="menu-item-textss">
-                    <span>To Experience The Product</span>
+                    <span>{{ $t('menu.experience') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
               <a-menu-item key="productTest4">
                 <nuxt-link :to="{ path: '/xinfuxinyue/4' }">
                   <div class="menu-item-textss">
-                    <span>The Comments Section</span>
+                    <span>{{ $t('menu.comments') }}</span>
                   </div>
                 </nuxt-link>
               </a-menu-item>
@@ -261,7 +261,7 @@
             <a-menu-item key="companyProfile" class="header-item">
               <nuxt-link :to="{ path: '/companyProfile' }">
                 <div class="menu-item-text1">
-                  <span>ABOUT US</span>
+                  <span>{{ $t('menu.about') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -269,7 +269,7 @@
             <a-menu-item key="article" class="header-item">
               <nuxt-link :to="{ path: '/article' }">
                 <div class="menu-item-text1">
-                  <span>NEWS</span>
+                  <span>{{ $t('menu.news') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -277,7 +277,7 @@
             <a-menu-item key="contanctUs" class="header-item">
               <nuxt-link :to="{ path: '/contactUs' }">
                 <div class="menu-item-text1">
-                  <span>CONTACT US</span>
+                  <span>{{ $t('menu.contact') }}</span>
                 </div>
               </nuxt-link>
             </a-menu-item>
@@ -868,7 +868,8 @@ export default {
 
       // 菜单部分
       .header-menus {
-        width: 900px !important;
+        //width: 900px !important;
+        width: 990px !important;
         height: 90px;
         display: flex;
         flex-direction: column;

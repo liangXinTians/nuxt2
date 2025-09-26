@@ -3,19 +3,17 @@
     <img class="banner-img" src="../../assets/images/banner/productBanner.png" title="">
     <div class="product-nav">
       <ul>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/1')" class="clear">Female sex toys</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/1')" class="clear">{{ $t('menu.femaleToys') }}</a>
+        </li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">{{ $t('menu.maleToys') }}</a></li>
+
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">{{ $t('menu.coupleToys') }}</a>
         </li>
 
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/2')" class="clear">Male sex toys</a></li>
-
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/3')" class="clear">Couple sex toys</a>
-        </li>
-
-        <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">Bondage And
-            Constraints</a></li>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/product/4')" class="clear">{{ $t('menu.bondage') }}</a></li>
       </ul>
     </div>
-    <div class="title">FOR HIM/FOR HER</div>
+    <div class="title">{{ $t('menu.forHimHer') }}</div>
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>

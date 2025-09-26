@@ -1,40 +1,40 @@
 <template>
   <div class="home">
     <img class="banner-img" src="../../assets/images/banner/contactUsBanner.jpg" alt="">
-    <div class="title">CONTACT US</div>
+    <div class="title">{{ $t('menu.contact') }}</div>
     <div class="title-logo-container">
       <img src="@/assets/images/titleLogo.png" class="title-logo">
     </div>
     <div class="contact-con">
       <div class="contact-box">
         <div class="contact-box1">
-          <div class="contact-title">Contact Us</div>
+          <div class="contact-title">{{ $t('footer.contactUs') }}</div>
           <div class="contact-subtitle"><strong>Business</strong></div>
           <div class="contact-info-item">
-            <span class="contact-info-label">Email:</span>
+            <span class="contact-info-label">{{ $t('footer.email') }}:</span>
             <span class="contact-info-content">info@sexhande.com</span>
           </div>
           <div class="contact-info-item">
-            <span class="contact-info-label">Mobile:</span>
+            <span class="contact-info-label">{{ $t('footer.phnoe') }}:</span>
             <span class="contact-info-content">+86 133 1656 3803</span>
           </div>
           <div class="contact-info-item">
-            <span class="contact-info-label">Whatsapp:</span>
+            <span class="contact-info-label">{{ $t('footer.whatsapp') }}:</span>
             <span class="contact-info-content">sales06@sexhande.com</span>
           </div>
           <div class="contact-info-item">
-            <span class="contact-info-label">Wechat:</span>
+            <span class="contact-info-label">{{ $t('footer.wechat') }}:</span>
             <span class="contact-info-content">13316563803</span>
           </div>
         </div>
         <div class="contact-box2">
-          <div class="contact-title">Service</div>
+          <div class="contact-title">{{ $t('footer.service') }}</div>
           <div class="contact-info-item">
-            <span class="contact-info-label">Contact:</span>
+            <span class="contact-info-label">{{ $t('footer.contact') }}:</span>
             <span class="contact-info-content">Jason Li</span>
           </div>
           <div class="contact-info-item">
-            <span class="contact-info-label">Email:</span>
+            <span class="contact-info-label">{{ $t('footer.email') }}:</span>
             <span class="contact-info-content">service@sexhande.com</span>
           </div>
         </div>

@@ -17,15 +17,15 @@ export default {
       images: [
         {
           url: require('@/assets/images/yifuyun/5.png'),
-          alt: '图片1'
+          alt: 'image1'
         },
         {
           url: require('@/assets/images/yifuyun/6.png'),
-          alt: '图片2'
+          alt: 'image2'
         },
         {
           url: require('@/assets/images/yifuyun/7.png'),
-          alt: '图片3'
+          alt: 'image3'
         }
       ]
     }

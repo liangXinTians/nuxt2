@@ -3,7 +3,7 @@
     <img class="banner-img" src="../../assets/images/banner/videoBanner.jpg" alt="">
     <div class="product-nav">
       <ul>
-        <li><a href="" @click="$event.preventDefault(); $router.push('/video')" class="clear">VIDEO</a>
+        <li><a href="" @click="$event.preventDefault(); $router.push('/video')" class="clear">{{ $t('menu.video') }}</a>
         </li>
 
       </ul>
@@ -16,7 +16,7 @@
           </div> -->
           <div class="article-detail-img">
           </div>
-          <div class="article-detail-time">Date:{{ detail.createTime }}</div>
+          <div class="article-detail-time">{{ $t('other.date') }}:{{ detail.createTime }}</div>
         </div>
         <div class="article-detail-content">
 
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="news-list">
-        <H3 class="product-title">Recommended</H3>
+        <H3 class="product-title">{{ $t('other.recommended') }}</H3>
         <div class="product-item" v-for="(item, index) in dataList" :key="item.id"
           @click="$router.push(`/videoDetail/${item.id}`)">
           <img :src="$config.apiFileUrl + item.imageUrl" alt="product">
